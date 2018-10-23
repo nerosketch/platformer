@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <set path="res/img"/>
+    <atlas>
+        <image file="brick_wall.png"/>
+        <image file="anim_m.png" cols="8"/>
+        <image file="la.png" cols="3" rows="3"/>
+        <image file="Add.png"/>
+    </atlas>
+</resources>
