@@ -9,13 +9,13 @@
 #define BASESPRITE_H
 
 #include <oxygine-framework.h>
-#include "InputEvent.h"
+#include "base.h"
 
 
 using namespace oxygine;
 
 
-class BaseSprite : public InputEvent, public Sprite
+class BaseSprite : public Base, public Sprite
 {
     INHERITED(Sprite);
 public:

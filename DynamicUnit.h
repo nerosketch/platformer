@@ -10,12 +10,13 @@
 
 #include <oxygine-framework.h>
 #include "Unit.h"
+#include "InputEvent.h"
 
 
 using namespace oxygine;
 
 
-class DynamicUnit : public Unit
+class DynamicUnit : public Unit, public InputEvent
 {
 private:
     float health;

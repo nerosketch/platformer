@@ -46,6 +46,10 @@ InputEventContainer::InputEventContainer()
 {
     // Init system events
     ox::core::getDispatcher()->addEventListener(ox::core::EVENT_SYSTEM, _onEvent);
+
+#ifdef DBG
+    cout << "InputEventContainer::InputEventContainer" << endl;
+#endif
 }
 InputEventContainer::InputEventContainer(const InputEventContainer&){}
 InputEventContainer::~InputEventContainer(){}
@@ -81,9 +85,6 @@ void InputEventContainer::OnEvent(const SDL_Event* event)
         }*/
 
         case SDL_KEYDOWN:
-#ifdef DBG
-            cout << "SDL_KEYDOWN" << endl;
-#endif
 
             if(!_pressed_keys[event->key.keysym.scancode])
             {
@@ -93,9 +94,6 @@ void InputEventContainer::OnEvent(const SDL_Event* event)
             break;
 
         case SDL_KEYUP:
-#ifdef DBG
-            cout << "SDL_KEYUP" << endl;
-#endif
 
             if(_pressed_keys[event->key.keysym.scancode])
             {

@@ -8,12 +8,6 @@
 #include "Player.h"
 
 
-#ifdef DBG
-#include <iostream>
-using namespace std;
-#endif
-
-
 Player::Player(const Vector2 &pos):
 DynamicUnit(pos)
 {
@@ -39,9 +33,6 @@ GameError Player::init()
 
 void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
-#ifdef DBG
-    cout << "Player::OnKeyDown" << endl;
-#endif
     if(key_scancode == SDL_SCANCODE_D)
     {
         _pos.x += 15.f;
@@ -52,7 +43,4 @@ void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scan
 
 void Player::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
-#ifdef DBG
-    cout << "Player::OnKeyUp" << endl;
-#endif
 }
