@@ -10,14 +10,12 @@
 
 #include "GameStage.h"
 
-class Menu : public Stage
+class Menu : public GameStage
 {
 public:
     Menu();
     Menu(const Menu& orig);
     virtual ~Menu();
-private:
-
 };
 
 #endif /* MENU_H */

@@ -8,6 +8,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "StageManager.h"
 #include "base.h"
 
 class Game : public Base
@@ -20,11 +21,11 @@ public:
     void preinit();
     GameError init();
     void destroy();
-    void update();
+    bool update();
     void flush();
 
 private:
-
+    spStageManager stage_manager;
 };
 
 #endif /* GAME_H */

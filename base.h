@@ -59,7 +59,6 @@ public:
         return s;
     }
 
-protected:
     unsigned int error_code;
     string error_text;
 };

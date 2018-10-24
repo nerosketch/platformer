@@ -5,21 +5,28 @@
  * Created on October 21, 2018, 9:45 AM
  */
 
-
+//#include <algorithm>
+#include "StartMenu.h"
 #include "StageManager.h"
 
+#ifdef DBG
+#include <iostream>
+#endif
 
-StageManager::StageManager()
+
+StageManager::StageManager() : is_zombie(false)
 {
 #ifdef DBG
     logs::messageln("StageManager:: constructor");
 #endif
 }
 
-StageManager::StageManager(const StageManager& orig) {
+StageManager::StageManager(const StageManager& orig)
+{
 }
 
-StageManager::~StageManager() {
+StageManager::~StageManager()
+{
 }
 
 GameError StageManager::init()
@@ -39,14 +46,27 @@ GameError StageManager::init()
 #endif
 
     // Create stage instance
-    spGameStage p_gstage = new GameStage();
+    /*spGameStage p_gstage = new GameStage();
 
     GameError err = p_gstage->load_stage("res/map.json");
     if(err != 0)
     {
         return err;
     }
-    addChild(p_gstage);
+    append_stage(p_gstage);*/
+
+
+    spStartMenu stage_menu = new StartMenu;
+    current_stage = stage_menu;
+    addChild(stage_menu);
+
+    // Добавляем уровень интерфейса
+    /*spGameStage stage = new GameStage;
+    append_stage(stage);*/
+
+
+
+
 
     // Start music
 #ifdef SOUND_ENABLE
@@ -57,6 +77,33 @@ GameError StageManager::init()
 
 void StageManager::doUpdate(const UpdateState&)
 {
+
+    if(current_stage->is_zombie)
+    {
+        #ifdef DBG
+            logs::messageln("StageManager:: doUpdate is_zombie");
+        #endif
+        /*
+         * Проверяем стал ли текущий уровень зомби, если стал то нас
+         * удалят и запустят новый уровень
+         */
+        spGameStage next_stage = current_stage->next_level;
+        if(next_stage)
+        {
+            addChild(next_stage);
+            removeChild(current_stage);
+            current_stage = next_stage;
+        }else
+        {
+            removeChild(current_stage);
+            
+            /*
+             * Это был последний уровень, StageManager больше не нужен
+             * и нас удалит вышестоящий уровень
+             */
+            is_zombie = true;
+        }
+    }
 #ifdef SOUND_ENABLE
     sound.doUpdate();
 #endif

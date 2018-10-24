@@ -12,14 +12,17 @@ using namespace oxygine;
 
 
 // This function is called each frame
-int mainloop(Game& gstage)
+bool mainloop(Game& gstage)
 {
     // Update engine-internal components
     // If input events are available, they are passed to Stage::instance.handleEvent
     // If the function returns true, it means that the user requested the application to terminate
     bool done = core::update();
 
-    gstage.update();
+    if(gstage.update())
+    {
+        return true;
+    }
 
     auto p_stage = getStage();
 
@@ -37,7 +40,7 @@ int mainloop(Game& gstage)
         core::swapDisplayBuffers();
     }
 
-    return done ? 1 : 0;
+    return done ? true : false;
 }
 
 // Application entry point
@@ -97,7 +100,7 @@ void run()
     // This is the main game loop.
     while (1)
     {
-        int done = mainloop(stage);
+        bool done = mainloop(stage);
         if (done)
             break;
     }

@@ -9,7 +9,7 @@
 #define STAGE_H
 
 #include <oxygine-framework.h>
-#include <vector>
+
 
 
 #include "flags.h"
@@ -25,7 +25,6 @@
 #endif
 
 
-using namespace std;
 using namespace oxygine;
 
 
@@ -37,26 +36,26 @@ class GameStage : public Base, public Actor
 private:
     INHERITED(Actor);
 
-    vector<Unit> units;
-    spPlayer player;
-    GameStage *p_next_stage;
-    GameStage *p_prev_stage;
 
 public:
     GameStage();
     GameStage(const GameStage& orig);
     virtual ~GameStage();
 
-    GameError load_stage(string fname);
+    bool is_zombie;
+
     
-    void SwitchStage(spGameStage next_stage);
-    
+
     void Pause();
-    
+
     void Exit();
-    
+
     //void doUpdate(const UpdateState& us) override;
 
+
+    // Тут появится следующий уровень после смерти текущего уровня.
+    // т.е. когда is_zombie станет true
+    spGameStage next_level;
 };
 
 #endif /* STAGE_H */

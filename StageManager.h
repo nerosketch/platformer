@@ -8,6 +8,7 @@
 #ifndef STAGEMANAGER_H
 #define STAGEMANAGER_H
 
+#include <list>
 #include <oxygine-framework.h>
 #include "GameStage.h"
 #include "flags.h"
@@ -22,6 +23,7 @@
 #include "SoundManager.h"
 #endif
 
+using namespace std;
 using namespace oxygine;
 
 
@@ -34,7 +36,9 @@ private:
     StageManager();
     StageManager(const StageManager& orig);
     virtual ~StageManager();
-    
+
+    spGameStage current_stage;
+
 #ifdef DEBUG_DRAW_ENABLE
     spBox2DDraw _debugDraw;
 #endif
@@ -58,6 +62,9 @@ public:
 #ifdef SOUND_ENABLE
     SoundManager sound;
 #endif
+
+    // Если да то вышестоящий класс удалит нас
+    bool is_zombie;
 };
 
 #endif /* STAGEMANAGER_H */

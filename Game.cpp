@@ -8,7 +8,6 @@
 
 #include "flags.h"
 #include "resources.h"
-#include "StageManager.h"
 #include "Game.h"
 
 
@@ -55,14 +54,14 @@ GameError Game::init()
     //and add it to Stage as child
     p_stage->addChild(btn);*/
 
-    spStageManager smngr = StageManager::getInstance();
-    GameError err = smngr->init();
+    stage_manager = StageManager::getInstance();
+    GameError err = stage_manager->init();
     if(err != 0)
     {
         res::free();
         return err;
     }
-    p_stage->addChild(smngr);
+    p_stage->addChild(stage_manager);
 
 
     // Слой интерфейса
@@ -99,5 +98,15 @@ void Game::destroy()
 #endif
 
 }
-void Game::update(){}
+bool Game::update()
+{
+    if(stage_manager->is_zombie)
+    {
+        auto p_stage = getStage();
+
+        p_stage->removeChild(stage_manager);
+        return true;
+    }
+    return false;
+}
 void Game::flush(){}
