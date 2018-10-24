@@ -13,14 +13,15 @@ _pos(pos)
     setPosition(pos);
 }
 
-Unit::Unit(const Unit& orig) {
-}
-
-Unit::~Unit() {
-}
-
-/*void Unit::doUpdate(const UpdateState& us)
+Unit::Unit(const Unit& orig)
 {
-    DynamicObject::doUpdate(us);
+}
+
+Unit::~Unit()
+{
+}
+
+void Unit::doUpdate(const UpdateState& us)
+{
     setPosition(_pos);
-}*/
+}

@@ -9,11 +9,11 @@
 #define UNIT_H
 
 #include <oxygine-framework.h>
-#include "BaseSprite.h"
+#include "InputEvent.h"
 
 using namespace oxygine;
 
-class Unit : public BaseSprite
+class Unit : public Sprite
 {
 protected:
     Vector2 _pos;
@@ -24,8 +24,7 @@ public:
 
     virtual GameError init() = 0;
 
-    //virtual void doUpdate(const UpdateState& us) override;
+    virtual void doUpdate(const UpdateState& us);
 };
 
 #endif /* UNIT_H */
-

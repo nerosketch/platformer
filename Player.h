@@ -31,6 +31,8 @@ public:
     void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
 
     void OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
+
+    void doUpdate(const UpdateState& us) override;
 };
 
 #endif /* PLAYER_H */

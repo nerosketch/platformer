@@ -8,10 +8,14 @@
 #ifndef BASEINTERFACE_H
 #define BASEINTERFACE_H
 
-#include "BaseSprite.h"
+#include <oxygine-framework.h>
+#include "base.h"
 
 
-class BaseInterface : public BaseSprite
+using namespace oxygine;
+
+
+class BaseInterface : public Base, public Sprite
 {
 public:
     BaseInterface();

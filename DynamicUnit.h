@@ -10,7 +10,6 @@
 
 #include <oxygine-framework.h>
 #include "Unit.h"
-#include "InputEvent.h"
 
 
 using namespace oxygine;

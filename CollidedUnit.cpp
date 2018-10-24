@@ -34,5 +34,5 @@ CollidedUnit::~CollidedUnit()
 
 GameError CollidedUnit::init()
 {
-    
+    return GameError();
 }
