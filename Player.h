@@ -21,6 +21,8 @@ class Player : public DynamicUnit
 {
 private:
     uint level;
+
+    spTween current_tween;
 public:
     Player(const Vector2 &pos);
     Player(const Player& orig);

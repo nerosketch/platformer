@@ -29,14 +29,24 @@ DynamicUnit::~DynamicUnit() {
 void DynamicUnit::Attack()
 {
 }
-void DynamicUnit::Walk(Vector2 &direction)
+void DynamicUnit::WalkForward()
 {
+    dx = 0.1f;
 }
-void DynamicUnit::Run(Vector2 &direction)
+void DynamicUnit::WalkBack()
+{
+    dx = -0.1f;
+}
+void DynamicUnit::Run()
 {
 }
 void DynamicUnit::Jump()
 {
+    if(on_ground)
+    {
+        dy = -0.4;
+        on_ground = false;
+    }
 }
 
 void DynamicUnit::doUpdate(const UpdateState& us)

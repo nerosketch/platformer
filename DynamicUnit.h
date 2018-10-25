@@ -35,8 +35,9 @@ public:
     virtual ~DynamicUnit();
 
     void Attack();
-    void Walk(Vector2 &direction);
-    void Run(Vector2 &direction);
+    void WalkForward();
+    void WalkBack();
+    void Run();
     void Jump();
 
     void doUpdate(const UpdateState& us) override;

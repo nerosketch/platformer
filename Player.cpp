@@ -39,15 +39,17 @@ GameError Player::init()
 
 void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
-    /*if(key_scancode == SDL_SCANCODE_D)
+    if(key_scancode == SDL_SCANCODE_D || key_scancode == SDL_SCANCODE_A)
     {
-        _pos.x += 15.f;
-    }else if(key_scancode == SDL_SCANCODE_A)
+        current_tween = addTween(Sprite::TweenAnim(getResAnim()), 500, -1);
+    }/*else if(key_scancode == SDL_SCANCODE_A)
         _pos.x -= 15.f;*/
 }
 
 void Player::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
+    if(current_tween)
+        removeTween(current_tween);
 }
 
 
@@ -58,22 +60,24 @@ void Player::doUpdate(const UpdateState& us)
     // ходим вправо
     if(p_date[SDL_GetScancodeFromKey(SDLK_d)])
     {
-        dx = 0.1f;
+        if(isFlippedX())
+            setFlippedX(false);
+
+        WalkForward();
     }else
     // ходим влево
     if(p_date[SDL_GetScancodeFromKey(SDLK_a)])
     {
-        dx = -0.1f;
+        if(!isFlippedX())
+            setFlippedX(true);
+
+        WalkBack();
     }
 
     // прыгаем
     if(p_date[SDL_GetScancodeFromKey(SDLK_w)])
     {
-        if(on_ground)
-        {
-            dy = -0.4;
-            on_ground = false;
-        }
+        Jump();
     }
 
     DynamicUnit::doUpdate(us);
