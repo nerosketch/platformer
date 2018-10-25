@@ -103,14 +103,14 @@ void ObjectLoader::open(string fname)
         lay.p_tileset = p_last_tileset;
         //lay_opts.name = v["name"].asString();
 
-        vector<int> &layer_data = lay.int_data;
+        vector<uint> &layer_data = lay.int_data;
         uint layer_data_size = v["data"].size();
         layer_data.resize(layer_data_size);
 
         uint n = 0;
         for(const auto &i : v["data"])
         {
-            layer_data[n++] = i.asInt();
+            layer_data[n++] = i.asUInt();
         }
     }
 

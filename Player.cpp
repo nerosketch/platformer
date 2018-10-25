@@ -17,7 +17,7 @@ using namespace std;
 Player::Player(const Vector2 &pos):
 DynamicUnit(pos)
 {
-    setAnchor(0.5f, 0.86f);
+    setAnchor(1.0f, 1.0f);
 }
 
 Player::Player(const Player& orig):
@@ -81,4 +81,12 @@ void Player::doUpdate(const UpdateState& us)
     }
 
     DynamicUnit::doUpdate(us);
+}
+
+
+void Player::on_collide()
+{
+#ifdef DBG
+    cout << "Player::on_collide" << endl;
+#endif
 }

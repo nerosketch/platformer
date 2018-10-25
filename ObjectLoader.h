@@ -50,7 +50,7 @@ class LAYER
 {
 public:
     struct LAYER_OPTIONS options;
-    vector<int> int_data;
+    vector<uint> int_data;
     uint tileheight;
 
     shared_ptr<Point> get_coords(uint block_index);
