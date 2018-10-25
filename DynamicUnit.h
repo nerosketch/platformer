@@ -24,6 +24,11 @@ private:
     uint lives;
     float speed;
     Point respawn_position;
+
+protected:
+    float dx, dy;
+    bool on_ground;
+
 public:
     DynamicUnit(const Vector2& pos);
     DynamicUnit(const DynamicUnit& orig);
@@ -33,6 +38,8 @@ public:
     void Walk(Vector2 &direction);
     void Run(Vector2 &direction);
     void Jump();
+
+    void doUpdate(const UpdateState& us) override;
 };
 
 #endif /* DYNAMICUNIT_H */

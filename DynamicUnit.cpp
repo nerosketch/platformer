@@ -7,8 +7,14 @@
 
 #include "DynamicUnit.h"
 
+
+#ifdef DBG
+#include <iostream>
+#endif
+
+
 DynamicUnit::DynamicUnit(const Vector2& pos):
-Unit(pos)
+Unit(pos), dx(0.f), dy(0.f)
 {
 }
 
@@ -31,4 +37,30 @@ void DynamicUnit::Run(Vector2 &direction)
 }
 void DynamicUnit::Jump()
 {
+}
+
+void DynamicUnit::doUpdate(const UpdateState& us)
+{
+    _pos.x += dx * us.dt;
+
+    // 0.0005f это ускорение
+    if(!on_ground)
+        dy = dy + 0.0005f * us.dt;
+
+    _pos.y += dy * us.dt;
+
+    on_ground = false;
+
+    const spStage &st = getStage();
+    const Vector2&sz = st->getSize();
+
+    if(_pos.y > sz.y)
+    {
+        _pos.y = sz.y;
+        dy = 0.f;
+        on_ground = true;
+    }
+
+    Unit::doUpdate(us);
+    dx = 0.f;
 }

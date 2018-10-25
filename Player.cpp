@@ -39,11 +39,11 @@ GameError Player::init()
 
 void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
-    if(key_scancode == SDL_SCANCODE_D)
+    /*if(key_scancode == SDL_SCANCODE_D)
     {
         _pos.x += 15.f;
     }else if(key_scancode == SDL_SCANCODE_A)
-        _pos.x -= 15.f;
+        _pos.x -= 15.f;*/
 }
 
 void Player::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
@@ -54,19 +54,27 @@ void Player::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scanco
 void Player::doUpdate(const UpdateState& us)
 {
     const Uint8 *p_date = SDL_GetKeyboardState(NULL);
-    // _on_ground = false;
 
-    // ##############################################
-
+    // ходим вправо
     if(p_date[SDL_GetScancodeFromKey(SDLK_d)])
     {
-        _pos.x += 5.f;
+        dx = 0.1f;
     }else
+    // ходим влево
     if(p_date[SDL_GetScancodeFromKey(SDLK_a)])
     {
-        _pos.x -= 5.f;
+        dx = -0.1f;
     }
 
-    //p_body->ApplyForce(, p_body->GetWorldCenter());                           // Ветер
-    Unit::doUpdate(us);
+    // прыгаем
+    if(p_date[SDL_GetScancodeFromKey(SDLK_w)])
+    {
+        if(on_ground)
+        {
+            dy = -0.4;
+            on_ground = false;
+        }
+    }
+
+    DynamicUnit::doUpdate(us);
 }
