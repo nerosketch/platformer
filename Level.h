@@ -38,6 +38,8 @@ public:
 
     // карта для взаимодействий
     vector<vector<uint>> map_interaction;
+
+    void doUpdate(const UpdateState& us) override;
 };
 
 #endif /* LEVEL_H */

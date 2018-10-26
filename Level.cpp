@@ -130,3 +130,19 @@ GameError Level::load_stage(string fname)
 
     return GameError();
 }
+
+
+/*
+ * Скроллим карту
+ */
+void Level::doUpdate(const UpdateState& us)
+{
+    const float player_pos_x = player->getX();
+    const spStage &stage = getStage();
+    const float stage_half_width = stage->getWidth() / 2.f;
+
+    if(player_pos_x > stage_half_width)
+    {
+        setX(stage_half_width - player_pos_x);
+    }
+}

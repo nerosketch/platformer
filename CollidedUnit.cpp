@@ -20,7 +20,7 @@ StaticUnit(pos)
     //setResAnim(p_res_anim, 6, 0);
 
     setScale(1.f);
-    setAnchor(0.5f, 0.5f);
+    //setAnchor(0.5f, 0.5f);
 }
 
 CollidedUnit::CollidedUnit(const CollidedUnit& orig):

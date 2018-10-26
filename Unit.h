@@ -23,8 +23,6 @@ public:
     virtual ~Unit();
 
     virtual GameError init() = 0;
-
-    virtual void doUpdate(const UpdateState& us);
 };
 
 #endif /* UNIT_H */

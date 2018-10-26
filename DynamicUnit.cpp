@@ -62,7 +62,7 @@ void DynamicUnit::doUpdate(const UpdateState& us)
     // Обработка столкновений
     updateCollide();
 
-    Unit::doUpdate(us);
+    setPosition(_pos);
 }
 
 
