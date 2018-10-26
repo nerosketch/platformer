@@ -23,10 +23,9 @@ DECLARE_SMART(Level, spLevel);
 
 class Level : public GameStage
 {
-protected:
+private:
     INHERITED(GameStage);
 
-private:
     vector<Unit> units;
     spPlayer player;
 
@@ -37,6 +36,8 @@ public:
 
     GameError load_stage(string fname);
 
+    // карта для взаимодействий
+    vector<vector<uint>> map_interaction;
 };
 
 #endif /* LEVEL_H */

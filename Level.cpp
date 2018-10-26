@@ -48,8 +48,14 @@ GameError Level::load_stage(string fname)
     {
         uint block_index_counter = 0;
 
+        // карта взаимодействий
+        map_interaction.resize(lay.options.height);
+
         for(uint col=0; col<lay.options.height; col++)
         {
+            vector<uint> &line = map_interaction[col];
+            line.resize(lay.options.width);
+
             for(uint row=0; row<lay.options.width; row++)
             {
 
@@ -66,8 +72,10 @@ GameError Level::load_stage(string fname)
                     addChild(block);
                 }
  
+                line[row] = block_id;
             }
             pos.y = col * 32.f;
+
         }
 
         /*for(char& c : line)
@@ -117,6 +125,7 @@ GameError Level::load_stage(string fname)
     {
         return err;
     }
+    player->SetMapInteraction(map_interaction);
     addChild(player);
 
     return GameError();

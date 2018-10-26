@@ -86,8 +86,7 @@ void Game::destroy()
     #endif
 
 #ifdef SOUND_ENABLE
-    spWorld world = World::getInstance();
-    world->sound.stop();
+    stage_manager->sound.stop();
 #endif
 
     res::free();

@@ -14,7 +14,7 @@
 
 
 DynamicUnit::DynamicUnit(const Vector2& pos):
-Unit(pos), dx(0.f), dy(0.f)
+Unit(pos), dx(0.f), dy(0.f), map_height(0), map_width(0), on_ground(false)
 {
 }
 
@@ -59,18 +59,73 @@ void DynamicUnit::doUpdate(const UpdateState& us)
 
     _pos.y += dy * us.dt;
 
-    on_ground = false;
-
-    const spStage &st = getStage();
-    const Vector2&sz = st->getSize();
-
-    if(_pos.y > sz.y)
-    {
-        _pos.y = sz.y;
-        dy = 0.f;
-        on_ground = true;
-    }
+    // Обработка столкновений
+    updateCollide();
 
     Unit::doUpdate(us);
-    dx = 0.f;
+}
+
+
+void DynamicUnit::updateCollide()
+{
+    /*
+     * Обработка столкновений
+     * FIXME: БАЖНО РАБОТАЕТ СТОЛКНОВЕНИЕ ПО X
+     */
+    const Vector2 &sz = getSize();
+
+    const vector<vector<uint>> &map = _map_interaction;
+
+    for(uint h=_pos.y/32; h<(_pos.y+sz.y)/32; h++)
+        for(uint w=_pos.x/32; w<(_pos.x+sz.x)/32; w++)
+        {
+            if(map[h][w] != 0)
+            {
+                if(dx != 0.f || dy != 0.f)
+                    on_collide();
+
+                if(dx > 0.f)
+                {
+                    _pos.x = w * 32 - sz.x;
+                    dx = 0.f;
+                }
+                else if(dx < 0.f)
+                {
+                    _pos.x = w * 32 + 32.f;
+                    dx = 0.f;
+                }
+
+                if(dy > 0.f)
+                {
+                    _pos.y = h * 32 - sz.y;
+                    on_ground = true;
+                    dy = 0.f;
+                }
+                else if(dy < 0.f)
+                {
+                    _pos.y = h * 32 + 32;
+                    dy = 0.f;
+                }
+            }
+        }
+}
+
+
+void DynamicUnit::SetMapInteraction(const vector<vector<uint>> &map)
+{
+    _map_interaction = map;
+    map_height = map.size();
+    map_width = map[0].size();
+}
+
+
+/*void DynamicUnit::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
+{
+    
+}*/
+
+void DynamicUnit::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
+{
+    if((key_scancode == SDL_Scancode::SDL_SCANCODE_D || key_scancode == SDL_Scancode::SDL_SCANCODE_A) && on_ground)
+        dx = 0.f;
 }

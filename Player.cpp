@@ -17,7 +17,7 @@ using namespace std;
 Player::Player(const Vector2 &pos):
 DynamicUnit(pos)
 {
-    setAnchor(1.0f, 1.0f);
+    setAnchor(0.5f, 1.0f);
 }
 
 Player::Player(const Player& orig):
@@ -42,14 +42,17 @@ void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scan
     if(key_scancode == SDL_SCANCODE_D || key_scancode == SDL_SCANCODE_A)
     {
         current_tween = addTween(Sprite::TweenAnim(getResAnim()), 500, -1);
-    }/*else if(key_scancode == SDL_SCANCODE_A)
-        _pos.x -= 15.f;*/
+    }
+
+    //DynamicUnit::OnKeyDown(ev, key_scancode);
 }
 
 void Player::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
-    if(current_tween)
+    if((key_scancode == SDL_Scancode::SDL_SCANCODE_D || key_scancode == SDL_Scancode::SDL_SCANCODE_A) && current_tween)
         removeTween(current_tween);
+
+    DynamicUnit::OnKeyUp(ev, key_scancode);
 }
 
 

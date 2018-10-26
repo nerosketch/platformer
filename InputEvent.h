@@ -25,9 +25,9 @@ public:
     virtual ~InputEvent();
 
 
-    virtual void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode){};
+    virtual void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) = 0;
 
-    virtual void OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode){};
+    virtual void OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) = 0;
 
 };
 
