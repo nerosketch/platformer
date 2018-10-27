@@ -3,4 +3,5 @@
     <set path="res/sounds"/>
     <sound file="8bit_universe.ogg" streaming="true"/>
     <sound file="hit.wav"/>
+    <sound file="menu-navigate.wav"/>
 </resources>

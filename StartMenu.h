@@ -28,6 +28,7 @@ public:
 
     void on_start_click(Event*);
     void on_exit_click(Event*);
+    void on_mouse_over(Event*);
 };
 
 #endif /* STARTMENU_H */

@@ -48,6 +48,10 @@ public:
     {
         play_from_name("hit");
     }
+    inline void menu_nav()
+    {
+        play_from_name("menu-navigate");
+    }
 
 
     void play_from_name(const string);

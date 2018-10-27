@@ -10,16 +10,24 @@
 #include "Level.h"
 #include "StartMenu.h"
 
+#ifdef SOUND_ENABLE
+#include "SoundManager.h"
+#endif
+
 
 using namespace std;
 
 
 StartMenu::StartMenu()
 {
+    // звук навигации
+    EventCallback ncb = CLOSURE(this, &StartMenu::on_mouse_over);
+
     // делаем кнопку start
     spBtn start_btn = new Btn("start_button");
     start_btn->setAnchor(0.5f, 0.5f);
     start_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_start_click));
+    start_btn->addEventListener(TouchEvent::OVER, ncb);
     Vector2 pos(460.f, 280.f);
     start_btn->setPosition(pos);
     addChild(start_btn);
@@ -28,6 +36,7 @@ StartMenu::StartMenu()
     spBtn exit_btn = new Btn("exit_button");
     exit_btn->setAnchor(0.5f, 0.5f);
     exit_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_exit_click));
+    exit_btn->addEventListener(TouchEvent::OVER, ncb);
     pos.y += 54;
     exit_btn->setPosition(pos);
     addChild(exit_btn);
@@ -89,4 +98,12 @@ void StartMenu::on_exit_click(Event*)
 #endif
     // завершаемся
     Exit();
+}
+
+void StartMenu::on_mouse_over(Event*)
+{
+#ifdef SOUND_ENABLE
+    SoundManager &sm = SoundManager::get_instance();
+    sm.menu_nav();
+#endif
 }
