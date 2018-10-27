@@ -54,7 +54,7 @@ void run()
 
     // The initial window size can be set up here on SDL builds, ignored on Mobile devices
     desc.w = 960;
-    desc.h = 640;
+    desc.h = 540;
 
     Game stage;
 

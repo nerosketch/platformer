@@ -20,6 +20,9 @@ using namespace std;
 
 StartMenu::StartMenu()
 {
+
+    setResAnim(res::resources.getResAnim("background"));
+
     // звук навигации
     EventCallback ncb = CLOSURE(this, &StartMenu::on_mouse_over);
 

@@ -11,7 +11,6 @@
 #include <oxygine-framework.h>
 
 
-
 #include "flags.h"
 #include "Player.h"
 #include "base.h"
@@ -27,11 +26,10 @@ using namespace oxygine;
 DECLARE_SMART(GameStage, spGameStage);
 
 
-class GameStage : public Base, public Actor
+class GameStage : public Base, public Sprite
 {
 private:
-    INHERITED(Actor);
-
+    INHERITED(Sprite);
 
 public:
     GameStage();

@@ -4,6 +4,7 @@
  * 
  * Created on October 21, 2018, 8:48 AM
  */
+#include "flags.h"
 #include "resources.h"
 #include "Player.h"
 
