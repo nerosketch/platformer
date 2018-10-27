@@ -60,7 +60,7 @@ public:
     void doUpdate(const UpdateState&);
 
 #ifdef SOUND_ENABLE
-    SoundManager sound;
+    SoundManager *p_sound;
 #endif
 
     // Если да то вышестоящий класс удалит нас

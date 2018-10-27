@@ -20,10 +20,6 @@
 #include "base/Box2DDebugDraw.h"
 #endif
 
-#ifdef SOUND_ENABLE
-#include "SoundManager.h"
-#endif
-
 
 using namespace oxygine;
 
@@ -43,8 +39,6 @@ public:
     virtual ~GameStage();
 
     bool is_zombie;
-
-    
 
     void Pause();
 

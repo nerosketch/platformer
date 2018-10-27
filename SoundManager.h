@@ -18,23 +18,39 @@
 using namespace oxygine;
 using namespace std;
 
+
+//DECLARE_SMART(SoundManager, spSoundManager);
+
+
 class SoundManager: public SoundPlayer
 {
-public:
+private:
+    //INHERITED(SoundPlayer);
+
     SoundManager();
     SoundManager(const SoundManager& orig);
     virtual ~SoundManager();
-    
+
+public:
+    static SoundManager& get_instance()
+    {
+        static SoundManager somngr;
+        return somngr;
+    }
+
     void doUpdate();
-    
-    void startBackground()
+
+    inline void startBackground()
     {
         play_from_name("8bit_universe");
     }
-    
-    void play_from_name(const string);
-private:
+    inline void hit()
+    {
+        play_from_name("hit");
+    }
 
+
+    void play_from_name(const string);
 };
 
 #endif

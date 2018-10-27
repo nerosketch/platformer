@@ -9,6 +9,9 @@
 #define PLAYER_H
 
 #include <oxygine-framework.h>
+#ifdef SOUND_ENABLE
+#include "SoundManager.h"
+#endif
 #include "DynamicUnit.h"
 
 

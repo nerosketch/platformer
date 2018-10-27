@@ -19,6 +19,11 @@ StageManager::StageManager() : is_zombie(false)
 #ifdef DBG
     logs::messageln("StageManager:: constructor");
 #endif
+
+#ifdef SOUND_ENABLE
+    SoundManager &sm = SoundManager::get_instance();
+    p_sound = &sm;
+#endif
 }
 
 StageManager::StageManager(const StageManager& orig)
@@ -65,12 +70,9 @@ GameError StageManager::init()
     append_stage(stage);*/
 
 
-
-
-
     // Start music
 #ifdef SOUND_ENABLE
-    sound.startBackground();
+    p_sound->startBackground();
 #endif
     return GameError();
 }
@@ -105,6 +107,6 @@ void StageManager::doUpdate(const UpdateState&)
         }
     }
 #ifdef SOUND_ENABLE
-    sound.doUpdate();
+    p_sound->doUpdate();
 #endif
 }

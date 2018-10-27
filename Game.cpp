@@ -81,21 +81,18 @@ GameError Game::init()
 }
 void Game::destroy()
 {
-    #ifdef DBG
-        logs::messageln("Game:: destroy");
-    #endif
-
-#ifdef SOUND_ENABLE
-    stage_manager->sound.stop();
+#ifdef DBG
+    logs::messageln("Game:: destroy");
 #endif
 
-    res::free();
-
 #ifdef SOUND_ENABLE
+    stage_manager->p_sound->stop();
+
     SoundPlayer::free();
     SoundSystem::free();
 #endif
 
+    res::free();
 }
 bool Game::update()
 {
