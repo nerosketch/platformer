@@ -42,7 +42,7 @@ GameError Game::init()
     SoundPlayer::initialize();
 #endif
 
-    res::load();
+    res::load("res/res.xml");
 
     auto p_stage = getStage();
 

@@ -26,7 +26,8 @@ public:
     // тут создаём следующий уровень и стаём зомби
     GameError make_next_level();
 
-    void on_click(Event*);
+    void on_start_click(Event*);
+    void on_exit_click(Event*);
 };
 
 #endif /* STARTMENU_H */

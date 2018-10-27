@@ -9,9 +9,9 @@
 #include "resources.h"
 
 
-Btn::Btn()
+Btn::Btn(string button_name)
 {
-    setResAnim(res::resources.getResAnim("Add"));
+    setResAnim(res::resources.getResAnim(button_name));
 }
 
 Btn::Btn(const Btn& orig)

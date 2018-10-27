@@ -8,9 +8,11 @@
 #ifndef BTN_H
 #define BTN_H
 
+#include <string>
 #include <oxygine-framework.h>
 
 
+using namespace std;
 using namespace oxygine;
 
 
@@ -22,7 +24,7 @@ class Btn : public Button
 private:
     INHERITED(Button);
 public:
-    Btn();
+    Btn(string button_name);
     Btn(const Btn& orig);
     virtual ~Btn();
 

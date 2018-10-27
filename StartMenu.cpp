@@ -16,12 +16,21 @@ using namespace std;
 
 StartMenu::StartMenu()
 {
-    spBtn btn = new Btn();
-    addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_click));
-    Vector2 pos(80.f, 80.f);
-    btn->setPosition(pos);
+    // делаем кнопку start
+    spBtn start_btn = new Btn("start_button");
+    start_btn->setAnchor(0.5f, 0.5f);
+    start_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_start_click));
+    Vector2 pos(460.f, 280.f);
+    start_btn->setPosition(pos);
+    addChild(start_btn);
 
-    addChild(btn);
+    // делаем кнопку exit
+    spBtn exit_btn = new Btn("exit_button");
+    exit_btn->setAnchor(0.5f, 0.5f);
+    exit_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_exit_click));
+    pos.y += 54;
+    exit_btn->setPosition(pos);
+    addChild(exit_btn);
 
 #ifdef DBG
     cout << "StartMenu::StartMenu" << endl;
@@ -54,24 +63,30 @@ GameError StartMenu::make_next_level()
         return err;
     }
 
-    // если true то удаляем этот уровень и выполняем next_level
-    is_zombie = true;
-    
+    Exit();
+
     return GameError();
 }
 
 
-void StartMenu::on_click(Event* ev)
+void StartMenu::on_start_click(Event*)
 {
 #ifdef DBG
-    cout << "StartMenu::on_click" << endl;
+    cout << "StartMenu::on_start_click" << endl;
 #endif
     GameError err = make_next_level();
     if(err != 0)
     {
         // произошла ошибка, убиваемся
-        is_zombie = true;
-        cout << "ERROR: StartMenu::on_click " << err.error_text << endl;
+        Exit();
+        cout << "ERROR: StartMenu::on_start_click " << err.error_text << endl;
     }
-
+}
+void StartMenu::on_exit_click(Event*)
+{
+#ifdef DBG
+    cout << "StartMenu::on_exit_click" << endl;
+#endif
+    // завершаемся
+    Exit();
 }
