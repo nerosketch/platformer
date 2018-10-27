@@ -17,7 +17,7 @@ using namespace std;
 Player::Player(const Vector2 &pos):
 DynamicUnit(pos)
 {
-    setAnchor(0.5f, 1.0f);
+    setAnchor(0.0f, 0.7f);
 }
 
 Player::Player(const Player& orig):
