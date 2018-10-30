@@ -85,26 +85,82 @@ void DynamicUnit::updateCollide()
                 if(dx != 0.f || dy != 0.f)
                     on_collide();
 
+                // Если двигаемся вправо
                 if(dx > 0.f)
                 {
-                    _pos.x = w * TILE_WIDTH - sz.x;
+                    // получаем правую точку
+                    const float right_point = _pos.x + sz.x;
+
+                    // получаем координату левого ребра блока который
+                    // находится под этой точкой
+                    const uint right_block_coord_x = static_cast<uint>(right_point / TILE_WIDTH);
+
+                    // Если эта координата текущая
+                    if(right_block_coord_x == w)
+                    {
+                        // тогда устанавливаем левую координату персонажа
+                        // в координату этого ребра
+                        _pos.x = right_block_coord_x * TILE_WIDTH;
+                    }
+                    // останавливаем персонажа
                     dx = 0.f;
                 }
+                // Если двигаемся влево
                 else if(dx < 0.f)
                 {
-                    _pos.x = w * TILE_WIDTH + TILE_WIDTH;
+                    // находим левую точку блока персонажа
+                    const uint left_block_coord_x = static_cast<uint>(_pos.x / TILE_WIDTH);
+
+                    // если текущий блок это тот что под левой координатой
+                    if(left_block_coord_x == w)
+                    {
+                        // тогда устанавливаем левую координату персонажа
+                        // в правую координату блока
+                        _pos.x = left_block_coord_x * TILE_WIDTH + TILE_WIDTH;
+                    }
+
+                    // останавливаем персонажа
                     dx = 0.f;
                 }
 
+                // Если двигаемся вниз
                 if(dy > 0.f)
                 {
-                    _pos.y = h * TILE_HEIGHT - sz.y;
+                    // получаем нижнюю точку
+                    const float bottom_point = _pos.y + sz.y;
+
+                    // получаем координату нижнего ребра блока который
+                    // находится под этой точкой
+                    const uint bottom_block_coord_y = static_cast<uint>(bottom_point / TILE_HEIGHT);
+
+                    // если это текущая координата
+                    if(bottom_block_coord_y == h)
+                    {
+                        // Тогда устанавливаем верхнюю координату персонажа
+                        // в верхнюю координату блока
+                        _pos.y = bottom_block_coord_y * TILE_HEIGHT + TILE_HEIGHT;
+                    }
+
+                    // персонаж на земле
                     on_ground = true;
+                    // останавливаем персонажа
                     dy = 0.f;
                 }
+                // двигаемся вверх (скорее всего прыгаем)
                 else if(dy < 0.f)
                 {
-                    _pos.y = h * TILE_HEIGHT + TILE_HEIGHT;
+                    // получаем верхнюю точку блока персоажа
+                    const uint top_block_coord_y = static_cast<uint>(_pos.y / TILE_HEIGHT);
+
+                    // если текущий блок это тот что под верхней координатой
+                    if(top_block_coord_y == h)
+                    {
+                        // тогда устанавливаем верхнюю координату персонажа
+                        // в нижнюю координату блока
+                        _pos.y = top_block_coord_y * TILE_HEIGHT + TILE_HEIGHT;
+                    }
+
+                    // останавливаем прыжок
                     dy = 0.f;
                 }
             }
