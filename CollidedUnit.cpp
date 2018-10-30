@@ -5,6 +5,7 @@
  * Created on October 23, 2018, 7:50 PM
  */
 
+#include "DebugRectSprite.h"
 #include "CollidedUnit.h"
 
 
@@ -19,8 +20,13 @@ StaticUnit(pos)
     setResAnim(p_res_anim, res_col, res_row);
     //setResAnim(p_res_anim, 6, 0);
 
-    setScale(1.f);
+    //setScale(1.f);
     //setAnchor(0.5f, 0.5f);
+    
+#ifdef DBG
+    spDebugRectSprite sprite = new DebugRectSprite(Color::Black, Vector2(32.f, 32.f));
+    addChild(sprite);
+#endif
 }
 
 CollidedUnit::CollidedUnit(const CollidedUnit& orig):

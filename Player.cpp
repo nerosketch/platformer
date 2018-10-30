@@ -6,6 +6,7 @@
  */
 #include "flags.h"
 #include "resources.h"
+#include "DebugRectSprite.h"
 #include "Player.h"
 
 
@@ -18,7 +19,11 @@ using namespace std;
 Player::Player(const Vector2 &pos):
 DynamicUnit(pos)
 {
-    setAnchor(0.0f, 0.7f);
+    //setAnchor(0.0f, 0.7f);
+
+    // тестовая кнопка
+    spDebugRectSprite sprite = new DebugRectSprite(Color::Magenta, Vector2(25.f, 44.f));
+    addChild(sprite);
 }
 
 Player::Player(const Player& orig):
