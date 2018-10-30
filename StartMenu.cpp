@@ -75,6 +75,7 @@ GameError StartMenu::make_next_level()
     {
         return err;
     }
+    _next_level->setPosition(0.f, 305.f);
 
     Exit();
 

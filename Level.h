@@ -11,6 +11,7 @@
 #include <vector>
 #include <string>
 #include <oxygine-framework.h>
+#include "ObjectLoader.h"
 #include "GameStage.h"
 
 
@@ -29,12 +30,15 @@ private:
     vector<Unit> units;
     spPlayer player;
 
+    void _load_terrain(LAYER&, const ResAnim*);
+    void _load_background(LAYER&, const ResAnim*);
+
 public:
     Level();
     Level(const Level& orig);
     virtual ~Level();
 
-    GameError load_stage(string fname);
+    GameError load_stage(const string fname);
 
     // карта для взаимодействий
     vector<vector<uint>> map_interaction;

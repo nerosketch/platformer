@@ -5,6 +5,7 @@
  * Created on October 21, 2018, 8:47 AM
  */
 
+#include "flags.h"
 #include "DynamicUnit.h"
 
 
@@ -76,8 +77,8 @@ void DynamicUnit::updateCollide()
 
     const vector<vector<uint>> &map = _map_interaction;
 
-    for(uint h=_pos.y/32; h<(_pos.y+sz.y)/32; h++)
-        for(uint w=_pos.x/32; w<(_pos.x+sz.x)/32; w++)
+    for(uint h=_pos.y/TILE_HEIGHT; h<(_pos.y+sz.y)/TILE_HEIGHT; h++)
+        for(uint w=_pos.x/TILE_WIDTH; w<(_pos.x+sz.x)/TILE_WIDTH; w++)
         {
             if(map[h][w] != 0)
             {
@@ -86,24 +87,24 @@ void DynamicUnit::updateCollide()
 
                 if(dx > 0.f)
                 {
-                    _pos.x = w * 32 - sz.x;
+                    _pos.x = w * TILE_WIDTH - sz.x;
                     dx = 0.f;
                 }
                 else if(dx < 0.f)
                 {
-                    _pos.x = w * 32 + 32.f;
+                    _pos.x = w * TILE_WIDTH + TILE_WIDTH;
                     dx = 0.f;
                 }
 
                 if(dy > 0.f)
                 {
-                    _pos.y = h * 32 - sz.y;
+                    _pos.y = h * TILE_HEIGHT - sz.y;
                     on_ground = true;
                     dy = 0.f;
                 }
                 else if(dy < 0.f)
                 {
-                    _pos.y = h * 32 + 32;
+                    _pos.y = h * TILE_HEIGHT + TILE_HEIGHT;
                     dy = 0.f;
                 }
             }

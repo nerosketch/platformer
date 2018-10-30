@@ -19,4 +19,8 @@
 #endif
 
 
+#define TILE_WIDTH      16.f
+#define TILE_HEIGHT     16.f
+
+
 #endif /* FLAGS_H */

@@ -1,0 +1,13 @@
+{ "columns":40,
+ "image":"pixeland.png",
+ "imageheight":1456,
+ "imagewidth":640,
+ "margin":0,
+ "name":"pixeland",
+ "spacing":0,
+ "tilecount":3640,
+ "tileheight":16,
+ "tilewidth":16,
+ "transparentcolor":"#000000",
+ "type":"tileset"
+}
