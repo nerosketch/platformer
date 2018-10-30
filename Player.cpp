@@ -21,9 +21,11 @@ DynamicUnit(pos)
 {
     //setAnchor(0.0f, 0.7f);
 
-    // тестовая кнопка
+#ifdef DBG
+    // тестовый квадратик
     spDebugRectSprite sprite = new DebugRectSprite(Color::Magenta, Vector2(25.f, 44.f));
     addChild(sprite);
+#endif
 }
 
 Player::Player(const Player& orig):
