@@ -6,7 +6,7 @@
  */
 #include "flags.h"
 #include "resources.h"
-#include "DebugRectSprite.h"
+//#include "DebugRectSprite.h"
 #include "Player.h"
 
 
@@ -21,11 +21,11 @@ DynamicUnit(pos)
 {
     //setAnchor(0.0f, 0.7f);
 
-#ifdef DBG
-    // тестовый квадратик
+/*#ifdef DBG
+    // тестовая кнопка
     spDebugRectSprite sprite = new DebugRectSprite(Color::Magenta, Vector2(25.f, 44.f));
     addChild(sprite);
-#endif
+#endif*/
 }
 
 Player::Player(const Player& orig):

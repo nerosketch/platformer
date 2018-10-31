@@ -12,7 +12,7 @@ DebugRectSprite::DebugRectSprite(const uint color, const Vector2 size)
 {
     setSize(size);
     setColor(Color(color));
-    //setAlpha(80);
+    setAlpha(80);
 }
 
 

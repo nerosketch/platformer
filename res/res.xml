@@ -4,7 +4,8 @@
     <atlas>
         <image file="brick_wall.png"/>
         <image file="anim_m.png" cols="8"/>
-        <image file="la.png" cols="3" rows="3"/>
+        <!--<image file="la.png" cols="3" rows="3"/>-->
+        <image file="pixeland.png" cols="40" rows="91"/>
         <image file="Add.png"/>
     </atlas>
 

@@ -5,7 +5,8 @@
  * Created on October 23, 2018, 7:50 PM
  */
 
-#include "DebugRectSprite.h"
+#include "flags.h"
+//#include "DebugRectSprite.h"
 #include "CollidedUnit.h"
 
 
@@ -23,10 +24,10 @@ StaticUnit(pos)
     //setScale(1.f);
     //setAnchor(0.5f, 0.5f);
     
-#ifdef DBG
-    spDebugRectSprite sprite = new DebugRectSprite(Color::Black, Vector2(32.f, 32.f));
+/*#ifdef DBG
+    spDebugRectSprite sprite = new DebugRectSprite(Color::Black, Vector2(TILE_WIDTH, TILE_HEIGHT));
     addChild(sprite);
-#endif
+#endif*/
 }
 
 CollidedUnit::CollidedUnit(const CollidedUnit& orig):

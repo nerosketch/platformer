@@ -45,7 +45,7 @@ void _load_tileset(struct TILESET *p_tileset, const string &fname)
 
 }
 
-void ObjectLoader::open(string fname)
+void ObjectLoader::open(const string fname)
 {
     //load file to buffer
     ox::file::buffer bf;
@@ -81,17 +81,26 @@ void ObjectLoader::open(string fname)
     }
 
 
-    uint layers_count = value["layers"].size();
-    uint layers_counter = 0;
-    layers.resize(layers_count);
-
     for(const auto &v : value["layers"])
     {
-        LAYER &lay = layers[layers_counter++];
+        string layer_name = v["name"].asString();
 
-        struct LAYER_OPTIONS &lay_opts = lay.options;
+        LAYER *p_layer = nullptr;
 
-        lay.tileheight = v["tileheight"].asUInt();
+        if(layer_name.find("background") != string::npos)
+        {
+            LAYER l;
+            backgrounds.push_back(l);
+            p_layer = &backgrounds.back();
+        }
+        else if(layer_name.find("terrain") != string::npos)
+            p_layer = &terrain;
+        else
+            continue;
+
+        struct LAYER_OPTIONS &lay_opts = p_layer->options;
+
+        p_layer->tileheight = v["tileheight"].asUInt();
 
         // Layer options
         lay_opts.height = v["height"].asUInt();
@@ -100,10 +109,10 @@ void ObjectLoader::open(string fname)
         lay_opts.visible = v["visible"].asBool();
         lay_opts.x = v["x"].asInt();
         lay_opts.y = v["y"].asInt();
-        lay.p_tileset = p_last_tileset;
+        p_layer->p_tileset = p_last_tileset;
         //lay_opts.name = v["name"].asString();
 
-        vector<uint> &layer_data = lay.int_data;
+        vector<uint> &layer_data = p_layer->int_data;
         uint layer_data_size = v["data"].size();
         layer_data.resize(layer_data_size);
 

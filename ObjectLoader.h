@@ -66,13 +66,14 @@ public:
     ObjectLoader(const ObjectLoader& orig);
     virtual ~ObjectLoader();
 
-    vector<LAYER> layers;
+    vector<LAYER> backgrounds;
+    LAYER terrain;
     vector<struct TILESET> tilesets;
-    
+
     const struct TILESET *get_tileset_by_name(string name) const;
     const struct TILESET *get_tileset_by_id(uint id) const;
 
-    void open(string fname);
+    void open(const string fname);
 
 };
 
