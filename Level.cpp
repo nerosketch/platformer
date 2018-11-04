@@ -173,6 +173,16 @@ GameError Level::load_stage(const string fname)
     player->SetMapInteraction(map_interaction);
     addChild(player);
 
+
+    // Загрузим анимированный объект
+    spSprite block = new Sprite;
+    //block->setSize(TILE_WIDTH, TILE_HEIGHT);
+    pos.x = 130.f;
+    block->setPosition(pos);
+    block->setResAnim(res::resources.getResAnim("torch_anim"));
+    block->addTween(Sprite::TweenAnim(getResAnim()), 500, -1);
+    addChild(block);
+
     return GameError();
 }
 
