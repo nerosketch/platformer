@@ -30,7 +30,8 @@ private:
     vector<vector<uint>> _map_interaction;
 
     // Обработка столкновений
-    void updateCollide();
+    void updateCollideX();
+    void updateCollideY();
 
 protected:
     float dx, dy;

@@ -19,7 +19,7 @@ using namespace std;
 Player::Player(const Vector2 &pos):
 DynamicUnit(pos)
 {
-    //setAnchor(0.0f, 0.7f);
+    //setAnchor(0.f, 0.f);
 
 /*#ifdef DBG
     // тестовая кнопка

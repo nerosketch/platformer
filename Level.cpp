@@ -191,3 +191,16 @@ void Level::doUpdate(const UpdateState& us)
         setX(stage_half_width - player_pos_x);
     }
 }
+
+
+void Level::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
+{
+    
+}
+
+
+void Level::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
+{
+    if(key_scancode == SDL_Scancode::SDL_SCANCODE_ESCAPE)
+        is_zombie = true;
+}
