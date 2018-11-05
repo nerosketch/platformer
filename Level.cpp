@@ -111,6 +111,9 @@ void Level::_load_background(LAYER& lay, const ResAnim *p_res_anim)
 
 GameError Level::load_stage(const string fname)
 {
+    background_image = new Sprite;
+    background_image->setResAnim(res::resources.getResAnim("abckgroun"));
+    addChild(background_image);
 
     ObjectLoader ol;
     ol.open(fname);
@@ -200,6 +203,12 @@ void Level::doUpdate(const UpdateState& us)
     {
         setX(stage_half_width - player_pos_x);
     }
+
+
+    // Прокручиваем задний фон по медленнее
+    background_image->setX(
+        -(getX() / 2.f)
+    );
 }
 
 

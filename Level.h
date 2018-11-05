@@ -27,6 +27,8 @@ class Level : public GameStage, public InputEvent
 {
 private:
     INHERITED(GameStage);
+    
+    spSprite background_image;
 
     vector<Unit> units;
     spPlayer player;
