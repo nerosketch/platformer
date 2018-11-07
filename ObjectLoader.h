@@ -28,6 +28,7 @@ struct LAYER_OPTIONS
     bool visible;
     float x;
     float y;
+    short z_order;
     //string name;
 };
 
@@ -53,7 +54,7 @@ public:
     vector<uint> int_data;
     uint tileheight;
 
-    shared_ptr<Point> get_coords(uint block_index);
+    shared_ptr<Point> get_coords(const uint block_index) const;
 
     struct TILESET *p_tileset;
 
@@ -67,7 +68,7 @@ public:
     virtual ~ObjectLoader();
 
     vector<LAYER> backgrounds;
-    LAYER terrain;
+    vector<LAYER> terrains;
     vector<struct TILESET> tilesets;
 
     const struct TILESET *get_tileset_by_name(string name) const;

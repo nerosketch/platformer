@@ -81,6 +81,7 @@ void ObjectLoader::open(const string fname)
     }
 
 
+    short z_index = 0;
     for(const auto &v : value["layers"])
     {
         string layer_name = v["name"].asString();
@@ -94,7 +95,11 @@ void ObjectLoader::open(const string fname)
             p_layer = &backgrounds.back();
         }
         else if(layer_name.find("terrain") != string::npos)
-            p_layer = &terrain;
+        {
+            LAYER l;
+            terrains.push_back(l);
+            p_layer = &terrains.back();
+        }
         else
             continue;
 
@@ -109,6 +114,7 @@ void ObjectLoader::open(const string fname)
         lay_opts.visible = v["visible"].asBool();
         lay_opts.x = v["x"].asInt();
         lay_opts.y = v["y"].asInt();
+        lay_opts.z_order = z_index++;
         p_layer->p_tileset = p_last_tileset;
         //lay_opts.name = v["name"].asString();
 
@@ -125,7 +131,7 @@ void ObjectLoader::open(const string fname)
 
 }
 
-shared_ptr<Point> LAYER::get_coords(const uint block_index)
+shared_ptr<Point> LAYER::get_coords(const uint block_index) const
 {
     shared_ptr<Point> p(new Point());
 
@@ -157,6 +163,7 @@ const struct TILESET *ObjectLoader::get_tileset_by_name(string name) const
             return &v;
         }
     }
+    return nullptr;
 }
 const struct TILESET *ObjectLoader::get_tileset_by_id(uint id) const
 {
@@ -167,5 +174,6 @@ const struct TILESET *ObjectLoader::get_tileset_by_id(uint id) const
             return &v;
         }
     }
+    return nullptr;
 }
 

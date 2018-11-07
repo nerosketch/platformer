@@ -106,11 +106,10 @@ void DynamicUnit::updateCollideY()
                     dy = dx = 0.f;
                     on_ground = true;
                 }
-                if(dy<0)
+                else if(dy<0)
                 {
                     _pos.y = h * TILE_HEIGHT + TILE_HEIGHT;
                     dy = 0.f;
-                    
                 }
             }
         }

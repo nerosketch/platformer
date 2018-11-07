@@ -6,7 +6,7 @@
  */
 
 #include "flags.h"
-//#include "DebugRectSprite.h"
+#include "DebugRectSprite.h"
 #include "CollidedUnit.h"
 
 
@@ -23,11 +23,11 @@ StaticUnit(pos)
 
     //setScale(2.f);
     //setAnchor(0.f, 0.f);
-    
-/*#ifdef DBG
-    spDebugRectSprite sprite = new DebugRectSprite(Color::Black, Vector2(TILE_WIDTH, TILE_HEIGHT));
+
+#ifdef DBG
+    spDebugRectSprite sprite = new DebugRectSprite(Color::Blue, Vector2(TILE_WIDTH, TILE_HEIGHT));
     addChild(sprite);
-#endif*/
+#endif
 }
 
 CollidedUnit::CollidedUnit(const CollidedUnit& orig):
