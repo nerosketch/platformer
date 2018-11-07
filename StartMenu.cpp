@@ -32,7 +32,7 @@ StartMenu::StartMenu()
     start_btn->setAnchor(0.5f, 0.5f);
     start_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_start_click));
     start_btn->addEventListener(TouchEvent::OVER, ncb);
-    Vector2 pos(460.f, 280.f);
+    Vector2 pos(455.5f, 128.f);
     start_btn->setPosition(pos);
     addChild(start_btn);
 
@@ -75,7 +75,7 @@ GameError StartMenu::make_next_level()
     {
         return err;
     }
-    _next_level->setPosition(0.f, 305.f);
+    _next_level->setPosition(0.f, 15.f);
 
     Exit();
 
