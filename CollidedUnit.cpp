@@ -31,7 +31,7 @@ StaticUnit(pos)
 }
 
 CollidedUnit::CollidedUnit(const CollidedUnit& orig):
-CollidedUnit(orig._pos, orig.getResAnim(), orig.getColumn(), orig.getRow())
+CollidedUnit(orig.getPosition(), orig.getResAnim(), orig.getColumn(), orig.getRow())
 {
 }
 

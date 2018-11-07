@@ -29,7 +29,7 @@ DynamicUnit(pos)
 }
 
 Player::Player(const Player& orig):
-Player(orig._pos)
+Player(orig.getPosition())
 {
 }
 
@@ -104,5 +104,14 @@ void Player::on_collide()
 #ifdef SOUND_ENABLE
     SoundManager &sound_manager = SoundManager::get_instance();
     sound_manager.hit();
+#endif
+}
+
+
+// Упал вниз карты
+void Player::on_fall_down()
+{
+#ifdef DBG
+    cout << "Player::on_fall_down" << endl;
 #endif
 }

@@ -15,8 +15,6 @@ using namespace oxygine;
 
 class Unit : public Sprite
 {
-protected:
-    Vector2 _pos;
 public:
     Unit(const Vector2& pos);
     Unit(const Unit& orig);

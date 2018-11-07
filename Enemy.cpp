@@ -13,7 +13,7 @@ DynamicUnit(pos)
 }
 
 Enemy::Enemy(const Enemy& orig):
-Enemy(orig._pos)
+Enemy(orig.getPosition())
 {
 }
 
