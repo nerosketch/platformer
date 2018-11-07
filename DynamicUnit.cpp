@@ -89,11 +89,13 @@ void DynamicUnit::updateCollideX()
                 if(dx > 0)
                 {
                     setX(w * TILE_WIDTH - sz.x);
+                    dx = 0.f;
                     on_collide();
                 }
                 if(dx < 0)
                 {
                     setX(w * TILE_WIDTH + TILE_WIDTH);
+                    dx = 0.f;
                     on_collide();
                 }
             }

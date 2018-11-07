@@ -185,8 +185,27 @@ GameError Level::load_stage(const string fname)
     pos.y += 32.0f;
     }*/
 
+
+    // установим факелы
+    ResAnim *torch_res_anim = res::resources.getResAnim("torch_anim");
+    Vector2 pos(0.f, 317.f);
+    for(uint n=0; n < 7; n++)
+    {
+        pos.x = 350 + (112.f * n);
+
+        // Загрузим анимированный факел
+        spSprite block = new Sprite;
+        //block->setSize(TILE_WIDTH, TILE_HEIGHT);
+        block->setPosition(pos);
+        block->setResAnim(torch_res_anim);
+        block->addTween(Sprite::TweenAnim(getResAnim()), RANDOM_RANGE(400, 500), -1);
+        addChild(block);
+    }
+
+
     // Загрузим игрока
-    Vector2 pos(80.f, 160.f);
+    pos.y = 160.f;
+    pos.x = 80.f;
     player = new Player(pos);
     GameError err = player->init();
     if(err != 0)
@@ -195,17 +214,6 @@ GameError Level::load_stage(const string fname)
     }
     player->SetMapInteraction(map_interaction);
     addChild(player);
-
-
-    // Загрузим анимированный объект
-    spSprite block = new Sprite;
-    //block->setSize(TILE_WIDTH, TILE_HEIGHT);
-    pos.x = 130.f;
-    pos.y = 160.f;
-    block->setPosition(pos);
-    block->setResAnim(res::resources.getResAnim("torch_anim"));
-    block->addTween(Sprite::TweenAnim(getResAnim()), 500, -1);
-    addChild(block);
 
     return GameError();
 }
