@@ -99,6 +99,9 @@ void ObjectLoader::open(const string fname)
             LAYER l;
             terrains.push_back(l);
             p_layer = &terrains.back();
+        }else if(layer_name == "landscape")
+        {
+            p_layer = &landscape;
         }
         else
             continue;
@@ -176,4 +179,3 @@ const struct TILESET *ObjectLoader::get_tileset_by_id(uint id) const
     }
     return nullptr;
 }
-

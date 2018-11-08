@@ -2,13 +2,10 @@
 <resources>
     <set path="res/img"/>
     <atlas>
-        <image file="brick_wall.png"/>
         <image file="anim_m.png" cols="8"/>
-        <!--<image file="la.png" cols="3" rows="3"/>-->
         <image file="pixeland.png" cols="40" rows="91"/>
 	<image file="torch_anim.png" cols="8"/>
-	<image file="abckgroun.png"/>
-        <image file="Add.png"/>
+	<image file="landscape_tileset.png" cols="24" rows="9"/>
     </atlas>
 
     <set path="res/img/menu"/>

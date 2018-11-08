@@ -24,10 +24,10 @@ StaticUnit(pos)
     //setScale(2.f);
     //setAnchor(0.f, 0.f);
 
-#ifdef DBG
+/*#ifdef DBG
     spDebugRectSprite sprite = new DebugRectSprite(Color::Blue, Vector2(TILE_WIDTH, TILE_HEIGHT));
     addChild(sprite);
-#endif
+#endif*/
 }
 
 CollidedUnit::CollidedUnit(const CollidedUnit& orig):

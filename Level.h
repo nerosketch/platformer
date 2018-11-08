@@ -13,6 +13,7 @@
 #include <oxygine-framework.h>
 #include "ObjectLoader.h"
 #include "InputEvent.h"
+#include "Landscape.h"
 #include "GameStage.h"
 
 
@@ -27,8 +28,8 @@ class Level : public GameStage, public InputEvent
 {
 private:
     INHERITED(GameStage);
-    
-    spSprite background_image;
+
+    spLandscape landscape;
 
     vector<Unit> units;
     spPlayer player;

@@ -86,12 +86,6 @@ void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
         }
     }
 
-    /*Vector2 pos(0.f, 0.f);
-    shared_ptr<Point> res_coords(new Point(0, 0));
-    spCollidedUnit block = new CollidedUnit(pos, p_res_anim, res_coords);
-    block->setSize(block_size);
-    //block->setPriority(lay.options.z_order);
-    addChild(block);*/
 }
 
 
@@ -131,14 +125,14 @@ void Level::_load_background(LAYER& lay, const ResAnim *p_res_anim)
 
 GameError Level::load_stage(const string fname)
 {
-    background_image = new Sprite;
-    background_image->setResAnim(res::resources.getResAnim("abckgroun"));
-    addChild(background_image);
-
     ObjectLoader ol;
     ol.open(fname);
 
     const ResAnim *p_res_anim = res::resources.getResAnim("pixeland");
+
+    // Загрузим пейзаж
+    landscape = new Landscape(ol.landscape, p_res_anim);
+    addChild(landscape);
 
     // Загрузим фон
     for(LAYER &lay : ol.backgrounds)
@@ -235,7 +229,7 @@ void Level::doUpdate(const UpdateState& us)
 
 
     // Прокручиваем задний фон по медленнее
-    background_image->setX(
+    landscape->setX(
         -(getX() / 2.f)
     );
 }

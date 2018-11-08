@@ -69,6 +69,7 @@ public:
 
     vector<LAYER> backgrounds;
     vector<LAYER> terrains;
+    LAYER landscape;
     vector<struct TILESET> tilesets;
 
     const struct TILESET *get_tileset_by_name(string name) const;
