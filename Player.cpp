@@ -6,7 +6,7 @@
  */
 #include "flags.h"
 #include "resources.h"
-//#include "DebugRectSprite.h"
+#include "DebugRectSprite.h"
 #include "Player.h"
 
 
@@ -21,15 +21,15 @@ DynamicUnit(pos)
 {
     //setAnchor(0.f, 0.f);
 
-/*#ifdef DBG
+#ifdef DBG
     // тестовая кнопка
     spDebugRectSprite sprite = new DebugRectSprite(Color::Magenta, Vector2(25.f, 44.f));
     addChild(sprite);
-#endif*/
+#endif
 }
 
 Player::Player(const Player& orig):
-Player(orig._pos)
+Player(orig.getPosition())
 {
 }
 
@@ -104,5 +104,14 @@ void Player::on_collide()
 #ifdef SOUND_ENABLE
     SoundManager &sound_manager = SoundManager::get_instance();
     sound_manager.hit();
+#endif
+}
+
+
+// Упал вниз карты
+void Player::on_fall_down()
+{
+#ifdef DBG
+    cout << "Player::on_fall_down" << endl;
 #endif
 }

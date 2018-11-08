@@ -38,6 +38,9 @@ protected:
     bool on_ground;
     virtual void on_collide() = 0;
 
+    // упал в конец(низ) карты
+    virtual void on_fall_down() = 0;
+
 public:
     DynamicUnit(const Vector2& pos);
     DynamicUnit(const DynamicUnit& orig);

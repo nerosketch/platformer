@@ -20,7 +20,7 @@ Unit(pos), dx(0.f), dy(0.f), map_height(0), map_width(0), on_ground(false)
 }
 
 DynamicUnit::DynamicUnit(const DynamicUnit& orig):
-DynamicUnit(orig._pos)
+DynamicUnit(orig.getPosition())
 {
 }
 
@@ -52,21 +52,24 @@ void DynamicUnit::Jump()
 
 void DynamicUnit::doUpdate(const UpdateState& us)
 {
-    _pos.x += dx * us.dt;
+    setX(getX() + dx * us.dt);
     updateCollideX();
 
     // 0.0005f это ускорение
     if(!on_ground)
         dy = dy + 0.0005f * us.dt;
 
-    _pos.y += dy * us.dt;
-    
+    setY(getY() + dy * us.dt);
+
     on_ground = false;
+    if(getY() >= 470.f)
+    {
+        setY(400.f);
+        on_fall_down();
+    }
 
     // Обработка столкновений
     updateCollideY();
-
-    setPosition(_pos);
 }
 
 
@@ -76,14 +79,25 @@ void DynamicUnit::updateCollideX()
      * Обработка столкновений по x
      */
     const Vector2 &sz = getSize();
+    const Vector2 &_pos = getPosition();
     const vector<vector<uint>> &map = _map_interaction;
-    for(uint h=_pos.y/TILE_HEIGHT; h<(_pos.y+sz.y)/TILE_HEIGHT; h++)
-        for(uint w=_pos.x/TILE_WIDTH; w<(_pos.x+sz.x)/TILE_WIDTH; w++)
+    for(uint h = _pos.y / TILE_HEIGHT; h < (_pos.y + sz.y) / TILE_HEIGHT; h++)
+        for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
             if(map[h][w] != 0)
             {
-                if(dx>0) _pos.x = w * TILE_WIDTH - sz.x;
-                if(dx<0) _pos.x = w * TILE_WIDTH + TILE_WIDTH;
+                if(dx > 0)
+                {
+                    setX(w * TILE_WIDTH - sz.x);
+                    dx = 0.f;
+                    on_collide();
+                }
+                if(dx < 0)
+                {
+                    setX(w * TILE_WIDTH + TILE_WIDTH);
+                    dx = 0.f;
+                    on_collide();
+                }
             }
         }
 }
@@ -94,23 +108,24 @@ void DynamicUnit::updateCollideY()
      * Обработка столкновений по y
      */
     const Vector2 &sz = getSize();
+    const Vector2 &_pos = getPosition();
     const vector<vector<uint>> &map = _map_interaction;
-    for(uint h=_pos.y/TILE_HEIGHT; h<(_pos.y+sz.y)/TILE_HEIGHT; h++)
-        for(uint w=_pos.x/TILE_WIDTH; w<(_pos.x+sz.x)/TILE_WIDTH; w++)
+    for(uint h = _pos.y / TILE_HEIGHT; h < (_pos.y + sz.y) / TILE_HEIGHT; h++)
+        for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
             if(map[h][w] != 0)
             {
                 if(dy>0)
                 {
-                    _pos.y = h * TILE_HEIGHT - sz.y;
+                    setY(h * TILE_HEIGHT - sz.y);
                     dy = dx = 0.f;
                     on_ground = true;
                 }
-                if(dy<0)
+                else if(dy<0)
                 {
-                    _pos.y = h * TILE_HEIGHT + TILE_HEIGHT;
+                    setY(h * TILE_HEIGHT + TILE_HEIGHT);
                     dy = 0.f;
-                    
+                    on_collide();
                 }
             }
         }

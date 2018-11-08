@@ -7,8 +7,7 @@
 
 #include "Unit.h"
 
-Unit::Unit(const Vector2& pos):
-_pos(pos)
+Unit::Unit(const Vector2& pos)
 {
     setPosition(pos);
 }

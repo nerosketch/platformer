@@ -4,15 +4,11 @@
  * 
  * Created on October 21, 2018, 9:43 AM
  */
-
+#include <iostream>
 #include "resources.h"
 #include "CollidedUnit.h"
 #include "Level.h"
 
-
-#ifdef DBG
-#include <iostream>
-#endif
 
 
 Level::Level()
@@ -37,41 +33,65 @@ Level::~Level()
 /*
 * Загружаем статичные блоки, с ними можно взаимодействовать
 */
-void Level::_load_terrain(LAYER& lay, const ResAnim *p_res_anim)
+void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
 {
-    uint block_index_counter = 0;
-    Vector2 pos;
+    const Vector2 block_size(TILE_WIDTH, TILE_HEIGHT);
 
-    // карта взаимодействий
-    map_interaction.resize(lay.options.height);
-
-    for(uint col=0; col<lay.options.height; col++)
+    if(lays.size() < 1)
     {
-        vector<uint> &line = map_interaction[col];
-        line.resize(lay.options.width);
-
-        for(uint row=0; row<lay.options.width; row++)
-        {
-
-            pos.x = row * TILE_WIDTH;
-
-            const uint block_id = lay.int_data[block_index_counter++];
-
-            if(block_id != 0)
-            {
-                const shared_ptr<Point> res_coords = lay.get_coords(block_id);
-
-                // Добавим блок
-                spCollidedUnit block = new CollidedUnit(pos, p_res_anim, res_coords);
-                addChild(block);
-            }
-
-            line[row] = block_id;
-        }
-        pos.y = col * TILE_HEIGHT;
-
+        cerr << "ERROR: layers count less than one" << endl;
+        return;
     }
 
+    const uint layer_height = lays[0].options.height;
+
+    // карта взаимодействий
+    map_interaction.resize(layer_height);
+
+    for(const LAYER& lay : lays)
+    {
+        uint block_index_counter = 0;
+        Vector2 pos;
+
+        for(uint col=0; col<lay.options.height; col++)
+        {
+            vector<uint> &line = map_interaction[col];
+
+            if(line.size() < lay.options.width)
+                line.resize(lay.options.width);
+
+            for(uint row=0; row<lay.options.width; row++)
+            {
+
+                pos.x = row * TILE_WIDTH;
+
+                const uint block_id = lay.int_data[block_index_counter++];
+
+                if(block_id != 0)
+                {
+                    const shared_ptr<Point> res_coords = lay.get_coords(block_id);
+
+                    // Добавим блок
+                    spCollidedUnit block = new CollidedUnit(pos, p_res_anim, res_coords);
+                    block->setSize(block_size);
+                    //block->setPriority(lay.options.z_order);
+                    addChild(block);
+
+                    line[row] = block_id;
+                }
+
+            }
+            pos.y = col * TILE_HEIGHT;
+
+        }
+    }
+
+    /*Vector2 pos(0.f, 0.f);
+    shared_ptr<Point> res_coords(new Point(0, 0));
+    spCollidedUnit block = new CollidedUnit(pos, p_res_anim, res_coords);
+    block->setSize(block_size);
+    //block->setPriority(lay.options.z_order);
+    addChild(block);*/
 }
 
 
@@ -125,7 +145,7 @@ GameError Level::load_stage(const string fname)
         _load_background(lay, p_res_anim);
 
     // Загрузим землю
-    _load_terrain(ol.terrain, p_res_anim);
+    _load_terrain(ol.terrains, p_res_anim);
 
     /*for(char& c : line)
     {
@@ -165,8 +185,27 @@ GameError Level::load_stage(const string fname)
     pos.y += 32.0f;
     }*/
 
+
+    // установим факелы
+    ResAnim *torch_res_anim = res::resources.getResAnim("torch_anim");
+    Vector2 pos(0.f, 317.f);
+    for(uint n=0; n < 7; n++)
+    {
+        pos.x = 350 + (112.f * n);
+
+        // Загрузим анимированный факел
+        spSprite block = new Sprite;
+        //block->setSize(TILE_WIDTH, TILE_HEIGHT);
+        block->setPosition(pos);
+        block->setResAnim(torch_res_anim);
+        block->addTween(Sprite::TweenAnim(getResAnim()), RANDOM_RANGE(400, 500), -1);
+        addChild(block);
+    }
+
+
     // Загрузим игрока
-    Vector2 pos(80.f, 160.f);
+    pos.y = 160.f;
+    pos.x = 80.f;
     player = new Player(pos);
     GameError err = player->init();
     if(err != 0)
@@ -175,16 +214,6 @@ GameError Level::load_stage(const string fname)
     }
     player->SetMapInteraction(map_interaction);
     addChild(player);
-
-
-    // Загрузим анимированный объект
-    spSprite block = new Sprite;
-    //block->setSize(TILE_WIDTH, TILE_HEIGHT);
-    pos.x = 130.f;
-    block->setPosition(pos);
-    block->setResAnim(res::resources.getResAnim("torch_anim"));
-    block->addTween(Sprite::TweenAnim(getResAnim()), 500, -1);
-    addChild(block);
 
     return GameError();
 }

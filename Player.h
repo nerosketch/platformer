@@ -40,6 +40,7 @@ public:
     void doUpdate(const UpdateState& us) override;
 
     void on_collide() override;
+    void on_fall_down() override;
 };
 
 #endif /* PLAYER_H */

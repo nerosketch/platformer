@@ -13,7 +13,7 @@ Unit(pos)
 }
 
 StaticUnit::StaticUnit(const StaticUnit& orig):
-StaticUnit(orig._pos)
+StaticUnit(orig.getPosition())
 {
 }
 

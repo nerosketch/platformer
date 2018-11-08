@@ -33,7 +33,7 @@ private:
     vector<Unit> units;
     spPlayer player;
 
-    void _load_terrain(LAYER&, const ResAnim*);
+    void _load_terrain(const vector<LAYER>&, const ResAnim*);
     void _load_background(LAYER&, const ResAnim*);
 
 public:

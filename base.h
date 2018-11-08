@@ -8,6 +8,7 @@
 #ifndef BASE_H
 #define BASE_H
 
+#include <stdlib.h>
 #include <string>
 
 
@@ -22,6 +23,7 @@ public:
     virtual ~Base();*/
 };
 
+#define RANDOM_RANGE(min, max)  (rand()%(max-min+1) + min)
 
 
 class GameError{
