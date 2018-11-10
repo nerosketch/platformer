@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <set path="res/img"/>
-    <atlas>
+    <atlas linearFilter="false" clamp2edge="false">
         <image file="anim_m.png" cols="8"/>
         <image file="pixeland.png" cols="40" rows="91"/>
 	<image file="torch_anim.png" cols="8"/>
