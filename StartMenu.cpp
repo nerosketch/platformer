@@ -9,6 +9,7 @@
 #include "Btn.h"
 #include "Level.h"
 #include "resources.h"
+#include "TextPanel.h"
 #include "StartMenu.h"
 
 #ifdef SOUND_ENABLE
@@ -44,7 +45,11 @@ StartMenu::StartMenu()
     pos.y += 54;
     exit_btn->setPosition(pos);
     addChild(exit_btn);
-    
+
+
+    spTextPanel tex = new TextPanel("Example text");
+    addChild(tex);
+
 #ifdef DBG
     cout << "StartMenu::StartMenu" << endl;
 #endif

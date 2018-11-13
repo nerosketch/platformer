@@ -6,6 +6,7 @@
         <image file="pixeland.png" cols="40" rows="91"/>
 	<image file="torch_anim.png" cols="8"/>
 	<image file="landscape_tileset.png" cols="24" rows="9"/>
+        <image file="panel.png" cols="3" rows="3"/>
     </atlas>
 
     <set path="res/img/menu"/>
@@ -14,4 +15,7 @@
         <image file="exit_button.png" cols="2"/>
         <image file="background.png"/>
     </atlas>
+
+    <set path="res/fonts"/>
+    <font file="stamper.fnt"/>
 </resources>
