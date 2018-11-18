@@ -1,0 +1,19 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a8be016..25078ca 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,6 +5,7 @@ set(OXYGINESOUND_INCLUDE_DIRS
+ 	${CMAKE_CURRENT_SOURCE_DIR}/src
+ 	${CMAKE_CURRENT_SOURCE_DIR}/dependencies/tremor/Tremor
+ 	${CMAKE_CURRENT_SOURCE_DIR}/dependencies/libogg/include
++	../oxygine-framework/oxygine/src
+ 	)
+ 
+ 
+@@ -127,4 +128,4 @@ set(OXYGINESOUND_INCLUDE_DIRS
+ 
+ set(OXYGINESOUND_INCLUDE_DIRS ${OXYGINESOUND_INCLUDE_DIRS} PARENT_SCOPE)
+ set(OXYGINESOUND_LIBS ${OXYGINESOUND_LIBS} PARENT_SCOPE)
+-set(OXYGINESOUND_DEFINITIONS ${OXYGINESOUND_DEFINITIONS} PARENT_SCOPE)
+\ No newline at end of file
++set(OXYGINESOUND_DEFINITIONS ${OXYGINESOUND_DEFINITIONS} PARENT_SCOPE)
