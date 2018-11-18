@@ -246,5 +246,5 @@ InputEvent::~InputEvent()
 
     // удалим себя из получателей событий
     auto &it = gp_inp_event_cont->_obj_instances;
-    std:remove(it.begin(), it.end(), this);
+    remove(it.begin(), it.end(), this);
 }

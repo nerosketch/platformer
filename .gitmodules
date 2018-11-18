@@ -1,0 +1,9 @@
+[submodule "oxygine-framework"]
+	path = lib/oxygine-framework
+	url = https://github.com/oxygine/oxygine-framework.git
+[submodule "lib/oxygine-sound"]
+	path = lib/oxygine-sound
+	url = https://github.com/oxygine/oxygine-sound.git
+[submodule "lib/oxygine-framework"]
+	path = lib/oxygine-framework
+	url = https://github.com/oxygine/oxygine-framework.git

@@ -36,7 +36,7 @@ public:
     error_code(code),
     error_text(text){}
 
-    inline bool operator == (const int& dig)
+    inline bool operator == (const uint& dig)
     {
         return error_code==dig;
     }
@@ -44,7 +44,7 @@ public:
     {
         return error_text==text;
     }
-    inline bool operator !=(const int& dig)
+    inline bool operator !=(const uint& dig)
     {
         return error_code!=dig;
     }

@@ -15,7 +15,8 @@
 
 
 DynamicUnit::DynamicUnit(const Vector2& pos):
-Unit(pos), dx(0.f), dy(0.f), map_height(0), map_width(0), on_ground(false)
+Unit(pos), dx(0.f), dy(0.f), on_ground(false),
+map_width(0), map_height(0)
 {
 }
 

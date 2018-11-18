@@ -10,7 +10,7 @@
 
 
 // Включаем звук
-//#define SOUND_ENABLE
+#define SOUND_ENABLE
 
 
 #ifdef DBG

@@ -57,7 +57,8 @@ public:
     void SetMapInteraction(const vector<vector<uint>>&);
 
     //ширина и высота карты
-    uint map_width, map_height;
+    uint map_width;
+    uint map_height;
 
     //void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
 
