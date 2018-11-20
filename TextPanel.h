@@ -32,10 +32,11 @@ public:
     TextPanel(const TextPanel& orig);
     virtual ~TextPanel();
 
-    void setText(string text);
+    void setText(const string& text);
 
     void sizeChanged(const Vector2& size) override;
 
+    Vector2 border_size;
 };
 
 #endif /* BASEINTERFACE_H */

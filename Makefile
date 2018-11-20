@@ -38,6 +38,8 @@ SOURCES=BaseCollider.cpp \
 	Unit.cpp \
 	main.cpp
 
+DEPS := $(COBJS:.o=.d)
+-include $(DEPS)
 
 OBJECTS=$(SOURCES:.cpp=.o)
 
@@ -49,7 +51,10 @@ $(EXECUTABLE): $(OBJECTS)
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@
 
+%.o: %.c
+	$(CC) -c $(CFLAGS) -MM -MF $(patsubst %.o,%.d,$@) -o $@ $<
+
 clean:
-	rm -rfv *.o *.d $(EXECUTABLE)
+	rm -rf *.o *.d $(EXECUTABLE)
 
 .PHONY: clean

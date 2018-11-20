@@ -10,9 +10,8 @@
 #include "TextPanel.h"
 
 
-TextPanel::TextPanel(const string text)
+TextPanel::TextPanel(const string text): border_size(16.f, 16.f)
 {
-    setPosition(130.f, 130.f);
     //setColor(89, 86, 82, 255);
 
 
@@ -30,12 +29,12 @@ TextPanel::TextPanel(const string text)
             b->setPosition(c * TILE_WIDTH, r * TILE_HEIGHT);
             addChild(b);
         }
-    setSize(128.f, 64.f);
+    //setSize(128.f, 64.f);
 
 
     text_field = new TextField;
     text_field->setFont(res::resources.getResFont("stamper"));
-    text_field->setAlign(TextStyle::VerticalAlign::VALIGN_MIDDLE, TextStyle::HorizontalAlign::HALIGN_MIDDLE);
+    //text_field->setAlign(TextStyle::VerticalAlign::VALIGN_TOP, TextStyle::HorizontalAlign::HALIGN_LEFT);
     text_field->setColor(Color(Color::Thistle));
     addChild(text_field);
 
@@ -55,34 +54,65 @@ TextPanel::~TextPanel()
 
 void TextPanel::sizeChanged(const Vector2& size)
 {
-    float p = size.x - TILE_WIDTH;
+    // Положение правой стороны
+    float p = size.x - TILE_WIDTH + border_size.x;
     borders[2]->setX(p);
     borders[5]->setX(p);
     borders[8]->setX(p);
 
-    Vector2 ch_size(size.x - TILE_WIDTH * 2.f, TILE_HEIGHT);
+    // Положение левой стороны
+    if(border_size.x > 0.f)
+    {
+        borders[0]->setX(-border_size.x);
+        borders[3]->setX(-border_size.x);
+        borders[6]->setX(-border_size.x);
+    }
 
+    // Ширина верхнего и нижнего ребра
+    Vector2 ch_size(size.x, TILE_HEIGHT);
+    borders[1]->setX(0.f);
     borders[1]->setSize(ch_size);
-    ch_size.y = TILE_HEIGHT;
+    borders[7]->setX(0.f);
     borders[7]->setSize(ch_size);
 
-    p = size.y - TILE_HEIGHT;
+    // Позиция нижней стороны
+    p = size.y - TILE_HEIGHT + border_size.y;
     borders[6]->setY(p);
     borders[7]->setY(p);
     borders[8]->setY(p);
+    
+    // позиция верхней стороны
+    if(border_size.y > 0.f)
+    {
+        borders[0]->setY(-border_size.y);
+        borders[1]->setY(-border_size.y);
+        borders[2]->setY(-border_size.y);
+    }
 
-    ch_size.y = size.y - TILE_HEIGHT * 2.f;
+    // Высота левой и правой стороны
+    ch_size.y = size.y;
     ch_size.x = TILE_WIDTH;
     borders[3]->setSize(ch_size);
+    borders[3]->setY(0.f);
     borders[5]->setSize(ch_size);
-    
-    ch_size.x = size.x - TILE_WIDTH * 2.f;
-    ch_size.y = size.y - TILE_HEIGHT * 2.f;
-    borders[4]->setSize(ch_size);
+    borders[5]->setY(0.f);
+
+    // Размер центрального блока
+    //ch_size.x = size.x;
+    //ch_size.y = size.y - TILE_HEIGHT * 2.f;
+    borders[4]->setPosition(0.f, 0.f);
+    borders[4]->setSize(size);
 }
 
 
-void TextPanel::setText(string text)
+void TextPanel::setText(const string& text)
 {
-    
+    text_field->setText(text);
+
+    RectF b;
+    text_field->getBounds(b);
+    //const Vector2 &sz = text_field->getSize();
+
+    //setPosition(b.pos);
+    setSize(b.size);
 }
