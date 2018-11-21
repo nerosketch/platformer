@@ -26,7 +26,6 @@ class TextPanel : public Base, public Box9Sprite
 private:
     INHERITED(Box9Sprite);
     spTextField text_field;
-    spBtn ok_btn;
 
 public:
     TextPanel(const string text);
@@ -35,7 +34,9 @@ public:
 
     void setText(const string& text);
 
-    void on_ok_click(Event*);
+    void sizeChanged(const Vector2& size) override;
+
+    spBtn ok_btn;
 };
 
 #endif /* BASEINTERFACE_H */

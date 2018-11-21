@@ -9,7 +9,6 @@
 #include "Btn.h"
 #include "Level.h"
 #include "resources.h"
-#include "TextPanel.h"
 #include "StartMenu.h"
 
 #ifdef SOUND_ENABLE
@@ -47,10 +46,11 @@ StartMenu::StartMenu()
     addChild(exit_btn);
 
 
-    spTextPanel tex = new TextPanel("npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
-                                    "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr...");
+    /*tex = new TextPanel("npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
+                        "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr...");
     tex->setPosition(130.f, 330.f);
-    addChild(tex);
+    tex->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_panel_button_clicked));
+    addChild(tex);*/
 
 #ifdef DBG
     cout << "StartMenu::StartMenu" << endl;

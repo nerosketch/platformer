@@ -25,13 +25,13 @@ TextPanel::TextPanel(const string text)
     text_field->setPosition(TILE_WIDTH, 11.f);
     addChild(text_field);
 
-    setText(text);
-    
     // Ok button
-    ok_btn = new Btn("start_button");
+    ok_btn = new Btn("close_button");
     ok_btn->setPosition(50.f, 20.f);
-    ok_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &TextPanel::on_ok_click));
+    // ok_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &TextPanel::on_ok_click));
     addChild(ok_btn);
+
+    setText(text);
 }
 
 
@@ -45,10 +45,16 @@ TextPanel::~TextPanel()
 }
 
 
-/*void TextPanel::sizeChanged(const Vector2& size)
+void TextPanel::sizeChanged(const Vector2& size)
 {
     Box9Sprite::sizeChanged(size);
-}*/
+
+    if(ok_btn)
+    {
+        ok_btn->setX(size.x - 13.f);
+        ok_btn->setY(-4.f);
+    }
+}
 
 
 void TextPanel::setText(const string& text)
@@ -57,16 +63,9 @@ void TextPanel::setText(const string& text)
 
     RectF b;
     text_field->getBounds(b);
-    //const Vector2 &sz = text_field->getSize();
 
     //setPosition(b.pos);
     b.size.x += TILE_WIDTH * 2.f;
     b.size.y += TILE_HEIGHT * 2.f;
     setSize(b.size);
-}
-
-
-void TextPanel::on_ok_click(Event*)
-{
-    
 }
