@@ -33,9 +33,10 @@ TextPanel::TextPanel(const string text): border_size(16.f, 16.f)
 
 
     text_field = new TextField;
-    text_field->setFont(res::resources.getResFont("stamper"));
+    text_field->setFont(res::resources.getResFont("pixograd"));
     //text_field->setAlign(TextStyle::VerticalAlign::VALIGN_TOP, TextStyle::HorizontalAlign::HALIGN_LEFT);
     text_field->setColor(Color(Color::Thistle));
+    text_field->setFontSize(12);
     addChild(text_field);
 
     setText(text);

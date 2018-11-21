@@ -17,5 +17,5 @@
     </atlas>
 
     <set path="res/fonts"/>
-    <font file="stamper.fnt"/>
+    <font file="pixograd.fnt"/>
 </resources>

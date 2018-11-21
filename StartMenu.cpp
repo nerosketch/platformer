@@ -47,7 +47,9 @@ StartMenu::StartMenu()
     addChild(exit_btn);
 
 
-    spTextPanel tex = new TextPanel("Example text");
+    spTextPanel tex = new TextPanel("npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
+                                    "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr...");
+    tex->setPosition(130.f, 330.f);
     addChild(tex);
 
 #ifdef DBG
