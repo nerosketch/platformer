@@ -11,6 +11,7 @@
 #include <string>
 #include <oxygine-framework.h>
 #include "base.h"
+#include "Btn.h"
 
 
 using namespace std;
@@ -20,12 +21,12 @@ using namespace oxygine;
 DECLARE_SMART(TextPanel, spTextPanel);
 
 
-class TextPanel : public Base, public Actor
+class TextPanel : public Base, public Box9Sprite
 {
 private:
-    INHERITED(Actor);
+    INHERITED(Box9Sprite);
     spTextField text_field;
-    spSprite borders[9];
+    spBtn ok_btn;
 
 public:
     TextPanel(const string text);
@@ -34,9 +35,7 @@ public:
 
     void setText(const string& text);
 
-    void sizeChanged(const Vector2& size) override;
-
-    Vector2 border_size;
+    void on_ok_click(Event*);
 };
 
 #endif /* BASEINTERFACE_H */
