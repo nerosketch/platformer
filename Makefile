@@ -31,7 +31,7 @@ SOURCES=BaseCollider.cpp \
 	SoundManager.cpp \
 	StageManager.cpp \
 	StartMenu.cpp \
-	StaticCollider.cpp \
+	InteractiveUnit.cpp \
 	TextPanel.cpp \
 	Unit.cpp \
 	main.cpp

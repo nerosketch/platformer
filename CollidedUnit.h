@@ -21,7 +21,7 @@ using namespace oxygine;
 DECLARE_SMART(CollidedUnit, spCollidedUnit);
 
 
-class CollidedUnit :public StaticUnit
+class CollidedUnit : public StaticUnit
 {
 public:
     CollidedUnit(const Vector2& pos, const ResAnim *p_res_anim, const shared_ptr<Point> res_coords);

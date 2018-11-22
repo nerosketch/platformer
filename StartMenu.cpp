@@ -9,6 +9,7 @@
 #include "Btn.h"
 #include "Level.h"
 #include "resources.h"
+#include "InteractiveUnit.h"
 #include "StartMenu.h"
 
 #ifdef SOUND_ENABLE
@@ -51,6 +52,9 @@ StartMenu::StartMenu()
     tex->setPosition(130.f, 330.f);
     tex->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_panel_button_clicked));
     addChild(tex);*/
+
+    spInteractiveUnit iu = new InteractiveUnit(Vector2(130.f, 330.f));
+    addChild(iu);
 
 #ifdef DBG
     cout << "StartMenu::StartMenu" << endl;
