@@ -12,7 +12,7 @@
 #ifdef SOUND_ENABLE
 #include "SoundManager.h"
 #endif
-#include "DynamicUnit.h"
+#include "Unit.h"
 
 
 using namespace oxygine;
@@ -39,7 +39,6 @@ public:
 
     void doUpdate(const UpdateState& us) override;
 
-    void on_collide() override;
     void on_fall_down() override;
 };
 

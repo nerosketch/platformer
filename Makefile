@@ -18,7 +18,6 @@ SOURCES=BaseCollider.cpp \
 	Btn.cpp \
 	CollidedUnit.cpp \
 	DebugRectSprite.cpp \
-	DynamicUnit.cpp \
 	Enemy.cpp \
 	Game.cpp \
 	GameStage.cpp \
@@ -33,7 +32,6 @@ SOURCES=BaseCollider.cpp \
 	StageManager.cpp \
 	StartMenu.cpp \
 	StaticCollider.cpp \
-	StaticUnit.cpp \
 	TextPanel.cpp \
 	Unit.cpp \
 	main.cpp

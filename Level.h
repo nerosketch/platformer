@@ -15,6 +15,7 @@
 #include "InputEvent.h"
 #include "Landscape.h"
 #include "GameStage.h"
+#include "Unit.h"
 
 
 using namespace std;
@@ -45,7 +46,7 @@ public:
     GameError load_stage(const string fname);
 
     // карта для взаимодействий
-    vector<vector<uint>> map_interaction;
+    vector<vector<StaticUnit*>> map_interaction;
 
     void doUpdate(const UpdateState& us) override;
 

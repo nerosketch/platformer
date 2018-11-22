@@ -10,6 +10,11 @@
 #include "CollidedUnit.h"
 
 
+#ifdef DBG
+#include <iostream>
+#endif
+
+
 CollidedUnit::CollidedUnit(const Vector2& pos, const ResAnim *p_res_anim, const shared_ptr<Point> res_coords):
 CollidedUnit(pos, p_res_anim, res_coords->x, res_coords->y)
 {
@@ -43,3 +48,6 @@ GameError CollidedUnit::init()
 {
     return GameError();
 }
+
+void CollidedUnit::on_collide(DynamicUnit*)
+{}

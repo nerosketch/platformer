@@ -55,7 +55,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
 
         for(uint col=0; col<lay.options.height; col++)
         {
-            vector<uint> &line = map_interaction[col];
+            vector<StaticUnit*> &line = map_interaction[col];
 
             if(line.size() < lay.options.width)
                 line.resize(lay.options.width);
@@ -77,7 +77,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
                     //block->setPriority(lay.options.z_order);
                     addChild(block);
 
-                    line[row] = block_id;
+                    line[row] = block.get();
                 }
 
             }

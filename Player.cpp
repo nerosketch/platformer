@@ -95,19 +95,6 @@ void Player::doUpdate(const UpdateState& us)
 }
 
 
-void Player::on_collide()
-{
-#ifdef DBG
-    cout << "Player::on_collide" << endl;
-#endif
-
-#ifdef SOUND_ENABLE
-    SoundManager &sound_manager = SoundManager::get_instance();
-    sound_manager.hit();
-#endif
-}
-
-
 // Упал вниз карты
 void Player::on_fall_down()
 {

@@ -11,7 +11,7 @@
 #include <memory>
 #include <oxygine-framework.h>
 
-#include "StaticUnit.h"
+#include "Unit.h"
 
 
 using namespace std;
@@ -30,6 +30,8 @@ public:
     virtual ~CollidedUnit();
 
     GameError init() override;
+
+    void on_collide(DynamicUnit*) override;
 
 };
 

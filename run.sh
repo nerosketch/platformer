@@ -1,5 +1,6 @@
 git submodule init
 git submodule update
+mkdir -p lib
 cd lib/oxygine-framework/
 cmake .
 make -j3

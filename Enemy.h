@@ -8,7 +8,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "DynamicUnit.h"
+#include "Unit.h"
 
 
 class Enemy : public DynamicUnit
