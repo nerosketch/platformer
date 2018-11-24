@@ -72,6 +72,9 @@ void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
                 {
                     const Point res_coords = lay.get_coords(block_id);
 
+                    RectF r;
+                    r.isIntersecting();
+
                     // Добавим блок
                     spCollidedUnit block = new CollidedUnit(pos, p_res_anim, res_coords);
                     block->setSize(block_size);
@@ -86,6 +89,10 @@ void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
 
         }
     }
+
+    // Ставим сундуки для взаимодействий
+    spInteractiveUnit iu = new InteractiveUnit(Vector2(130.f, 330.f));
+    addChild(iu);
 
 }
 
@@ -196,11 +203,6 @@ GameError Level::load_stage(const string fname)
         block->addTween(Sprite::TweenAnim(getResAnim()), RANDOM_RANGE(400, 500), -1);
         addChild(block);
     }
-    
-    
-    // Ставим сундуки для взаимодействий
-    spInteractiveUnit iu = new InteractiveUnit(Vector2(130.f, 330.f));
-    addChild(iu);
 
 
     // Загрузим игрока

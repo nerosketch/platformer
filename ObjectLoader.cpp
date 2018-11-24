@@ -103,6 +103,19 @@ void ObjectLoader::open(const string fname)
         {
             p_layer = &landscape;
         }
+        else if(v.isMember("objects"))
+        {
+            for(const auto &vo : v["objects"])
+            {
+                objects.push_back(RectF(
+                    vo["x"].asFloat(),
+                    vo["y"].asFloat(),
+                    vo["width"].asFloat(),
+                    vo["height"].asFloat()
+                ));
+            }
+            continue;
+        }
         else
             continue;
 

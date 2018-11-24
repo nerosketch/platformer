@@ -60,6 +60,16 @@ public:
 };
 
 
+/*struct MAP_OBJECT
+{
+    RectF rect;
+    enum
+    {
+        FAKE_GIFT
+    };
+};*/
+
+
 class ObjectLoader : public Base {
 public:
     ObjectLoader();
@@ -70,6 +80,7 @@ public:
     vector<LAYER> terrains;
     LAYER landscape;
     vector<struct TILESET> tilesets;
+    vector<RectF> objects;
 
     const struct TILESET *get_tileset_by_name(string name) const;
     const struct TILESET *get_tileset_by_id(uint id) const;
