@@ -7,6 +7,7 @@
 #include <iostream>
 #include "resources.h"
 #include "CollidedUnit.h"
+#include "InteractiveUnit.h"
 #include "Level.h"
 
 
@@ -69,7 +70,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
 
                 if(block_id != 0)
                 {
-                    const shared_ptr<Point> res_coords = lay.get_coords(block_id);
+                    const Point res_coords = lay.get_coords(block_id);
 
                     // Добавим блок
                     spCollidedUnit block = new CollidedUnit(pos, p_res_anim, res_coords);
@@ -106,13 +107,13 @@ void Level::_load_background(LAYER& lay, const ResAnim *p_res_anim)
 
             if(block_id != 0)
             {
-                const shared_ptr<Point> res_coords = lay.get_coords(block_id);
+                const Point res_coords = lay.get_coords(block_id);
 
                 // Добавим блок
                 spSprite block = new Sprite;
                 block->setSize(block_size);
                 block->setPosition(pos);
-                block->setResAnim(p_res_anim, res_coords->x, res_coords->y);
+                block->setResAnim(p_res_anim, res_coords.x, res_coords.y);
                 addChild(block);
             }
 
@@ -195,17 +196,17 @@ GameError Level::load_stage(const string fname)
         block->addTween(Sprite::TweenAnim(getResAnim()), RANDOM_RANGE(400, 500), -1);
         addChild(block);
     }
+    
+    
+    // Ставим сундуки для взаимодействий
+    spInteractiveUnit iu = new InteractiveUnit(Vector2(130.f, 330.f));
+    addChild(iu);
 
 
     // Загрузим игрока
     pos.y = 160.f;
     pos.x = 80.f;
     player = new Player(pos);
-    GameError err = player->init();
-    if(err != 0)
-    {
-        return err;
-    }
     player->SetMapInteraction(map_interaction);
     addChild(player);
 

@@ -31,7 +31,7 @@ public:
     Player(const Player& orig);
     virtual ~Player();
 
-    GameError init() override;
+    //GameError init() override;
 
     void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
 

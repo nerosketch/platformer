@@ -134,24 +134,24 @@ void ObjectLoader::open(const string fname)
 
 }
 
-shared_ptr<Point> LAYER::get_coords(const uint block_index) const
+Point LAYER::get_coords(const uint block_index) const
 {
-    shared_ptr<Point> p(new Point());
+    Point p;
 
     const uint row_len = p_tileset->columns;
 
     // строка
     if(block_index == 0)
     {
-        p->y = 0;
+        p.y = 0;
     }else
     {
-        p->y = block_index / row_len;
+        p.y = block_index / row_len;
         if(block_index % row_len == 0)
-            p->y -= 1;
+            p.y -= 1;
     }
 
-    p->x = row_len - (((p->y+1) * row_len) - block_index) - 1;
+    p.x = row_len - (((p.y+1) * row_len) - block_index) - 1;
 
     return p;
 }

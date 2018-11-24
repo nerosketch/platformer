@@ -24,13 +24,13 @@ Landscape::Landscape(const LAYER& lay, const ResAnim *p_res_anim)
 
             if(block_id != 0)
             {
-                const shared_ptr<Point> res_coords = lay.get_coords(block_id);
+                const Point res_coords = lay.get_coords(block_id);
 
                 // Добавим блок
                 spSprite block = new Sprite;
                 block->setSize(block_size);
                 block->setPosition(pos);
-                block->setResAnim(p_res_anim, res_coords->x, res_coords->y);
+                block->setResAnim(p_res_anim, res_coords.x, res_coords.y);
                 addChild(block);
             }
 

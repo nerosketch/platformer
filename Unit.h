@@ -24,7 +24,7 @@ public:
     Unit(const Unit& orig);
     virtual ~Unit();
 
-    virtual GameError init() = 0;
+    //virtual GameError init() = 0;
 };
 
 

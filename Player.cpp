@@ -19,6 +19,7 @@ using namespace std;
 Player::Player(const Vector2 &pos):
 DynamicUnit(pos)
 {
+    setResAnim(res::resources.getResAnim("anim_m"));
     //setAnchor(0.f, 0.f);
 
 /*#ifdef DBG
@@ -37,12 +38,10 @@ Player::~Player()
 {
 }
 
-GameError Player::init()
+/*GameError Player::init()
 {
-    setResAnim(res::resources.getResAnim("anim_m"));
-
     return GameError();
-}
+}*/
 
 
 void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)

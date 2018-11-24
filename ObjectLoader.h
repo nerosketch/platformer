@@ -10,7 +10,6 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 #include <sys/types.h>
 #include "oxygine-framework.h" 
 #include "base.h"
@@ -54,7 +53,7 @@ public:
     vector<uint> int_data;
     uint tileheight;
 
-    shared_ptr<Point> get_coords(const uint block_index) const;
+    Point get_coords(const uint block_index) const;
 
     struct TILESET *p_tileset;
 

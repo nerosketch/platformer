@@ -15,8 +15,8 @@
 #endif
 
 
-CollidedUnit::CollidedUnit(const Vector2& pos, const ResAnim *p_res_anim, const shared_ptr<Point> res_coords):
-CollidedUnit(pos, p_res_anim, res_coords->x, res_coords->y)
+CollidedUnit::CollidedUnit(const Vector2& pos, const ResAnim *p_res_anim, const Point& res_coords):
+CollidedUnit(pos, p_res_anim, res_coords.x, res_coords.y)
 {
 }
 
@@ -44,10 +44,10 @@ CollidedUnit::~CollidedUnit()
 {
 }
 
-GameError CollidedUnit::init()
+/*GameError CollidedUnit::init()
 {
     return GameError();
-}
+}*/
 
 void CollidedUnit::on_collide(DynamicUnit*)
 {}

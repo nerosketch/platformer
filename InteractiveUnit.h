@@ -25,7 +25,7 @@ public:
     InteractiveUnit(const InteractiveUnit& orig);
     virtual ~InteractiveUnit();
 
-    GameError init() override;
+    //GameError init() override;
     void on_collide(DynamicUnit*) override;
 };
 
