@@ -45,6 +45,8 @@ StartMenu::StartMenu()
     exit_btn->setPosition(pos);
     addChild(exit_btn);
 
+    Image tst;
+    tst.init(13.f, 18.f, TF_R8G8B8A8);
 
     /*tex = new TextPanel("npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
                         "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr...");

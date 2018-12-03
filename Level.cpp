@@ -72,9 +72,6 @@ void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
                 {
                     const Point res_coords = lay.get_coords(block_id);
 
-                    RectF r;
-                    r.isIntersecting();
-
                     // Добавим блок
                     spCollidedUnit block = new CollidedUnit(pos, p_res_anim, res_coords);
                     block->setSize(block_size);
