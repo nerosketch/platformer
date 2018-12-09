@@ -23,7 +23,7 @@ ObjectLoader::~ObjectLoader()
 {
 }
 
-void _load_tileset(struct TILESET *p_tileset, const string &fname)
+void _load_tileset(TILESET *p_tileset, const string &fname)
 {
     //load file to buffer
     ox::file::buffer bf;
@@ -66,18 +66,19 @@ void ObjectLoader::open(const string fname)
      * на последний tileset. Потому что я не знаю как
      * в формате tiled связаны слой и tileset.
      */
-    struct TILESET *p_last_tileset;
+    spTILESET p_last_tileset;
 
     for(const auto &v : value["tilesets"])
     {
-        struct TILESET &tileset = tilesets[tilesets_counter++];
+        spTILESET tileset = new TILESET;
+        tilesets[tilesets_counter++] = tileset;
 
         string tileset_name = v["source"].asString();
 
-        _load_tileset(&tileset, tileset_name);
-        tileset.firstgid = v["firstgid"].asUInt();
+        _load_tileset(tileset.get(), tileset_name);
+        tileset->firstgid = v["firstgid"].asUInt();
 
-        p_last_tileset = &tileset;
+        p_last_tileset = tileset;
     }
 
 
@@ -147,6 +148,19 @@ void ObjectLoader::open(const string fname)
 
 }
 
+
+LAYER::LAYER()
+{}
+
+LAYER::LAYER(const LAYER& o) : options(o.options),
+        int_data(o.int_data), tileheight(o.tileheight),
+        p_tileset(o.p_tileset)
+{
+}
+
+LAYER::~LAYER(){}
+
+
 Point LAYER::get_coords(const uint block_index) const
 {
     Point p;
@@ -170,24 +184,40 @@ Point LAYER::get_coords(const uint block_index) const
 }
 
 
-const struct TILESET *ObjectLoader::get_tileset_by_name(string name) const
+TILESET::TILESET() : firstgid(0), columns(0), image(""),
+    name(""), imageheight(0), imagewidth(0), tilecount(0),
+    tileheight(0), tilewidth(0)
+{}
+
+TILESET::TILESET(const TILESET& o) : firstgid(o.firstgid),
+        columns(o.columns), image(o.image), name(o.name),
+        imageheight(o.imageheight), imagewidth(o.imagewidth),
+        tilecount(o.tilecount), tileheight(o.tileheight),
+        tilewidth(o.tilewidth)
+{}
+
+TILESET::~TILESET()
+{}
+
+spTILESET ObjectLoader::get_tileset_by_name(string name)
 {
     for(const auto &v : tilesets)
     {
-        if(v.name == name)
+        if(v->name == name)
         {
-            return &v;
+            return v;
         }
     }
     return nullptr;
 }
-const struct TILESET *ObjectLoader::get_tileset_by_id(uint id) const
+
+spTILESET ObjectLoader::get_tileset_by_id(uint id)
 {
     for(const auto &v : tilesets)
     {
-        if(v.firstgid == id)
+        if(v->firstgid == id)
         {
-            return &v;
+            return v;
         }
     }
     return nullptr;

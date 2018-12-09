@@ -94,7 +94,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, const ResAnim *p_res_anim)
 }
 
 
-void Level::_load_background(LAYER& lay, const ResAnim *p_res_anim)
+/*void Level::_load_background(LAYER& lay, const ResAnim *p_res_anim)
 {
     uint block_index_counter = 0;
     Vector2 pos;
@@ -125,7 +125,7 @@ void Level::_load_background(LAYER& lay, const ResAnim *p_res_anim)
         pos.y = col * TILE_HEIGHT;
 
     }
-}
+}*/
 
 
 GameError Level::load_stage(const string fname)
@@ -136,12 +136,16 @@ GameError Level::load_stage(const string fname)
     const ResAnim *p_res_anim = res::resources.getResAnim("pixeland");
 
     // Загрузим пейзаж
-    landscape = new Landscape(ol.landscape, p_res_anim);
+    landscape = new TiledSprite(ol.landscape, "res/img/pixeland.png");
     addChild(landscape);
 
     // Загрузим фон
     for(LAYER &lay : ol.backgrounds)
-        _load_background(lay, p_res_anim);
+    {
+        spTiledSprite background = new TiledSprite(lay, "res/img/pixeland.png");
+        addChild(background);
+    }
+        //_load_background(lay, p_res_anim);
 
     // Загрузим землю
     _load_terrain(ol.terrains, p_res_anim);

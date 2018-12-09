@@ -13,7 +13,7 @@
 #include <oxygine-framework.h>
 #include "ObjectLoader.h"
 #include "InputEvent.h"
-#include "Landscape.h"
+#include "TiledSprite.h"
 #include "GameStage.h"
 #include "Unit.h"
 
@@ -30,13 +30,13 @@ class Level : public GameStage, public InputEvent
 private:
     INHERITED(GameStage);
 
-    spLandscape landscape;
+    spTiledSprite landscape;
 
     vector<Unit> units;
     spPlayer player;
 
     void _load_terrain(const vector<LAYER>&, const ResAnim*);
-    void _load_background(LAYER&, const ResAnim*);
+    //void _load_background(LAYER&, const ResAnim*);
 
 public:
     Level();
@@ -55,4 +55,3 @@ public:
 };
 
 #endif /* LEVEL_H */
-

@@ -15,6 +15,7 @@ LDFLAGS=-Llib/oxygine-framework/libs \
 EXECUTABLE=platphormer
 
 SOURCES=BaseCollider.cpp \
+	TiledSprite.cpp \
 	Btn.cpp \
 	CollidedUnit.cpp \
 	DebugRectSprite.cpp \
@@ -22,7 +23,6 @@ SOURCES=BaseCollider.cpp \
 	Game.cpp \
 	GameStage.cpp \
 	InputEvent.cpp \
-	Landscape.cpp \
 	Level.cpp \
 	Menu.cpp \
 	ObjectLoader.cpp \

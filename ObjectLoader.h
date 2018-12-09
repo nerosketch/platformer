@@ -32,8 +32,16 @@ struct LAYER_OPTIONS
 };
 
 
-struct TILESET
+DECLARE_SMART(TILESET, spTILESET);
+
+class TILESET : public Object
 {
+    INHERITED(Object);
+public:
+    TILESET();
+    TILESET(const TILESET&);
+    virtual ~TILESET();
+
     uint firstgid;
     uint columns;
     string image;
@@ -49,13 +57,17 @@ struct TILESET
 class LAYER
 {
 public:
+    LAYER();
+    LAYER(const LAYER&);
+    virtual ~LAYER();
+
     struct LAYER_OPTIONS options;
     vector<uint> int_data;
     uint tileheight;
 
     Point get_coords(const uint block_index) const;
 
-    struct TILESET *p_tileset;
+    spTILESET p_tileset;
 
 };
 
@@ -79,11 +91,11 @@ public:
     vector<LAYER> backgrounds;
     vector<LAYER> terrains;
     LAYER landscape;
-    vector<struct TILESET> tilesets;
+    vector<spTILESET> tilesets;
     vector<RectF> objects;
 
-    const struct TILESET *get_tileset_by_name(string name) const;
-    const struct TILESET *get_tileset_by_id(uint id) const;
+    spTILESET get_tileset_by_name(string name);
+    spTILESET get_tileset_by_id(uint id);
 
     void open(const string fname);
 
