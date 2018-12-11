@@ -5,12 +5,15 @@
  * Created on October 21, 2018, 8:41 AM
  */
 #include <algorithm>
+#include <vector>
 #include "InputEvent.h"
 
 
 #ifdef DBG
 #include <iostream>
 #endif
+
+using namespace std;
 
 
 class InputEventContainer

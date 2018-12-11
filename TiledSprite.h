@@ -11,10 +11,16 @@
 #include <string>
 #include <oxygine-framework.h>
 #include "flags.h"
+#include "Unit.h"
 
 
 using namespace std;
 using namespace oxygine;
+
+
+DECLARE_SMART(TILESET, spTILESET);
+DECLARE_SMART(TiledSprite, spTiledSprite);
+DECLARE_SMART(InteractiveTiledSprite, spInteractiveTiledSprite);
 
 
 struct LAYER_OPTIONS
@@ -29,8 +35,6 @@ struct LAYER_OPTIONS
     //string name;
 };
 
-
-DECLARE_SMART(TILESET, spTILESET);
 
 class TILESET : public Object
 {
@@ -70,7 +74,6 @@ public:
 };
 
 
-DECLARE_SMART(TiledSprite, spTiledSprite);
 
 class TiledSprite : public Sprite
 {
@@ -78,6 +81,7 @@ private:
     INHERITED(Sprite);
     void _build_vert(vertexPCT2* p_verts, const Vector2& pos, const Point& uv);
 
+protected:
     spNativeTexture nt;
 
     LAYER _layer;
@@ -87,7 +91,7 @@ private:
     void _init_mat(Image&);
 
 public:
-    TiledSprite(const LAYER&, string);
+    TiledSprite(const LAYER&, const string&);
     TiledSprite(const LAYER&, Image&);
     TiledSprite(const TiledSprite& orig);
     virtual ~TiledSprite();
@@ -95,5 +99,25 @@ public:
     void doRender(const RenderState&) override;
 };
 
-#endif /* TILEDSPRITE_H */
 
+
+
+
+
+class InteractiveTiledSprite : public TiledSprite, public InteractiveUnit
+{
+private:
+    INHERITED(TiledSprite);
+
+public:
+    InteractiveTiledSprite(const LAYER&, const string&);
+    InteractiveTiledSprite(const LAYER&, Image&);
+    InteractiveTiledSprite(const InteractiveTiledSprite& orig);
+    virtual ~InteractiveTiledSprite();
+
+    //virtual void on_collide(DynamicUnit*);
+};
+
+
+
+#endif /* TILEDSPRITE_H */

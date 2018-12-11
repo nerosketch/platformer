@@ -17,8 +17,8 @@ using namespace std;
 
 class Base
 {
-public:
-    /*Base();
+/*public:
+    Base();
     Base(const Base& o);
     virtual ~Base();*/
 };

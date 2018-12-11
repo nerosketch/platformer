@@ -17,9 +17,7 @@ EXECUTABLE=platphormer
 SOURCES=BaseCollider.cpp \
 	TiledSprite.cpp \
 	Btn.cpp \
-	CollidedUnit.cpp \
 	DebugRectSprite.cpp \
-	Enemy.cpp \
 	Game.cpp \
 	GameStage.cpp \
 	InputEvent.cpp \
@@ -31,7 +29,6 @@ SOURCES=BaseCollider.cpp \
 	SoundManager.cpp \
 	StageManager.cpp \
 	StartMenu.cpp \
-	InteractiveUnit.cpp \
 	TextPanel.cpp \
 	Unit.cpp \
 	main.cpp

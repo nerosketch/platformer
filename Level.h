@@ -32,11 +32,9 @@ private:
 
     spTiledSprite landscape;
 
-    vector<Unit> units;
     spPlayer player;
 
-    void _load_terrain(const vector<LAYER>&, const ResAnim*);
-    //void _load_background(LAYER&, const ResAnim*);
+    void _load_terrain(const vector<LAYER>&, Image&);
 
 public:
     Level();
@@ -46,7 +44,7 @@ public:
     GameError load_stage(const string fname);
 
     // карта для взаимодействий
-    vector<vector<StaticUnit*>> map_interaction;
+    vector<vector<InteractiveUnit*>> map_interaction;
 
     void doUpdate(const UpdateState& us) override;
 

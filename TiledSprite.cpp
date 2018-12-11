@@ -9,7 +9,7 @@
 #include "TiledSprite.h"
 
 
-TiledSprite::TiledSprite(const LAYER& lay, string texture_fname) :
+TiledSprite::TiledSprite(const LAYER& lay, const string& texture_fname) :
 _layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
 {
     Image src;
@@ -59,10 +59,8 @@ TiledSprite::~TiledSprite()
 
 void TiledSprite::_build_vert(vertexPCT2* p_verts, const Vector2& pos, const Point& res_coords)
 {
-    Color color(Color::White);
-
-    vertexPCT2 vt;
-    vt.color = color.premultiplied().rgba();
+    //const uint color = Color(Color::White).premultiplied().rgba();
+    const uint color = 0xffffffff;
 
     //const Vector2 sprite_size(640.f, 1456.f);// = getSize();
 
@@ -75,31 +73,37 @@ void TiledSprite::_build_vert(vertexPCT2* p_verts, const Vector2& pos, const Poi
     const float u = (_tile_size.x / _sprite_size.x) * res_coords.x;
     const float v = (_tile_size.y / _sprite_size.y) * res_coords.y;
 
-    vt.z = 0;
+    vertexPCT2 *vt = &p_verts[0];
+    vt->x = pos.x;
+    vt->y = pos.y;
+    vt->u = u;
+    vt->v = v;
+    vt->z = 0.f;
+    vt->color = color;
 
-    vt.x = pos.x;
-    vt.y = pos.y;
-    vt.u = u;
-    vt.v = v;
-    p_verts[0] = vt;
+    vt = &p_verts[1];
+    vt->x = pos.x;
+    vt->y = pos.y + _tile_size.y;
+    vt->u = u;
+    vt->v = v + dv;
+    vt->z = 0.f;
+    vt->color = color;
 
-    vt.x = pos.x;
-    vt.y = pos.y + _tile_size.y;
-    vt.u = u;
-    vt.v = v + dv;
-    p_verts[1] = vt;
+    vt = &p_verts[2];
+    vt->x = pos.x + _tile_size.y;
+    vt->y = pos.y;
+    vt->u = u + du;
+    vt->v = v;
+    vt->z = 0.f;
+    vt->color = color;
 
-    vt.x = pos.x + _tile_size.y;
-    vt.y = pos.y;
-    vt.u = u + du;
-    vt.v = v;
-    p_verts[2] = vt;
-
-    vt.x = pos.x + _tile_size.y;
-    vt.y = pos.y + _tile_size.y;
-    vt.u = u + du;
-    vt.v = v + dv;
-    p_verts[3] = vt;
+    vt = &p_verts[3];
+    vt->x = pos.x + _tile_size.y;
+    vt->y = pos.y + _tile_size.y;
+    vt->u = u + du;
+    vt->v = v + dv;
+    vt->z = 0.f;
+    vt->color = color;
 }
 
 
@@ -113,8 +117,8 @@ void TiledSprite::doRender(const RenderState& rs)
     STDRenderer* renderer = STDRenderer::getCurrent();
     renderer->setTransform(rs.transform);
 
-    Transform world = rs.transform;
-    world.invert();
+    //Transform world = rs.transform;
+    //world.invert();
 
     //find top left local position of TiledActor visible on display
     //Vector2 topLeft = world.transform(Vector2(0, 0));
@@ -142,7 +146,6 @@ void TiledSprite::doRender(const RenderState& rs)
     {
         for(uint row=0; row<_layer.options.width; row++)
         {
-
             pos.x = row * _tile_size.x;
 
             const uint block_id = _layer.int_data[block_index_counter++];
@@ -153,7 +156,7 @@ void TiledSprite::doRender(const RenderState& rs)
 
                 // Добавим блок
                 //memset(vert, 0, vert_size);
-                _build_vert(vert, pos - getPosition(), res_coords);
+                _build_vert(vert, pos + getParent()->getPosition() - getPosition(), res_coords);
                 renderer->addVertices(vert, vert_size);
             }
 
@@ -162,3 +165,32 @@ void TiledSprite::doRender(const RenderState& rs)
 
     }
 }
+
+
+
+
+
+
+InteractiveTiledSprite::InteractiveTiledSprite(const LAYER& lay, const string& tileset_fname) :
+TiledSprite(lay, tileset_fname)
+{
+}
+
+InteractiveTiledSprite::InteractiveTiledSprite(const LAYER& lay, Image& im) :
+TiledSprite(lay, im)
+{
+}
+
+InteractiveTiledSprite::InteractiveTiledSprite(const InteractiveTiledSprite& orig) :
+TiledSprite(orig._layer, orig.nt->getName())
+{
+}
+
+InteractiveTiledSprite::~InteractiveTiledSprite()
+{
+}
+
+/*void InteractiveTiledSprite::on_collide(DynamicUnit* du)
+{
+    cout << "InteractiveTiledSprite::on_collide" << endl;
+}*/

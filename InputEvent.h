@@ -8,13 +8,11 @@
 #ifndef INPUTEVENT_H
 #define INPUTEVENT_H
 
-#include <vector>
 #include <oxygine-framework.h>
 #include "base.h"
 
 
 using namespace oxygine;
-using namespace std;
 
 
 class InputEvent : public Base

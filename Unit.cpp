@@ -9,47 +9,11 @@
 #include "Unit.h"
 
 
-
-Unit::Unit(const Vector2& pos)
-{
-    setPosition(pos);
-}
-
-Unit::Unit(const Unit& orig)
-{
-}
-
-Unit::~Unit()
-{
-}
-
-
-
-
-StaticUnit::StaticUnit(const Vector2& pos) :
-Unit(pos)
-{
-}
-
-StaticUnit::StaticUnit(const StaticUnit& orig):
-StaticUnit(orig.getPosition())
-{
-}
-
-StaticUnit::~StaticUnit() {
-}
-
-
-
-
-
-
-
-
 DynamicUnit::DynamicUnit(const Vector2& pos):
-Unit(pos), dx(0.f), dy(0.f), on_ground(false),
+dx(0.f), dy(0.f), on_ground(false),
 map_width(0), map_height(0)
 {
+    setPosition(pos);
 }
 
 DynamicUnit::DynamicUnit(const DynamicUnit& orig):
@@ -113,7 +77,7 @@ void DynamicUnit::updateCollideX()
      */
     const Vector2 &sz = getSize();
     const Vector2 &_pos = getPosition();
-    const vector<vector<StaticUnit*>> &map = _map_interaction;
+    const vector<vector<InteractiveUnit*>> &map = _map_interaction;
     for(uint h = _pos.y / TILE_HEIGHT; h < (_pos.y + sz.y) / TILE_HEIGHT; h++)
         for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
@@ -142,7 +106,7 @@ void DynamicUnit::updateCollideY()
      */
     const Vector2 &sz = getSize();
     const Vector2 &_pos = getPosition();
-    const vector<vector<StaticUnit*>> &map = _map_interaction;
+    const vector<vector<InteractiveUnit*>> &map = _map_interaction;
     for(uint h = _pos.y / TILE_HEIGHT; h < (_pos.y + sz.y) / TILE_HEIGHT; h++)
         for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
@@ -166,7 +130,7 @@ void DynamicUnit::updateCollideY()
 }
 
 
-void DynamicUnit::SetMapInteraction(const vector<vector<StaticUnit*>> &map)
+void DynamicUnit::SetMapInteraction(const vector<vector<InteractiveUnit*>> &map)
 {
     _map_interaction = map;
     map_height = map.size();

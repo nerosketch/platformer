@@ -17,34 +17,20 @@ using namespace oxygine;
 using namespace std;
 
 
-class Unit : public Sprite
-{
-public:
-    Unit(const Vector2& pos);
-    Unit(const Unit& orig);
-    virtual ~Unit();
-
-    //virtual GameError init() = 0;
-};
-
-
 class DynamicUnit;
 
-
-class StaticUnit : public Unit
+class InteractiveUnit
 {
 public:
-    StaticUnit(const Vector2& pos);
-    StaticUnit(const StaticUnit& orig);
-    virtual ~StaticUnit();
+    InteractiveUnit(){};
+    InteractiveUnit(const InteractiveUnit&){};
+    virtual ~InteractiveUnit(){};
 
-    virtual void on_collide(DynamicUnit*) = 0;
-
+    virtual void on_collide(DynamicUnit*){};
 };
 
 
-
-class DynamicUnit : public Unit, public InputEvent
+class DynamicUnit : public Sprite, public InputEvent
 {
 private:
     float health;
@@ -55,7 +41,7 @@ private:
     Point respawn_position;
 
     // карта для взаимодействий
-    vector<vector<StaticUnit*>> _map_interaction;
+    vector<vector<InteractiveUnit*>> _map_interaction;
 
     // Обработка столкновений
     void updateCollideX();
@@ -81,7 +67,7 @@ public:
 
     void doUpdate(const UpdateState& us) override;
 
-    void SetMapInteraction(const vector<vector<StaticUnit*>>&);
+    void SetMapInteraction(const vector<vector<InteractiveUnit*>>&);
 
     //ширина и высота карты
     uint map_width;
