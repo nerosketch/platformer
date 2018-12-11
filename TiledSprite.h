@@ -97,6 +97,7 @@ public:
     virtual ~TiledSprite();
 
     void doRender(const RenderState&) override;
+    Vector2 getAbsolutePosition();
 };
 
 

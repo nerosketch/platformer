@@ -140,12 +140,26 @@ void TiledSprite::doRender(const RenderState& rs)
 
     uint block_index_counter = 0;
     Vector2 pos;
-    size_t vert_size = sizeof(vert);
+    const size_t vert_size = sizeof(vert);
+
+    //const Vector2& stage_size = getStage()->getSize();
+    const Vector2 sprite_position = getAbsolutePosition();
+
+    const uint start_col = 0;
+    const uint start_row = sprite_position.x / _tile_size.x;
+    //const uint end_row = ;
+    //cout << "start_row " << start_row <<  " " << stage_size.x << " " << sprite_position.x << " " << _tile_size.x << endl;
 
     for(uint col=0; col<_layer.options.height; col++)
     {
         for(uint row=0; row<_layer.options.width; row++)
         {
+            if(row < start_row)
+            {
+                block_index_counter++;
+                continue;
+            }
+
             pos.x = row * _tile_size.x;
 
             const uint block_id = _layer.int_data[block_index_counter++];
@@ -161,11 +175,34 @@ void TiledSprite::doRender(const RenderState& rs)
             }
 
         }
-        pos.y = col * TILE_HEIGHT;
+        if(col < start_col)
+        {
+            //block_index_counter++;
+            continue;
+        }
 
+        pos.y = col * _tile_size.y;
     }
 }
 
+Vector2 _get_absolute_pos(const Actor *p_actor, float x, float y)
+{
+    const Actor *p_parent_actor = p_actor->getParent();
+
+    if(p_parent_actor == nullptr)
+        return Vector2(x, y);
+
+    x -= p_parent_actor->getX();
+    y -= p_parent_actor->getY();
+    //const Vector2 r(pos - p_parent_actor->getPosition());
+    return _get_absolute_pos(p_parent_actor, x, y);
+
+}
+
+Vector2 TiledSprite::getAbsolutePosition()
+{
+    return _get_absolute_pos(this, getX(), getY());
+}
 
 
 
