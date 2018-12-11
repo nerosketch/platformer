@@ -10,7 +10,7 @@
 
 
 TiledSprite::TiledSprite(const LAYER& lay, string texture_fname) :
-_layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT)
+_layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
 {
     Image src;
     file::buffer fb;
@@ -23,12 +23,20 @@ _layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT)
         return;
     }
 
+    _init_mat(src);
+}
 
-    _sprite_size.x = 640.f;
-    _sprite_size.y = 1456.f;
 
+TiledSprite::TiledSprite(const LAYER& lay, Image& im) :
+_layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
+{
+    _init_mat(im);
+}
+
+void TiledSprite::_init_mat(Image& im)
+{
     nt = IVideoDriver::instance->createTexture();
-    nt->init(src.lock());
+    nt->init(im.lock());
     nt->setClamp2Edge(true);
     nt->setLinearFilter(false);
 
@@ -37,9 +45,11 @@ _layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT)
     _mat->_blend = blend_premultiplied_alpha;
 }
 
+
 TiledSprite::TiledSprite(const TiledSprite& orig)
 {
 }
+
 
 TiledSprite::~TiledSprite()
 {
@@ -143,7 +153,7 @@ void TiledSprite::doRender(const RenderState& rs)
 
                 // Добавим блок
                 //memset(vert, 0, vert_size);
-                _build_vert(vert, pos, res_coords);
+                _build_vert(vert, pos - getPosition(), res_coords);
                 renderer->addVertices(vert, vert_size);
             }
 

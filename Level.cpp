@@ -134,15 +134,26 @@ GameError Level::load_stage(const string fname)
     ol.open(fname);
 
     const ResAnim *p_res_anim = res::resources.getResAnim("pixeland");
+    Image src;
+    file::buffer fb;
+    //load image from file
+
+    string tileset_fname("res/img/pixeland.png");
+    file::read(tileset_fname, fb);
+    if(!src.init(fb, true))
+    {
+        cout << "Image not init" << endl;
+        return GameError(1, "Image not init");
+    }
 
     // Загрузим пейзаж
-    landscape = new TiledSprite(ol.landscape, "res/img/pixeland.png");
+    landscape = new TiledSprite(ol.landscape, src);
     addChild(landscape);
 
     // Загрузим фон
     for(LAYER &lay : ol.backgrounds)
     {
-        spTiledSprite background = new TiledSprite(lay, "res/img/pixeland.png");
+        spTiledSprite background = new TiledSprite(lay, src);
         addChild(background);
     }
         //_load_background(lay, p_res_anim);
