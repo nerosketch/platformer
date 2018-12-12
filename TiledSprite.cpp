@@ -62,11 +62,6 @@ void TiledSprite::_build_vert(vertexPCT2* p_verts, const Vector2& pos, const Poi
     //const uint color = Color(Color::White).premultiplied().rgba();
     const uint color = 0xffffffff;
 
-    //const Vector2 sprite_size(640.f, 1456.f);// = getSize();
-
-    // Zero ???
-    // cout << "Width " << getWidth() << endl;
-
     float du = 1.f / (_sprite_size.x / _tile_size.x);
     float dv = 1.f / (_sprite_size.y / _tile_size.y);
 
@@ -110,31 +105,10 @@ void TiledSprite::_build_vert(vertexPCT2* p_verts, const Vector2& pos, const Poi
 
 void TiledSprite::doRender(const RenderState& rs)
 {
-    //Sprite::doRender(rs);
     _mat->apply();
-
 
     STDRenderer* renderer = STDRenderer::getCurrent();
     renderer->setTransform(rs.transform);
-
-    //Transform world = rs.transform;
-    //world.invert();
-
-    //find top left local position of TiledActor visible on display
-    //Vector2 topLeft = world.transform(Vector2(0, 0));
-
-    //find bottom right local position of TiledActor visible on display
-    //Vector2 bottomRight = world.transform(getStage()->getSize());
-
-    //cout << "layers.size() " << layers.size() << endl;
-//    for (std::list<layer>::const_iterator i = layers.begin(); i != layers.end(); ++i)
-//        drawLayer(*i);
-
-
-    //drawLayer();
-
-    //float tw = TILE_WIDTH;//1.0f / nt->getWidth();
-    //float th = TILE_HEIGHT;//1.0f / nt->getHeight();
 
     vertexPCT2 vert[4];
 
@@ -142,19 +116,25 @@ void TiledSprite::doRender(const RenderState& rs)
     Vector2 pos;
     const size_t vert_size = sizeof(vert);
 
-    //const Vector2& stage_size = getStage()->getSize();
+    const Vector2& stage_size = getStage()->getSize();
     const Vector2 sprite_position = getAbsolutePosition();
 
-    const uint start_col = 0;
+    const uint start_col = sprite_position.y / _tile_size.y;
+    const uint end_col = (sprite_position.y + stage_size.y) / _tile_size.y;
     const uint start_row = sprite_position.x / _tile_size.x;
-    //const uint end_row = ;
-    //cout << "start_row " << start_row <<  " " << stage_size.x << " " << sprite_position.x << " " << _tile_size.x << endl;
+    const uint end_row = (sprite_position.x + stage_size.x) / _tile_size.x;
 
     for(uint col=0; col<_layer.options.height; col++)
     {
+        if(col < start_col || col > end_col)
+        {
+            block_index_counter += _layer.options.width;
+            continue;
+        }
+
         for(uint row=0; row<_layer.options.width; row++)
         {
-            if(row < start_row)
+            if(row < start_row || row > end_row)
             {
                 block_index_counter++;
                 continue;
@@ -175,11 +155,6 @@ void TiledSprite::doRender(const RenderState& rs)
             }
 
         }
-        if(col < start_col)
-        {
-            //block_index_counter++;
-            continue;
-        }
 
         pos.y = col * _tile_size.y;
     }
@@ -194,7 +169,6 @@ Vector2 _get_absolute_pos(const Actor *p_actor, float x, float y)
 
     x -= p_parent_actor->getX();
     y -= p_parent_actor->getY();
-    //const Vector2 r(pos - p_parent_actor->getPosition());
     return _get_absolute_pos(p_parent_actor, x, y);
 
 }
