@@ -54,7 +54,7 @@ void run()
 
     // The initial window size can be set up here on SDL builds, ignored on Mobile devices
     desc.w = 911;
-    desc.h = 512;
+    desc.h = 496;
     // desc.fullscreen = true;
 
     Game stage;

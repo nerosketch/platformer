@@ -157,7 +157,7 @@ void Level::doUpdate(const UpdateState& us)
 
     // Прокручиваем задний фон по медленнее
     landscape->setX(
-        -(getX() / 2.f)
+        (getX() / 4.f)
     );
 }
 
