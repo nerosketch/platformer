@@ -11,15 +11,20 @@
 #include <string>
 #include <vector>
 #include <sys/types.h>
-#include "oxygine-framework.h" 
+#include "oxygine-framework.h"
+#include "ox/json.hpp"
 #include "base.h"
 #include "TiledSprite.h"
 
 using namespace std;
 using namespace oxygine;
+using namespace Json;
 
 
 class ObjectLoader : public Base {
+private:
+    void _load_objects(const Value&);
+
 public:
     ObjectLoader();
     ObjectLoader(const ObjectLoader& orig);
@@ -29,7 +34,7 @@ public:
     vector<LAYER> terrains;
     LAYER landscape;
     vector<spTILESET> tilesets;
-    vector<RectF> objects;
+    list<RectF> objects;
 
     spTILESET get_tileset_by_name(string name);
     spTILESET get_tileset_by_id(uint id);

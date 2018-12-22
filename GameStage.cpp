@@ -8,31 +8,25 @@
 #include "GameStage.h"
 
 
-#ifdef DBG
-#include <iostream>
-#endif
-
-
-
 GameStage::GameStage():
 is_zombie(false)
 {
 #ifdef DBG
-    cout << "GameStage::GameStage" << endl;
+    logs::messageln("GameStage::GameStage");
 #endif
 }
 
 GameStage::GameStage(const GameStage& orig)
 {
 #ifdef DBG
-    cout << "GameStage::GameStage Copy" << endl;
+    logs::messageln("GameStage::GameStage Copy");
 #endif
 }
 
 GameStage::~GameStage()
 {
 #ifdef DBG
-    cout << "GameStage:: ~" << endl;
+    logs::messageln("GameStage:: ~");
 #endif
 }
 

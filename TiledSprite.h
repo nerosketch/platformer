@@ -20,7 +20,6 @@ using namespace oxygine;
 
 DECLARE_SMART(TILESET, spTILESET);
 DECLARE_SMART(TiledSprite, spTiledSprite);
-DECLARE_SMART(InteractiveTiledSprite, spInteractiveTiledSprite);
 
 
 struct LAYER_OPTIONS
@@ -67,7 +66,8 @@ public:
     vector<uint> int_data;
     uint tileheight;
 
-    Point get_coords(const uint block_index) const;
+    Point get_coords_point(const uint block_index) const;
+    Vector2 get_coords(const uint block_index) const;
 
     spTILESET p_tileset;
 
@@ -99,26 +99,6 @@ public:
     void doRender(const RenderState&) override;
     Vector2 getAbsolutePosition();
 };
-
-
-
-
-
-
-class InteractiveTiledSprite : public TiledSprite, public InteractiveUnit
-{
-private:
-    INHERITED(TiledSprite);
-
-public:
-    InteractiveTiledSprite(const LAYER&, const string&);
-    InteractiveTiledSprite(const LAYER&, Image&);
-    InteractiveTiledSprite(const InteractiveTiledSprite& orig);
-    virtual ~InteractiveTiledSprite();
-
-    //virtual void on_collide(DynamicUnit*);
-};
-
 
 
 #endif /* TILEDSPRITE_H */

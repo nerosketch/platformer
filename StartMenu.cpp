@@ -5,7 +5,6 @@
  * Created on October 24, 2018, 9:00 PM
  */
 
-#include <iostream>
 #include "Btn.h"
 #include "Level.h"
 #include "resources.h"
@@ -56,7 +55,7 @@ StartMenu::StartMenu()
 
 
 #ifdef DBG
-    cout << "StartMenu::StartMenu" << endl;
+    logs::messageln("StartMenu::StartMenu");
 #endif
 }
 
@@ -69,7 +68,7 @@ StartMenu::StartMenu(const StartMenu& orig)
 StartMenu::~StartMenu()
 {
 #ifdef DBG
-    cout << "StartMenu::StartMenu ~" << endl;
+    logs::messageln("StartMenu::StartMenu ~");
 #endif
 }
 
@@ -95,20 +94,20 @@ GameError StartMenu::make_next_level()
 void StartMenu::on_start_click(Event*)
 {
 #ifdef DBG
-    cout << "StartMenu::on_start_click" << endl;
+    logs::messageln("StartMenu::on_start_click");
 #endif
     GameError err = make_next_level();
     if(err != 0)
     {
         // произошла ошибка, убиваемся
         Exit();
-        cout << "ERROR: StartMenu::on_start_click " << err.error_text << endl;
+        logs::error("ERROR: StartMenu::on_start_click %s", err.error_text);
     }
 }
 void StartMenu::on_exit_click(Event*)
 {
 #ifdef DBG
-    cout << "StartMenu::on_exit_click" << endl;
+    logs::messageln("StartMenu::on_exit_click");
 #endif
     // завершаемся
     Exit();

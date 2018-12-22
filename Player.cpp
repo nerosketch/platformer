@@ -10,11 +10,6 @@
 #include "Player.h"
 
 
-#ifdef DBG
-#include <iostream>
-using namespace std;
-#endif
-
 
 Player::Player(const Vector2 &pos):
 DynamicUnit(pos)
@@ -97,7 +92,5 @@ void Player::doUpdate(const UpdateState& us)
 // Упал вниз карты
 void Player::on_fall_down()
 {
-#ifdef DBG
-    cout << "Player::on_fall_down" << endl;
-#endif
+    logs::messageln("Player::on_fall_down");
 }

@@ -9,10 +9,6 @@
 #include "InputEvent.h"
 
 
-#ifdef DBG
-#include <iostream>
-#endif
-
 using namespace std;
 
 
@@ -51,7 +47,7 @@ InputEventContainer::InputEventContainer()
     ox::core::getDispatcher()->addEventListener(ox::core::EVENT_SYSTEM, _onEvent);
 
 #ifdef DBG
-    cout << "InputEventContainer::InputEventContainer" << endl;
+    logs::messageln("InputEventContainer::InputEventContainer");
 #endif
 }
 InputEventContainer::InputEventContainer(const InputEventContainer&){}
@@ -224,7 +220,7 @@ void InputEventContainer::push_key_down(const SDL_KeyboardEvent& ev, const SDL_S
 InputEvent::InputEvent()
 {
 #ifdef DBG
-    cout << "InputEvent::InputEvent" << endl;
+    logs::messageln("InputEvent::InputEvent");
 #endif
 
     static InputEventContainer inp_cont;
@@ -237,14 +233,14 @@ InputEvent::InputEvent()
 InputEvent::InputEvent(const InputEvent& orig)
 {
 #ifdef DBG
-    cout << "InputEvent:: Copy" << endl;
+    logs::messageln("InputEvent:: Copy");
 #endif
 }
 
 InputEvent::~InputEvent()
 {
 #ifdef DBG
-    cout << "InputEvent:: ~" << endl;
+    logs::messageln("InputEvent:: ~");
 #endif
 
     // удалим себя из получателей событий

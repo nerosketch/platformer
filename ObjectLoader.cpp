@@ -5,11 +5,9 @@
  * Created on October 9, 2018, 6:44 PM
  */
 
-#include "ox/json.hpp"
+#include <list>
 #include "ObjectLoader.h"
 
-
-using namespace std;
 
 ObjectLoader::ObjectLoader()
 {
@@ -85,102 +83,91 @@ void ObjectLoader::open(const string fname)
     short z_index = 0;
     for(const auto &v : value["layers"])
     {
-        string layer_name = v["name"].asString();
+        if(v["type"] == "tilelayer")
+        {
+            string layer_name = v["name"].asString();
 
-        LAYER *p_layer = nullptr;
+            LAYER *p_layer = nullptr;
 
-        if(layer_name.find("background") != string::npos)
-        {
-            LAYER l;
-            backgrounds.push_back(l);
-            p_layer = &backgrounds.back();
-        }
-        else if(layer_name.find("terrain") != string::npos)
-        {
-            LAYER l;
-            terrains.push_back(l);
-            p_layer = &terrains.back();
-        }else if(layer_name == "landscape")
-        {
-            p_layer = &landscape;
-        }
-        else if(v.isMember("objects"))
-        {
-            for(const auto &vo : v["objects"])
+            if(layer_name.find("background") != string::npos)
             {
-                objects.push_back(RectF(
-                    vo["x"].asFloat(),
-                    vo["y"].asFloat(),
-                    vo["width"].asFloat(),
-                    vo["height"].asFloat()
-                ));
+                LAYER l;
+                backgrounds.push_back(l);
+                p_layer = &backgrounds.back();
             }
-            continue;
+            else if(layer_name.find("terrain") != string::npos)
+            {
+                LAYER l;
+                terrains.push_back(l);
+                p_layer = &terrains.back();
+            }else if(layer_name == "landscape")
+            {
+                p_layer = &landscape;
+            }
+            else
+                continue;
+
+            struct LAYER_OPTIONS &lay_opts = p_layer->options;
+
+            p_layer->tileheight = v["tileheight"].asUInt();
+
+            // Layer options
+            lay_opts.height = v["height"].asUInt();
+            lay_opts.width = v["width"].asUInt();
+            lay_opts.opacity = v["opacity"].asFloat();
+            lay_opts.visible = v["visible"].asBool();
+            lay_opts.x = v["x"].asInt();
+            lay_opts.y = v["y"].asInt();
+            lay_opts.z_order = z_index++;
+            p_layer->p_tileset = p_last_tileset;
+            //lay_opts.name = v["name"].asString();
+
+            vector<uint> &layer_data = p_layer->int_data;
+            uint layer_data_size = v["data"].size();
+            layer_data.resize(layer_data_size);
+
+            uint n = 0;
+            for(const auto &i : v["data"])
+            {
+                layer_data[n++] = i.asUInt();
+            }
         }
+        else if(v["type"] == "objectgroup")
+            _load_objects(v);
         else
-            continue;
-
-        struct LAYER_OPTIONS &lay_opts = p_layer->options;
-
-        p_layer->tileheight = v["tileheight"].asUInt();
-
-        // Layer options
-        lay_opts.height = v["height"].asUInt();
-        lay_opts.width = v["width"].asUInt();
-        lay_opts.opacity = v["opacity"].asFloat();
-        lay_opts.visible = v["visible"].asBool();
-        lay_opts.x = v["x"].asInt();
-        lay_opts.y = v["y"].asInt();
-        lay_opts.z_order = z_index++;
-        p_layer->p_tileset = p_last_tileset;
-        //lay_opts.name = v["name"].asString();
-
-        vector<uint> &layer_data = p_layer->int_data;
-        uint layer_data_size = v["data"].size();
-        layer_data.resize(layer_data_size);
-
-        uint n = 0;
-        for(const auto &i : v["data"])
         {
-            layer_data[n++] = i.asUInt();
+            logs::warning("Unknown layer type");
         }
     }
 
 }
 
 
-LAYER::LAYER()
-{}
-
-LAYER::LAYER(const LAYER& o) : options(o.options),
-        int_data(o.int_data), tileheight(o.tileheight),
-        p_tileset(o.p_tileset)
+void ObjectLoader::_load_objects(const Value& v)
 {
-}
-
-LAYER::~LAYER(){}
-
-
-Point LAYER::get_coords(const uint block_index) const
-{
-    Point p;
-
-    const uint row_len = p_tileset->columns;
-
-    // строка
-    if(block_index == 0)
+    for(const Value& obj : v["objects"])
     {
-        p.y = 0;
-    }else
-    {
-        p.y = block_index / row_len;
-        if(block_index % row_len == 0)
-            p.y -= 1;
+        if(obj.isMember("polygon"))
+            continue;
+        else if(obj.isMember("ellipse"))
+            continue;
+        else if(obj.isMember("polyline"))
+            continue;
+        else if(obj.isMember("point"))
+            continue;
+        else
+        {
+            // Прямоугольник
+            RectF r(
+                obj["x"].asFloat(),
+                obj["y"].asFloat(),
+                obj["width"].asFloat(),
+                obj["height"].asFloat()
+            );
+
+            objects.push_back(r);
+        }
     }
-
-    p.x = row_len - (((p.y+1) * row_len) - block_index) - 1;
-
-    return p;
 }
 
 

@@ -1,17 +1,13 @@
 #include "resources.h"
 #include "flags.h"
 
-#ifdef DBG
-#include <iostream>
-#endif
-
 
 namespace res{
     Resources resources;
     void load(const string &res_name)
     {
 #ifdef DBG
-        cout << "res::load " << res_name << endl;
+        logs::messageln("res::load %s", res_name);
 #endif
         resources.loadXML(res_name);
 
@@ -23,7 +19,7 @@ namespace res{
     void free()
     {
 #ifdef DBG
-        cout << "res::free" << endl;
+        logs::messageln("res::free");
 #endif
         resources.free();
     }

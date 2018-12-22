@@ -25,6 +25,17 @@ using namespace oxygine;
 DECLARE_SMART(Level, spLevel);
 
 
+class LevelInteractiveUnit : public InteractiveUnit
+{
+public:
+    LevelInteractiveUnit();
+    LevelInteractiveUnit(const LevelInteractiveUnit&);
+    virtual ~LevelInteractiveUnit();
+
+    virtual void on_collide(DynamicUnit*) override;
+};
+
+
 class Level : public GameStage, public InputEvent
 {
 private:
@@ -34,7 +45,10 @@ private:
 
     spPlayer player;
 
-    void _load_terrain(const vector<LAYER>&, Image&);
+    LevelInteractiveUnit liu;
+    InteractiveUnit empty_iu;
+
+    void _load_terrain(const vector<LAYER>&, Image&, const list<RectF>&);
 
 public:
     Level();

@@ -9,10 +9,6 @@
 #include "StartMenu.h"
 #include "StageManager.h"
 
-#ifdef DBG
-#include <iostream>
-#endif
-
 
 StageManager::StageManager() : is_zombie(false)
 {

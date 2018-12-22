@@ -5,7 +5,6 @@
  * Created on December 10, 2018, 12:01 AM
  */
 
-#include <iostream>
 #include "TiledSprite.h"
 
 
@@ -19,7 +18,7 @@ _layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
     file::read(texture_fname, fb);
     if(!src.init(fb, true))
     {
-        cout << "Image not init" << endl;
+        logs::error("Image not init");
         return;
     }
 
@@ -146,7 +145,7 @@ void TiledSprite::doRender(const RenderState& rs)
 
             if(block_id != 0)
             {
-                const Point res_coords = _layer.get_coords(block_id);
+                const Point res_coords = _layer.get_coords_point(block_id);
 
                 // Добавим блок
                 //memset(vert, 0, vert_size);
@@ -182,26 +181,47 @@ Vector2 TiledSprite::getAbsolutePosition()
 
 
 
-InteractiveTiledSprite::InteractiveTiledSprite(const LAYER& lay, const string& tileset_fname) :
-TiledSprite(lay, tileset_fname)
+
+LAYER::LAYER()
+{}
+
+LAYER::LAYER(const LAYER& o) : options(o.options),
+        int_data(o.int_data), tileheight(o.tileheight),
+        p_tileset(o.p_tileset)
 {
 }
 
-InteractiveTiledSprite::InteractiveTiledSprite(const LAYER& lay, Image& im) :
-TiledSprite(lay, im)
+LAYER::~LAYER(){}
+
+
+Point LAYER::get_coords_point(const uint block_index) const
 {
+    Point p;
+
+    const uint row_len = p_tileset->columns;
+
+    if(block_index == 0)
+    {
+        p.y = 0;
+    }else
+    {
+        p.y = block_index / row_len;
+        if(block_index % row_len == 0)
+            p.y -= 1;
+    }
+
+    p.x = row_len - (((p.y+1) * row_len) - block_index) - 1;
+
+    return p;
 }
 
-InteractiveTiledSprite::InteractiveTiledSprite(const InteractiveTiledSprite& orig) :
-TiledSprite(orig._layer, orig.nt->getName())
-{
-}
 
-InteractiveTiledSprite::~InteractiveTiledSprite()
+Vector2 LAYER::get_coords(const uint block_index) const
 {
-}
+    Point p = get_coords_point(block_index);
 
-/*void InteractiveTiledSprite::on_collide(DynamicUnit* du)
-{
-    cout << "InteractiveTiledSprite::on_collide" << endl;
-}*/
+    return Vector2(
+        p.x * TILE_WIDTH,
+        p.y * tileheight
+    );
+}

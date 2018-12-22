@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <ox/oxygine.hpp>
 #include <ox/Stage.hpp>
 #include <ox/DebugActor.hpp>
@@ -79,7 +77,7 @@ void run()
         ObjectBase::__stopTracingLeaks();
         stage.destroy();
         core::release();
-        std::cout << "ERROR: " << err << endl;
+        logs::error("ERROR: %s", err);
         return;
     }
 

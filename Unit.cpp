@@ -77,23 +77,23 @@ void DynamicUnit::updateCollideX()
      */
     const Vector2 &sz = getSize();
     const Vector2 &_pos = getPosition();
-    const vector<vector<InteractiveUnit*>> &map = _map_interaction;
     for(uint h = _pos.y / TILE_HEIGHT; h < (_pos.y + sz.y) / TILE_HEIGHT; h++)
         for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
-            if(map[h][w] != nullptr)
+            InteractiveUnit *p_unit = _map_interaction[h][w];
+            if(p_unit != nullptr)
             {
                 if(dx > 0)
                 {
                     setX(w * TILE_WIDTH - sz.x);
                     dx = 0.f;
-                    map[h][w]->on_collide(this);
+                    p_unit->on_collide(this);
                 }
                 if(dx < 0)
                 {
                     setX(w * TILE_WIDTH + TILE_WIDTH);
                     dx = 0.f;
-                    map[h][w]->on_collide(this);
+                    p_unit->on_collide(this);
                 }
             }
         }
@@ -106,24 +106,24 @@ void DynamicUnit::updateCollideY()
      */
     const Vector2 &sz = getSize();
     const Vector2 &_pos = getPosition();
-    const vector<vector<InteractiveUnit*>> &map = _map_interaction;
     for(uint h = _pos.y / TILE_HEIGHT; h < (_pos.y + sz.y) / TILE_HEIGHT; h++)
         for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
-            if(map[h][w] != nullptr)
+            InteractiveUnit *p_unit = _map_interaction[h][w];
+            if(p_unit != nullptr)
             {
-                if(dy>0)
+                if(dy > 0)
                 {
                     setY(h * TILE_HEIGHT - sz.y);
                     dy = dx = 0.f;
                     on_ground = true;
-                    map[h][w]->on_collide(this);
+                    p_unit->on_collide(this);
                 }
-                else if(dy<0)
+                else if(dy < 0)
                 {
                     setY(h * TILE_HEIGHT + TILE_HEIGHT);
                     dy = 0.f;
-                    map[h][w]->on_collide(this);
+                    p_unit->on_collide(this);
                 }
             }
         }

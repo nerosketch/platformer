@@ -4,16 +4,16 @@
  * 
  * Created on October 21, 2018, 9:43 AM
  */
-#include <iostream>
 #include "resources.h"
 #include "Level.h"
+#include "flags.h"
 
 
 
 Level::Level()
 {
 #ifdef DBG
-    cout << "Level::Level" << endl;
+    logs::messageln("Level::Level");
 #endif
 }
 
@@ -24,7 +24,7 @@ Level::Level(const Level& orig)
 Level::~Level()
 {
 #ifdef DBG
-    cout << "Level::Level ~" << endl;
+    logs::messageln("Level::Level ~");
 #endif
 }
 
@@ -32,15 +32,16 @@ Level::~Level()
 /*
 * Загружаем статичные блоки, с ними можно взаимодействовать
 */
-void Level::_load_terrain(const vector<LAYER>& lays, Image& im)
+void Level::_load_terrain(const vector<LAYER>& lays, Image& im, const list<RectF>& objects)
 {
     if(lays.size() < 1)
     {
-        cerr << "ERROR: layers count less than one" << endl;
+        logs::error("ERROR: layers count less than one");
         return;
     }
-
+    
     const uint layer_height = lays[0].options.height;
+    RectF rect(0.f, 0.f, TILE_WIDTH, TILE_HEIGHT);
 
     // карта взаимодействий
     map_interaction.resize(layer_height);
@@ -49,7 +50,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, Image& im)
     {
         uint block_index_counter = 0;
 
-        spInteractiveTiledSprite terr_el(new InteractiveTiledSprite(lay, im));
+        spTiledSprite terr_el(new TiledSprite(lay, im));
         addChild(terr_el);
 
         for(uint col=0; col<lay.options.height; col++)
@@ -65,11 +66,19 @@ void Level::_load_terrain(const vector<LAYER>& lays, Image& im)
 
                 if(block_id != 0)
                 {
-                    line[row] = static_cast<InteractiveUnit*>(terr_el.get());
+                    rect.pos.y = col * TILE_WIDTH;
+                    rect.pos.x = row * TILE_HEIGHT;
+
+                    for(const RectF& r : objects)
+                    {
+                        if(r.isIntersecting(rect))
+                            line[row] = &liu;
+                        else
+                            line[row] = &empty_iu;
+
+                    }
                 }
-
             }
-
         }
     }
 
@@ -88,13 +97,12 @@ GameError Level::load_stage(const string fname)
     //const ResAnim *p_res_anim = res::resources.getResAnim("pixeland");
     Image src;
     file::buffer fb;
-    //load image from file
 
     string tileset_fname("res/img/pixeland.png");
     file::read(tileset_fname, fb);
     if(!src.init(fb, true))
     {
-        cout << "Image not init" << endl;
+        logs::error("Image not init");
         return GameError(1, "Image not init");
     }
 
@@ -110,7 +118,7 @@ GameError Level::load_stage(const string fname)
     }
 
     // Загрузим землю
-    _load_terrain(ol.terrains, src);
+    _load_terrain(ol.terrains, src, ol.objects);
 
     // установим факелы
     ResAnim *torch_res_anim = res::resources.getResAnim("torch_anim");
@@ -172,4 +180,24 @@ void Level::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancod
 {
     if(key_scancode == SDL_Scancode::SDL_SCANCODE_ESCAPE)
         is_zombie = true;
+}
+
+
+
+
+
+
+LevelInteractiveUnit::LevelInteractiveUnit()
+{}
+
+LevelInteractiveUnit::LevelInteractiveUnit(const LevelInteractiveUnit&)
+{}
+
+LevelInteractiveUnit::~LevelInteractiveUnit()
+{}
+
+void LevelInteractiveUnit::on_collide(DynamicUnit* p_du)
+{
+    logs::messageln("LevelInteractiveUnit::on_collide");
+
 }
