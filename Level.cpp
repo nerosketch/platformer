@@ -9,7 +9,6 @@
 #include "flags.h"
 
 
-
 Level::Level()
 {
 #ifdef DBG
@@ -81,10 +80,6 @@ void Level::_load_terrain(const vector<LAYER>& lays, Image& im, const list<RectF
             }
         }
     }
-
-    // Ставим сундуки для взаимодействий
-    //spInteractiveUnit iu = new InteractiveUnit(Vector2(130.f, 330.f));
-    //addChild(iu);
 
 }
 
@@ -187,7 +182,8 @@ void Level::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancod
 
 
 
-LevelInteractiveUnit::LevelInteractiveUnit()
+LevelInteractiveUnit::LevelInteractiveUnit() :
+p_text_panel(nullptr)
 {}
 
 LevelInteractiveUnit::LevelInteractiveUnit(const LevelInteractiveUnit&)
@@ -199,5 +195,24 @@ LevelInteractiveUnit::~LevelInteractiveUnit()
 void LevelInteractiveUnit::on_collide(DynamicUnit* p_du)
 {
     logs::messageln("LevelInteractiveUnit::on_collide");
+    if(p_text_panel == nullptr)
+    {
+        spTextPanel tex(new TextPanel("npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
+                            "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr..."));
+        tex->setPosition(26.f, -16.f);
+        tex->ok_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &LevelInteractiveUnit::kill_me));
 
+        p_du->addChild(tex);
+        p_text_panel = tex.get();
+    }
+}
+
+void LevelInteractiveUnit::kill_me(Event *)
+{
+    logs::messageln("LevelInteractiveUnit::kill_me");
+    if(p_text_panel != nullptr)
+    {
+        p_text_panel->detach();
+        p_text_panel = nullptr;
+    }
 }

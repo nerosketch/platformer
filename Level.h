@@ -16,6 +16,7 @@
 #include "TiledSprite.h"
 #include "GameStage.h"
 #include "Unit.h"
+#include "TextPanel.h"
 
 
 using namespace std;
@@ -32,7 +33,10 @@ public:
     LevelInteractiveUnit(const LevelInteractiveUnit&);
     virtual ~LevelInteractiveUnit();
 
+    TextPanel *p_text_panel;
+
     virtual void on_collide(DynamicUnit*) override;
+    void kill_me(Event *);
 };
 
 

@@ -94,7 +94,7 @@ void StageManager::doUpdate(const UpdateState&)
         }else
         {
             removeChild(current_stage);
-            
+
             /*
              * Это был последний уровень, StageManager больше не нужен
              * и нас удалит вышестоящий уровень
