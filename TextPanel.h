@@ -27,6 +27,9 @@ private:
     INHERITED(Box9Sprite);
     spTextField text_field;
 
+    void _kill_me(Event*);
+    EventCallback _die_event;
+
 public:
     TextPanel(const string text);
     TextPanel(const TextPanel& orig);
@@ -35,6 +38,9 @@ public:
     void setText(const string& text);
 
     void sizeChanged(const Vector2& size) override;
+
+    void setTimeToLive(const uint ttl = 1000);
+    void setOnDieEvent(const EventCallback&);
 
     spBtn ok_btn;
 };

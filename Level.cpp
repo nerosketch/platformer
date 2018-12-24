@@ -183,7 +183,7 @@ void Level::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancod
 
 
 LevelInteractiveUnit::LevelInteractiveUnit() :
-p_text_panel(nullptr)
+_is_text_panel_exist(false)
 {}
 
 LevelInteractiveUnit::LevelInteractiveUnit(const LevelInteractiveUnit&)
@@ -195,26 +195,24 @@ LevelInteractiveUnit::~LevelInteractiveUnit()
 void LevelInteractiveUnit::on_collide(DynamicUnit* p_du)
 {
     logs::messageln("LevelInteractiveUnit::on_collide");
-    if(p_text_panel == nullptr)
+
+    // pixograd.ttf
+    // npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
+    //                  "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr...
+
+    if(!_is_text_panel_exist)
     {
-        // pixograd.ttf
-        // npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
-        //                  "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr...
         spTextPanel tex(new TextPanel("Пример текста..."));
         tex->setPosition(26.f, -16.f);
-        tex->ok_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &LevelInteractiveUnit::kill_me));
+        tex->setTimeToLive(3000);
+        tex->setOnDieEvent(CLOSURE(this, &LevelInteractiveUnit::free_text_panel));
+        _is_text_panel_exist = true;
 
         p_du->addChild(tex);
-        p_text_panel = tex.get();
     }
 }
 
-void LevelInteractiveUnit::kill_me(Event *)
+void LevelInteractiveUnit::free_text_panel(Event*)
 {
-    logs::messageln("LevelInteractiveUnit::kill_me");
-    if(p_text_panel != nullptr)
-    {
-        p_text_panel->detach();
-        p_text_panel = nullptr;
-    }
+    _is_text_panel_exist = false;
 }

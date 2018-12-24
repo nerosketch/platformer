@@ -28,12 +28,14 @@ DECLARE_SMART(Level, spLevel);
 
 class LevelInteractiveUnit : public InteractiveUnit
 {
+private:
+    void free_text_panel(Event*);
+    bool _is_text_panel_exist;
+
 public:
     LevelInteractiveUnit();
     LevelInteractiveUnit(const LevelInteractiveUnit&);
     virtual ~LevelInteractiveUnit();
-
-    TextPanel *p_text_panel;
 
     virtual void on_collide(DynamicUnit*) override;
     void kill_me(Event *);

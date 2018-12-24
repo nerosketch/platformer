@@ -12,7 +12,6 @@
 
 TextPanel::TextPanel(const string text)
 {
-
     const ResAnim *p_res_panel = res::resources.getResAnim("panel");
     setResAnim(p_res_panel);
     setGuides(TILE_WIDTH, TILE_WIDTH, TILE_HEIGHT, TILE_HEIGHT);
@@ -28,7 +27,7 @@ TextPanel::TextPanel(const string text)
     // Ok button
     ok_btn = new Btn("close_button");
     ok_btn->setPosition(50.f, 20.f);
-    // ok_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &TextPanel::on_ok_click));
+    ok_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &TextPanel::_kill_me));
     addChild(ok_btn);
 
     setText(text);
@@ -68,4 +67,33 @@ void TextPanel::setText(const string& text)
     b.size.x += TILE_WIDTH * 2.f;
     b.size.y += TILE_HEIGHT * 2.f;
     setSize(b.size);
+}
+
+
+void TextPanel::setTimeToLive(const uint ttl)
+{
+#ifdef DBG
+    logs::messageln("TextPanel::setTimeToLive");
+#endif
+
+    spTween _delay_timeout_tween = addTween(TweenDummy(), ttl);
+    _delay_timeout_tween->setDoneCallback(CLOSURE(this, &TextPanel::_kill_me));
+}
+
+void TextPanel::_kill_me(Event* ev)
+{
+#ifdef DBG
+    logs::messageln("TextPanel::_on_die_event");
+#endif
+
+    detach();
+
+    if(_die_event)
+        _die_event(ev);
+}
+
+
+void TextPanel::setOnDieEvent(const EventCallback& ev)
+{
+    _die_event = ev;
 }
