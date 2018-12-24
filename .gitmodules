@@ -4,3 +4,6 @@
 [submodule "lib/oxygine-framework"]
 	path = lib/oxygine-framework
 	url = https://github.com/oxygine/oxygine-framework.git
+[submodule "lib/oxygine-freetype"]
+	path = lib/oxygine-freetype
+	url = https://github.com/oxygine/oxygine-freetype.git

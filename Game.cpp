@@ -5,6 +5,7 @@
  * Created on October 21, 2018, 10:53 AM
  */
 #include <oxygine-framework.h>
+#include "ResFontFT.h"
 
 #include "flags.h"
 #include "resources.h"
@@ -41,6 +42,8 @@ GameError Game::init()
     SoundSystem::create()->init(16);
     SoundPlayer::initialize();
 #endif
+
+    ResFontFT::initLibrary();
 
     res::load("res/res.xml");
 
@@ -84,6 +87,8 @@ void Game::destroy()
 #ifdef DBG
     logs::messageln("Game:: destroy");
 #endif
+
+    ResFontFT::freeLibrary();
 
 #ifdef SOUND_ENABLE
     stage_manager->p_sound->stop();

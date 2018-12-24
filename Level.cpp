@@ -197,8 +197,10 @@ void LevelInteractiveUnit::on_collide(DynamicUnit* p_du)
     logs::messageln("LevelInteractiveUnit::on_collide");
     if(p_text_panel == nullptr)
     {
-        spTextPanel tex(new TextPanel("npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
-                            "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr..."));
+        // pixograd.ttf
+        // npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
+        //                  "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr...
+        spTextPanel tex(new TextPanel("Пример текста..."));
         tex->setPosition(26.f, -16.f);
         tex->ok_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &LevelInteractiveUnit::kill_me));
 

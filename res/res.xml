@@ -18,5 +18,5 @@
     </atlas>
 
     <set path="res/fonts"/>
-    <font file="pixograd.fnt"/>
+    <ftfont file="chat_noir.ttf"/>
 </resources>
