@@ -44,10 +44,6 @@ StartMenu::StartMenu()
     exit_btn->setPosition(pos);
     addChild(exit_btn);
 
-    Image tst;
-    tst.init(13.f, 18.f, TF_R8G8B8A8);
-
-
 #ifdef DBG
     logs::messageln("StartMenu::StartMenu");
 #endif

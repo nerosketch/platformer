@@ -33,6 +33,7 @@ SOURCES=BaseCollider.cpp \
 	StartMenu.cpp \
 	TextPanel.cpp \
 	Unit.cpp \
+	Light.cpp \
 	main.cpp
 
 DEPS := $(COBJS:.o=.d)

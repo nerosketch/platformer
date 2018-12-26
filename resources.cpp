@@ -7,7 +7,7 @@ namespace res{
     void load(const string &res_name)
     {
 #ifdef DBG
-        logs::messageln("res::load %s", res_name);
+        logs::messageln("res::load %s", res_name.c_str());
 #endif
         resources.loadXML(res_name);
 

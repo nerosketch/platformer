@@ -14,6 +14,7 @@
 #include "flags.h"
 #include "Player.h"
 #include "base.h"
+#include "Light.h"
 
 #ifdef DEBUG_DRAW_ENABLE
 #include "base/Box2DDebugDraw.h"
@@ -26,7 +27,7 @@ using namespace oxygine;
 DECLARE_SMART(GameStage, spGameStage);
 
 
-class GameStage : public Base, public Sprite
+class GameStage : public Base, public Light
 {
 private:
     INHERITED(Sprite);
