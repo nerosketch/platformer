@@ -15,7 +15,9 @@ class CustomUniformMat : public STDMaterial
 public:
     MATX(CustomUniformMat);
 
-    Vector3 light_pos_intensity = Vector3(455.f, 100.f, 200.f);
+    Vector4 light_pos_radius_intense = Vector4(455.f, 100.f, 200.f, 1.f);
+    Vector4 light_color = Vector4(1.f, 1.f, 1.f, 1.f);
+    float ambient_intense = 1.f;
 
     /*void rehash(size_t& hash) const override
     {
@@ -29,19 +31,17 @@ public:
         if (!STDMaterial::cmp(a, b))
             return false;
 
-        return a.light_pos_intensity == b.light_pos_intensity;
+        return a.light_pos_radius_intense == b.light_pos_radius_intense &&
+                a.light_color == b.light_color &&
+                a.ambient_intense == b.ambient_intense;
     }
 
     void xapply() override
     {
         STDMaterial::xapply();
-        static float intens=1.f;
-        static float incr = 1.f;
-        if(intens >= 500.f || intens <= 0.f)
-            incr = -incr;
-        intens += incr;
-        light_pos_intensity.z = intens;
-        IVideoDriver::instance->setUniform("light_pos_intensity", light_pos_intensity);
+        IVideoDriver::instance->setUniform("light_pos_radius_intense", light_pos_radius_intense);
+        IVideoDriver::instance->setUniform("light_color", light_color);
+        IVideoDriver::instance->setUniform("ambient_intense", ambient_intense);
     }
 };
 
@@ -56,11 +56,20 @@ Light::Light() : _shaderLight(0)
     _shaderLight = new UberShaderProgram;
     _shaderLight->init(STDRenderer::uberShaderBody, R"(
         #define MODIFY_BASE
-        uniform lowp vec3 light_pos_intensity;
+        uniform lowp vec4 light_pos_radius_intense;
+        uniform lowp vec4 light_color;
+        uniform lowp float ambient_intense;
         lowp vec4 modify_base(lowp vec4 base)
         {
-            float dist = distance(light_pos_intensity.xy, gl_FragCoord.xy);
-            return base * (light_pos_intensity.z/dist);
+            base = base * light_color;
+            float radius = light_pos_radius_intense.z;
+            float dist = distance(light_pos_radius_intense.xy, gl_FragCoord.xy);
+            if(dist < radius)
+            {
+                float k = 1.0 + ambient_intense - (dist / radius);
+                return base * k * light_pos_radius_intense.a;
+            }else
+                return base * ambient_intense * light_pos_radius_intense.a;
         }
     )");
 
@@ -80,4 +89,81 @@ Light::Light(const Light&)
 Light::~Light()
 {
     delete _shaderLight;
+}
+
+
+void Light::set_light_pos(const float x, const float y)
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    Vector4& lp = p_mat->light_pos_radius_intense;
+    lp.x = x;
+    lp.y = y;
+}
+
+
+const Vector2 Light::get_light_pos() const
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    const Vector4& lp = p_mat->light_pos_radius_intense;
+    return Vector2(lp.x, lp.y);
+}
+
+
+void Light::set_radius(const float radius)
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    Vector4& lp = p_mat->light_pos_radius_intense;
+    lp.z = radius;
+}
+
+
+float Light::get_radius() const
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    const Vector4& lp = p_mat->light_pos_radius_intense;
+    return lp.z;
+}
+
+
+void Light::set_intense(const float intense)
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    Vector4& lp = p_mat->light_pos_radius_intense;
+    lp.w = intense;
+}
+
+
+float Light::get_intense() const
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    const Vector4& lp = p_mat->light_pos_radius_intense;
+    return lp.w;
+}
+
+
+void Light::set_light_color(const Vector4& c)
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    p_mat->light_color = c;
+}
+
+
+const Vector4& Light::get_light_color() const
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    return p_mat->light_color;
+}
+
+
+void Light::set_ambient_intense(const float ambient_intense)
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    p_mat->ambient_intense = ambient_intense;
+}
+
+
+float Light::get_ambient_intense() const
+{
+    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
+    return p_mat->ambient_intense;
 }
