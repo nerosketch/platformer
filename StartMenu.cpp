@@ -33,6 +33,7 @@ StartMenu::StartMenu()
     start_btn->addEventListener(TouchEvent::OVER, ncb);
     Vector2 pos(455.5f, 128.f);
     start_btn->setPosition(pos);
+    start_btn->_mat = _mat;
     addChild(start_btn);
 
     // делаем кнопку exit
@@ -42,6 +43,8 @@ StartMenu::StartMenu()
     exit_btn->addEventListener(TouchEvent::OVER, ncb);
     pos.y += 54;
     exit_btn->setPosition(pos);
+    exit_btn->_mat = _mat;
+
     addChild(exit_btn);
 
 #ifdef DBG

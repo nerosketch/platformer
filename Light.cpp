@@ -23,8 +23,8 @@ public:
     MATX(CustomUniformMat);
 
     vector<LightPoint> _lights;
-    uint lights_count = 0;
-    float _ambient_intense=1.f;
+    uint lights_count;
+    float _ambient_intense;
 
     static bool cmp(const CustomUniformMat& a, const CustomUniformMat& b)
     {
@@ -74,6 +74,7 @@ Light::Light() : _shaderLight(0)
 {
     _shaderLight = new UberShaderProgram;
     _shaderLight->init(STDRenderer::uberShaderBody, R"(
+        #ifdef PS
         #define MODIFY_BASE
         struct LIGHT_INFO{
             vec4 light_color;
@@ -87,22 +88,19 @@ Light::Light() : _shaderLight(0)
 
         lowp vec4 modify_base(lowp vec4 base)
         {
-
             for(int i = 0; i < lights_count; ++i)
             {
-                base *= lights[i].light_color;
                 float dist = distance(lights[i].light_pos, gl_FragCoord.xy);
                 if(dist < lights[i].radius)
                 {
                     float k = 1.0 - (dist / lights[i].radius);
-                    base *= lights[i].intense * k;
+                    base *= lights[i].light_color * lights[i].intense * k + ambient_intense;
                 }else
-                {
-                    base *= lights[i].intense;
-                }
+                    base *= ambient_intense;
             }
-            return base * ambient_intense;
+            return base;
         }
+        #endif
     )");
 
     /*
@@ -126,19 +124,18 @@ Light::Light() : _shaderLight(0)
     
     Vector4 light_color(0.5f, 0.5f, 0.9f, 0.0f);
     mat._lights[0].set_light_color(light_color);
-    mat._lights[0].set_intense(3.8f);
+    mat._lights[0].set_intense(30.8f);
     mat._lights[0].set_radius(40.f);
 
     mat._lights[1] = LightPoint(255.f, 100.f);
     light_color = Vector4(0.9f, 0.5f, 0.5f, 0.0f);
     mat._lights[1].set_light_color(light_color);
-    mat._lights[1].set_intense(1.8f);
-
-    set_ambient_intense(0.4f);
+    mat._lights[1].set_intense(10.8f);
 
     mat.lights_count = mat._lights.size();
 
     _mat = mc().cache(mat);
+    set_ambient_intense(0.4f);
 
 }
 
