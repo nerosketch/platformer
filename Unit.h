@@ -59,11 +59,11 @@ public:
     DynamicUnit(const DynamicUnit& orig);
     virtual ~DynamicUnit();
 
-    void Attack();
-    void WalkForward();
-    void WalkBack();
-    void Run();
-    void Jump();
+    virtual void Attack();
+    virtual void WalkForward();
+    virtual void WalkBack();
+    virtual void Run();
+    virtual void Jump();
 
     void doUpdate(const UpdateState& us) override;
 

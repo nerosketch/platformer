@@ -2,12 +2,11 @@
 <resources>
     <set path="res/img"/>
     <atlas linearFilter="false" clamp2edge="false">
-        <image file="anim_m.png" cols="8"/>
         <image file="pixeland.png" cols="40" rows="91"/>
         <image file="torch_anim.png" cols="8"/>
-        <image file="landscape_tileset.png" cols="24" rows="9"/>
         <image file="panel.png"/>
         <image file="close_button.png" cols="2"/>
+        <image file="character.png" cols="6" rows="5"/>
     </atlas>
 
     <set path="res/img/menu"/>

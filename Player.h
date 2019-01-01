@@ -23,9 +23,11 @@ DECLARE_SMART(Player, spPlayer);
 class Player : public DynamicUnit
 {
 private:
-    uint level;
-
     spTween current_tween;
+    ResAnim *p_res_anim;
+
+    void _on_tween_done(Event*);
+
 public:
     Player(const Vector2 &pos);
     Player(const Player& orig);
@@ -40,6 +42,13 @@ public:
     void doUpdate(const UpdateState& us) override;
 
     void on_fall_down() override;
+
+    virtual void Attack() override;
+    virtual void WalkForward() override;
+    virtual void WalkBack() override;
+    virtual void Run() override;
+    virtual void Jump() override;
+    virtual void Idle();
 };
 
 #endif /* PLAYER_H */

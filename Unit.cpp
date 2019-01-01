@@ -42,7 +42,7 @@ void DynamicUnit::Jump()
 {
     if(on_ground)
     {
-        dy = -0.4;
+        dy = -0.3;
         on_ground = false;
     }
 }
