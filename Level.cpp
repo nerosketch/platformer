@@ -50,6 +50,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, Image& im, const list<RectF
         uint block_index_counter = 0;
 
         spTiledSprite terr_el(new TiledSprite(lay, im));
+        applyShader(terr_el.get());
         addChild(terr_el);
 
         for(uint col=0; col<lay.options.height; col++)
@@ -103,12 +104,14 @@ GameError Level::load_stage(const string fname)
 
     // Загрузим пейзаж
     landscape = new TiledSprite(ol.landscape, src);
+    applyShader(landscape.get());
     addChild(landscape);
 
     // Загрузим фон
     for(LAYER &lay : ol.backgrounds)
     {
         spTiledSprite background = new TiledSprite(lay, src);
+        applyShader(background.get());
         addChild(background);
     }
 
@@ -118,6 +121,8 @@ GameError Level::load_stage(const string fname)
     // установим факелы
     ResAnim *torch_res_anim = res::resources.getResAnim("torch_anim");
     Vector2 pos(0.f, 317.f);
+    Vector4 light_color(1.f, 1.f, 1.f, 1.f);
+
     for(uint n=0; n < 7; n++)
     {
         pos.x = 350 + (112.f * n);
@@ -128,9 +133,17 @@ GameError Level::load_stage(const string fname)
         block->setPosition(pos);
         block->setResAnim(torch_res_anim);
         block->addTween(Sprite::TweenAnim(getResAnim()), RANDOM_RANGE(400, 500), -1);
+
+        // Добавим источник света к факелу
+        applyShader(block.get());
+        LightPoint lp(pos);
+        lp.set_light_color(light_color);
+        lp.set_intense(2.f);
+        lp.set_radius(40.f);
+        addLight(lp);
+
         addChild(block);
     }
-
 
     // Загрузим игрока
     pos.y = 160.f;
@@ -157,18 +170,16 @@ void Level::doUpdate(const UpdateState& us)
         setX(stage_half_width - player_pos_x);
     }
 
-
     // Прокручиваем задний фон по медленнее
     landscape->setX(
         (getX() / 4.f)
     );
+    Light::doUpdate(us);
 }
 
 
 void Level::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
-{
-    
-}
+{}
 
 
 void Level::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)

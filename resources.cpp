@@ -4,12 +4,12 @@
 
 namespace res{
     Resources resources;
-    void load(const string &res_name)
+    void load()
     {
 #ifdef DBG
-        logs::messageln("res::load %s", res_name.c_str());
+        logs::messageln("res::load res/res.xml");
 #endif
-        resources.loadXML(res_name);
+        resources.loadXML("res/res.xml");
 
 #ifdef SOUND_ENABLE
         resources.loadXML("res/sounds.xml");

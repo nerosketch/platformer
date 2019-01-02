@@ -20,10 +20,14 @@
 using namespace oxygine;
 
 
-Game::Game()
+Game::Game() :
+    _viewport(Point(0, 0), core::getDisplaySize()),
+    _clearColor(32, 32, 32, 255)
 {}
 
-Game::Game(const Game& orig)
+Game::Game(const Game& o) :
+    _viewport(o._viewport),
+    _clearColor(o._clearColor)
 {}
 
 Game::~Game()
@@ -45,7 +49,7 @@ GameError Game::init()
 
     ResFontFT::initLibrary();
 
-    res::load("res/res.xml");
+    res::load();
 
     auto p_stage = getStage();
 

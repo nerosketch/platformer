@@ -5,26 +5,26 @@
  * Created on December 25, 2018, 1:22 AM
  */
 
-#include <vector>
 #include <string>
 #include "Light.h"
 #include "resources.h"
 
 
-using namespace std;
-
 #define ADDR_BUF_LEN 32
+
+
+DECLARE_SMART(CustomUniformMat, spCustomUniformMat);
+
 
 class CustomUniformMat : public STDMaterial
 {
 private:
     char _addr_buf[ADDR_BUF_LEN];
+
 public:
     MATX(CustomUniformMat);
 
-    vector<LightPoint> _lights;
-    uint lights_count;
-    float _ambient_intense;
+    Light *p_light;
 
     static bool cmp(const CustomUniformMat& a, const CustomUniformMat& b)
     {
@@ -41,16 +41,21 @@ public:
     {
         STDMaterial::xapply();
 
-        IVideoDriver::instance->setUniformInt("lights_count", lights_count);
-        IVideoDriver::instance->setUniform("ambient_intense", _ambient_intense);
+        IVideoDriver::instance->setUniformInt("lights_count", p_light->lights_count);
+        //logs::messageln("lights_count %d", p_light->lights_count);
+        IVideoDriver::instance->setUniform("ambient_intense", p_light->_ambient_intense);
+        //logs::messageln("ambient_intense %.2f", p_light->_ambient_intense);
+
+        const Vector2& pos = p_light->getPosition();
+
         uint n = 0;
-        for(const LightPoint& l : _lights)
+        for(const LightPoint& l : p_light->_lights)
         {
             if(n > 15)
                 break;
 
             snprintf(_addr_buf, ADDR_BUF_LEN, "lights[%d].light_pos", n);
-            IVideoDriver::instance->setUniform(_addr_buf, l);
+            IVideoDriver::instance->setUniform(_addr_buf, l + pos);
 
             snprintf(_addr_buf, ADDR_BUF_LEN, "lights[%d].light_color", n);
             IVideoDriver::instance->setUniform(_addr_buf, l._light_color);
@@ -70,78 +75,13 @@ public:
 // #################### Light Start #####################
 
 
-Light::Light() : _shaderLight(0)
+Light::Light() : _shaderLight(nullptr)
 {
-    _shaderLight = new UberShaderProgram;
-    _shaderLight->init(STDRenderer::uberShaderBody, R"(
-        #ifdef PS
-        #define MODIFY_BASE
-        struct LIGHT_INFO{
-            vec4 light_color;
-            vec2 light_pos;
-            float radius;
-            float intense;
-        };
-        uniform lowp int lights_count;
-        uniform lowp float ambient_intense;
-        uniform lowp LIGHT_INFO lights[16];
-
-        lowp vec4 modify_base(lowp vec4 base)
-        {
-            for(int i = 0; i < lights_count; ++i)
-            {
-                float dist = distance(lights[i].light_pos, gl_FragCoord.xy);
-                if(dist < lights[i].radius)
-                {
-                    float k = 1.0 - (dist / lights[i].radius);
-                    base *= lights[i].light_color * lights[i].intense * k + ambient_intense;
-                }else
-                    base *= ambient_intense;
-            }
-            return base;
-        }
-        #endif
-    )");
-
-    /*
-     * Часть успешного шейдера
-    base = base * light2.light_color;
-    dist = distance(lights[n].light_pos, gl_FragCoord.xy);
-    if(dist < lights[n].radius)
-    {
-        k += 1.0 + lights[n].ambient_intense - (dist / lights[n].radius);
-        base = base * k * light2.intense;
-    }else
-        base = base * light2.ambient_intense * light2.intense;
-    */
-
-    CustomUniformMat mat;
-    _mat->copyTo(mat);
-
-    mat._uberShader = _shaderLight;
-    mat._lights.resize(2);
-    mat._lights[0] = LightPoint(555.f, 100.f);
-    
-    Vector4 light_color(0.5f, 0.5f, 0.9f, 0.0f);
-    mat._lights[0].set_light_color(light_color);
-    mat._lights[0].set_intense(30.8f);
-    mat._lights[0].set_radius(40.f);
-
-    mat._lights[1] = LightPoint(255.f, 100.f);
-    light_color = Vector4(0.9f, 0.5f, 0.5f, 0.0f);
-    mat._lights[1].set_light_color(light_color);
-    mat._lights[1].set_intense(10.8f);
-
-    mat.lights_count = mat._lights.size();
-
-    _mat = mc().cache(mat);
-    set_ambient_intense(0.4f);
-
+    applyShader(this);
 }
 
 Light::Light(const Light&)
-{
-}
+{}
 
 Light::~Light()
 {
@@ -149,29 +89,57 @@ Light::~Light()
 }
 
 
-void Light::add_light(const LightPoint& p)
+void Light::applyShader(VStyleActor* p_actor)
 {
-    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
-    p_mat->_lights.push_back(p);
-    p_mat->lights_count = p_mat->_lights.size();
+    if(_shaderLight != nullptr)
+    {
+        delete _shaderLight;
+        _shaderLight = nullptr;
+    }
+
+    ox::file::buffer data;
+    ox::file::read("lighting.glsl", data);
+
+    _shaderLight = new UberShaderProgram;
+    _shaderLight->init(STDRenderer::uberShaderBody, data.getString().c_str());
+
+    spCustomUniformMat mat(new CustomUniformMat);
+    mat->p_light = this;
+    p_actor->_mat->copyTo(*mat);
+
+    mat->_uberShader = _shaderLight;
+
+    _ambient_intense = 0.5f;
+    lights_count = _lights.size();
+
+    p_actor->_mat = mc().cache(*mat);
 }
 
-void Light::remove_light(LightPoint& p)
+
+void Light::addLight(const LightPoint& p)
+{
+    logs::messageln("Light::addLight %d", lights_count);
+    _lights.push_back(p);
+    lights_count = _lights.size();
+}
+
+
+void Light::removeLight(LightPoint& p)
 {
     //CustomUniformMat *p_mat = static_cast<STDMaterial*>(_mat.get());
     //p_mat->_lights.push_back(p);
 }
 
+
 void Light::set_ambient_intense(const float ai)
 {
-    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
-    p_mat->_ambient_intense = ai;
+    _ambient_intense = ai;
 }
+
 
 float Light::get_ambient_intense() const
 {
-    CustomUniformMat *p_mat = static_cast<CustomUniformMat*>(_mat.get());
-    return p_mat->_ambient_intense;
+    return _ambient_intense;
 }
 
 
@@ -185,17 +153,23 @@ LightPoint::LightPoint() : _light_color(1.f, 1.f, 1.f, 1.f),
         _radius(200.f), _intense(1.f)
 {}
 
-LightPoint::LightPoint(float x, float y) : Vector2(x, y),
+LightPoint::LightPoint(const float x, const float y) : Vector2(x, y),
         _light_color(1.f, 1.f, 1.f, 1.f),
         _radius(200.f), _intense(1.f)
 {
     set(x, y);
 }
 
+
+LightPoint::LightPoint(const Vector2& pos) : LightPoint(pos.x, pos.y)
+{}
+
+
 LightPoint::LightPoint(const LightPoint& o) :
         Vector2(o), _light_color(o._light_color),
         _radius(o._radius), _intense(o._intense)
 {}
+
 
 LightPoint::~LightPoint()
 {}

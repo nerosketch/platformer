@@ -16,7 +16,7 @@ using namespace oxygine;
 
 namespace res{
     extern Resources resources;
-    void load(const string &res_name);
+    void load();
     void free();
 }
 

@@ -13,9 +13,14 @@
 
 class Game : public Base
 {
+private:
+    spStageManager stage_manager;
+    Rect _viewport;
+    Color _clearColor;
+
 public:
     Game();
-    Game(const Game& orig);
+    Game(const Game&);
     virtual ~Game();
 
     void preinit();
@@ -24,8 +29,25 @@ public:
     bool update();
     void flush();
 
-private:
-    spStageManager stage_manager;
+    inline const Rect& getViewport() const
+    {
+        return _viewport;
+    }
+
+    inline void setViewport(const Rect& r)
+    {
+        _viewport = r;
+    }
+
+    inline const Color& getClearColor() const
+    {
+        return _clearColor;
+    }
+
+    inline void setClearColor(const Color& c)
+    {
+        _clearColor = c;
+    }
 };
 
 #endif /* GAME_H */

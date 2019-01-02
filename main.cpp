@@ -22,7 +22,7 @@ bool mainloop(Game& gstage)
         return true;
     }
 
-    auto p_stage = getStage();
+    const spStage& p_stage = getStage();
 
     // Update our stage
     // Update all actors. Actor::update will also be called for all its children
@@ -30,10 +30,9 @@ bool mainloop(Game& gstage)
 
     if (core::beginRendering())
     {
-        Color clearColor(32, 32, 32, 255);
-        Rect viewport(Point(0, 0), core::getDisplaySize());
         // Render all actors inside the stage. Actor::render will also be called for all its children
-        p_stage->render(clearColor, viewport);
+        //p_stage->render(clearColor, viewport);
+        p_stage->render(gstage.getClearColor(), gstage.getViewport());
 
         core::swapDisplayBuffers();
     }
@@ -95,6 +94,9 @@ void run()
     // On iPhone mainloop is called automatically by CADisplayLink, see int main() below
     //return;
 #endif
+
+    Rect viewport(Point(0, 0), core::getDisplaySize());
+    stage.setViewport(viewport);
 
     // This is the main game loop.
     while (1)

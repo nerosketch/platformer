@@ -5,11 +5,13 @@
  * Created on December 25, 2018, 1:22 AM
  */
 
+#include <vector>
 #include "flags.h"
 #include <oxygine-framework.h>
 
 
 using namespace oxygine;
+using namespace std;
 
 
 #ifndef LIGHT_H
@@ -30,7 +32,8 @@ private:
 
 public:
     LightPoint();
-    LightPoint(float x, float y);
+    LightPoint(const float x, const float y);
+    LightPoint(const Vector2& pos);
     LightPoint(const LightPoint&);
     virtual ~LightPoint();
 
@@ -64,22 +67,29 @@ public:
 };
 
 
-class Light :public Sprite
+class Light : public Sprite
 {
 private:
     INHERITED(Sprite);
+    friend class CustomUniformMat;
     UberShaderProgram* _shaderLight;
+
+    vector<LightPoint> _lights;
+    uint lights_count;
+    float _ambient_intense;
 
 public:
     Light();
     Light(const Light& orig);
     virtual ~Light();
 
-    void add_light(const LightPoint&);
-    void remove_light(LightPoint&);
+    void addLight(const LightPoint&);
+    void removeLight(LightPoint&);
 
     void set_ambient_intense(const float);
     float get_ambient_intense() const;
+
+    void applyShader(VStyleActor*);
 
 };
 

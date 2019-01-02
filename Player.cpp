@@ -17,9 +17,6 @@ DynamicUnit(pos)
     p_res_anim = res::resources.getResAnim("character");
     setResAnim(p_res_anim);
     //setAnchor(0.f, 0.f);
-    
-    setResAnim(p_res_anim);
-    //setAnchor(0.f, 0.f);
 
     Idle();
 
