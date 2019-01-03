@@ -140,6 +140,9 @@ void ObjectLoader::open(const string fname)
         }
     }
 
+    tile_size.x = value["tilewidth"].asFloat();
+    tile_size.y = value["tileheight"].asFloat();
+
 }
 
 

@@ -10,7 +10,7 @@
     </atlas>
 
     <set path="res/img/menu"/>
-    <atlas>
+    <atlas linearFilter="false" clamp2edge="false">
         <image file="start_button.png" cols="2"/>
         <image file="exit_button.png" cols="2"/>
         <image file="background.png"/>

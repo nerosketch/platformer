@@ -6,35 +6,39 @@
  */
 #include "flags.h"
 #include "resources.h"
+#ifdef DBG
 #include "DebugRectSprite.h"
+#endif
 #include "Player.h"
 
 
 
-Player::Player(const Vector2 &pos):
-DynamicUnit(pos)
+Player::Player(const Vector2 &pos, const Vector2& tile_size):
+DynamicUnit(pos, tile_size)
 {
-    p_res_anim = res::resources.getResAnim("character");
-    setResAnim(p_res_anim);
-    //setAnchor(0.f, 0.f);
+    setResAnim(res::resources.getResAnim("character"));
 
     Idle();
 
+    // Set scale
+    //const Vector2& stage_size = getStage()->getScaledSize();
+    //const Vector2 initial_scale = CALC_SCALE(stage_size, Vector2(INITIAL_STAGE_WIDTH, INITIAL_STAGE_HEIGHT));
+    //setScale(initial_scale);
+
+#ifdef DBG
+    spDebugRectSprite ds(new DebugRectSprite(Color::Blue, getSize()));
+    addChild(ds);
+#endif
 }
 
-Player::Player(const Player& orig):
-Player(orig.getPosition())
-{
-}
+
+Player::Player(const Player& o):
+Player(o.getPosition(), o.getTileSize())
+{}
+
 
 Player::~Player()
-{
-}
-
-/*GameError Player::init()
-{
-    return GameError();
-}*/
+{}
 
 
 void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
@@ -60,6 +64,7 @@ void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scan
 
     //DynamicUnit::OnKeyDown(ev, key_scancode);
 }
+
 
 void Player::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
@@ -109,7 +114,9 @@ void Player::doUpdate(const UpdateState& us)
 // Упал вниз карты
 void Player::on_fall_down()
 {
+#ifdef DBG
     logs::messageln("Player::on_fall_down");
+#endif
 }
 
 
@@ -151,6 +158,7 @@ void Player::Run()
     current_tween->setDoneCallback(CLOSURE(this, &Player::_on_tween_done));
 }
 
+
 void Player::Jump()
 {
     auto ta = Sprite::TweenAnim(p_res_anim, 2);
@@ -160,6 +168,7 @@ void Player::Jump()
 
     current_tween->setDoneCallback(CLOSURE(this, &Player::_on_tween_done));
 }
+
 
 void Player::Idle()
 {

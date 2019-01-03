@@ -33,12 +33,11 @@ public:
 class DynamicUnit : public Sprite, public InputEvent
 {
 private:
-    float health;
-    float damage;
-    float weigth;
-    uint lives;
-    float speed;
-    Point respawn_position;
+    Vector2 _tile_size;             // Размер одного блока карты
+    float _speed;                   // Скорость равномерного передвижения
+    float _jump_speed;              // Ускорение для прыжка
+    float _tension;                 // Упругость, отскакивание от вертикальных поверхностей
+    float _gravity;                 // Ускорение падения
 
     // карта для взаимодействий
     vector<vector<InteractiveUnit*>> _map_interaction;
@@ -55,8 +54,8 @@ protected:
     virtual void on_fall_down() = 0;
 
 public:
-    DynamicUnit(const Vector2& pos);
-    DynamicUnit(const DynamicUnit& orig);
+    DynamicUnit(const Vector2& pos, const Vector2& tile_size);
+    DynamicUnit(const DynamicUnit&);
     virtual ~DynamicUnit();
 
     virtual void Attack();
@@ -76,6 +75,19 @@ public:
     //void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
 
     void OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
+
+    inline const Vector2& getTileSize() const { return _tile_size; }
+
+    inline void setTileSize(const Vector2& o)
+    {
+        setTileSize(o.x, o.y);
+    }
+
+    inline void setTileSize(const float x, const float y)
+    {
+        _tile_size.x = x;
+        _tile_size.y = y;
+    }
 };
 
 

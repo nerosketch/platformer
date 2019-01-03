@@ -5,6 +5,8 @@
  * Created on October 24, 2018, 9:00 PM
  */
 
+#include "flags.h"
+#include "base.h"
 #include "Btn.h"
 #include "Level.h"
 #include "resources.h"
@@ -20,8 +22,13 @@ using namespace std;
 
 StartMenu::StartMenu()
 {
+    const ResAnim *p_res_anim = res::resources.getResAnim("background");
+    setResAnim(p_res_anim);
 
-    setResAnim(res::resources.getResAnim("background"));
+    const Vector2& im_size = p_res_anim->getSize();
+    const Vector2& stage_size = getStage()->getSize();
+    const Vector2 scale = CALC_SCALE(stage_size, im_size);
+    setScale(scale);
 
     // звук навигации
     EventCallback ncb = CLOSURE(this, &StartMenu::on_mouse_over);

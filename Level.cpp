@@ -4,21 +4,31 @@
  * 
  * Created on October 21, 2018, 9:43 AM
  */
+
 #include "resources.h"
-#include "Level.h"
 #include "flags.h"
+#ifdef DBG
+#include "DebugRectSprite.h"
+#endif
+#include "Level.h"
 
 
 Level::Level()
 {
+    // Set scale
+    const Vector2& stage_size = getStage()->getScaledSize();
+    const Vector2 initial_scale = CALC_SCALE(stage_size, Vector2(INITIAL_STAGE_WIDTH, INITIAL_STAGE_HEIGHT));
+    setScale(initial_scale);
+
 #ifdef DBG
     logs::messageln("Level::Level");
 #endif
 }
 
-Level::Level(const Level& orig)
-{
-}
+
+Level::Level(const Level&)
+{}
+
 
 Level::~Level()
 {
@@ -148,7 +158,7 @@ GameError Level::load_stage(const string fname)
     // Загрузим игрока
     pos.y = 160.f;
     pos.x = 80.f;
-    player = new Player(pos);
+    player = new Player(pos, ol.tile_size);
     player->SetMapInteraction(map_interaction);
     addChild(player);
 

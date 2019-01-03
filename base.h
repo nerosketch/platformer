@@ -23,10 +23,15 @@ class Base
     virtual ~Base();*/
 };
 
+
 #define RANDOM_RANGE(min, max)  (rand()%(max-min+1) + min)
 
 
-class GameError{
+#define CALC_SCALE(size1, size2) (size1.div(size2))
+
+
+class GameError
+{
 public:
     GameError():
     error_code(0),

@@ -35,6 +35,7 @@ public:
     LAYER landscape;
     vector<spTILESET> tilesets;
     list<RectF> objects;
+    Vector2 tile_size;
 
     spTILESET get_tileset_by_name(string name);
     spTILESET get_tileset_by_id(uint id);

@@ -6,7 +6,13 @@
  */
 
 #ifdef DBG
+#include "flags.h"
 #include "DebugRectSprite.h"
+
+
+DebugRectSprite::DebugRectSprite() : DebugRectSprite(Color::Blue, Vector2(TILE_WIDTH, TILE_HEIGHT))
+{}
+
 
 DebugRectSprite::DebugRectSprite(const uint color, const Vector2 size)
 {
@@ -19,6 +25,7 @@ DebugRectSprite::DebugRectSprite(const uint color, const Vector2 size)
 DebugRectSprite::DebugRectSprite(const DebugRectSprite& orig)
 {
 }
+
 
 DebugRectSprite::~DebugRectSprite()
 {

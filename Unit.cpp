@@ -9,43 +9,56 @@
 #include "Unit.h"
 
 
-DynamicUnit::DynamicUnit(const Vector2& pos):
-dx(0.f), dy(0.f), on_ground(false),
-map_width(0), map_height(0)
+DynamicUnit::DynamicUnit(const Vector2& pos, const Vector2& tile_size):
+_tile_size(tile_size), _speed(0.1f), _jump_speed(0.4f),
+_tension(0.05f), _gravity(0.0005f),
+dx(0.f), dy(0.f), on_ground(false)
 {
     setPosition(pos);
+    setTileSize(tile_size);
 }
 
-DynamicUnit::DynamicUnit(const DynamicUnit& orig):
-DynamicUnit(orig.getPosition())
-{
-}
 
-DynamicUnit::~DynamicUnit() {
-}
+DynamicUnit::DynamicUnit(const DynamicUnit& o):
+DynamicUnit(o.getPosition(), o.getTileSize())
+{}
+
+
+DynamicUnit::~DynamicUnit()
+{}
+
 
 void DynamicUnit::Attack()
 {
 }
+
+
 void DynamicUnit::WalkForward()
 {
-    dx = 0.1f;
+    dx = _speed;
 }
+
+
 void DynamicUnit::WalkBack()
 {
-    dx = -0.1f;
+    dx = -_speed;
 }
+
+
 void DynamicUnit::Run()
 {
 }
+
+
 void DynamicUnit::Jump()
 {
     if(on_ground)
     {
-        dy = -0.3;
+        dy = -_jump_speed;
         on_ground = false;
     }
 }
+
 
 void DynamicUnit::doUpdate(const UpdateState& us)
 {
@@ -54,14 +67,17 @@ void DynamicUnit::doUpdate(const UpdateState& us)
 
     // 0.0005f это ускорение
     if(!on_ground)
-        dy = dy + 0.0005f * us.dt;
+        dy = dy + _gravity * us.dt;
 
     setY(getY() + dy * us.dt);
 
     on_ground = false;
-    if(getY() >= 470.f)
+
+    const float stage_height = getStage()->getHeight();
+
+    if(getY() >= stage_height)
     {
-        setY(400.f);
+        setY(stage_height / 2.f);
         on_fall_down();
     }
 
@@ -85,19 +101,20 @@ void DynamicUnit::updateCollideX()
             {
                 if(dx > 0)
                 {
-                    setX(w * TILE_WIDTH - sz.x);
-                    dx = -0.05f;
+                    setX(w * _tile_size.x - sz.x);
+                    dx = -_tension;
                     p_unit->on_collide(this);
                 }
                 else if(dx < 0)
                 {
-                    setX(w * TILE_WIDTH + TILE_WIDTH);
-                    dx = 0.05f;
+                    setX(w * _tile_size.x + _tile_size.x);
+                    dx = _tension;
                     p_unit->on_collide(this);
                 }
             }
         }
 }
+
 
 void DynamicUnit::updateCollideY()
 {
@@ -114,14 +131,14 @@ void DynamicUnit::updateCollideY()
             {
                 if(dy > 0)
                 {
-                    setY(h * TILE_HEIGHT - sz.y);
+                    setY(h * _tile_size.y - sz.y);
                     dy = dx = 0.f;
                     on_ground = true;
                     p_unit->on_collide(this);
                 }
                 else if(dy < 0)
                 {
-                    setY(h * TILE_HEIGHT + TILE_HEIGHT);
+                    setY(h * _tile_size.y + _tile_size.y);
                     dy = 0.f;
                     p_unit->on_collide(this);
                 }
@@ -142,6 +159,7 @@ void DynamicUnit::SetMapInteraction(const vector<vector<InteractiveUnit*>> &map)
 {
     
 }*/
+
 
 void DynamicUnit::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {

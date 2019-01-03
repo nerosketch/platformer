@@ -29,8 +29,8 @@ private:
     void _on_tween_done(Event*);
 
 public:
-    Player(const Vector2 &pos);
-    Player(const Player& orig);
+    Player(const Vector2 &pos, const Vector2& tile_size);
+    Player(const Player&);
     virtual ~Player();
 
     //GameError init() override;

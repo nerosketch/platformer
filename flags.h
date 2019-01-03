@@ -23,4 +23,11 @@
 #define TILE_HEIGHT     16.f
 
 
+/*
+ * core::init_desc `w` and `h`
+ */
+#define INITIAL_STAGE_WIDTH     960.f
+#define INITIAL_STAGE_HEIGHT    540.f
+
+
 #endif /* FLAGS_H */

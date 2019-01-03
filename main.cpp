@@ -47,12 +47,12 @@ void run()
 
     // Initialize Oxygine's internal stuff
     core::init_desc desc;
-    desc.title = "My oxygine game";
+    desc.title = "Yumi gift";
 
     // The initial window size can be set up here on SDL builds, ignored on Mobile devices
-    desc.w = 911;
-    desc.h = 496;
-    // desc.fullscreen = true;
+    desc.w = 960;
+    desc.h = 540;
+    //desc.fullscreen = true;
 
     Game stage;
 

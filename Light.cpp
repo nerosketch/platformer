@@ -42,9 +42,7 @@ public:
         STDMaterial::xapply();
 
         IVideoDriver::instance->setUniformInt("lights_count", p_light->lights_count);
-        //logs::messageln("lights_count %d", p_light->lights_count);
         IVideoDriver::instance->setUniform("ambient_intense", p_light->_ambient_intense);
-        //logs::messageln("ambient_intense %.2f", p_light->_ambient_intense);
 
         const Vector2& pos = p_light->getPosition();
 
@@ -118,7 +116,10 @@ void Light::applyShader(VStyleActor* p_actor)
 
 void Light::addLight(const LightPoint& p)
 {
+#ifdef DBG
     logs::messageln("Light::addLight %d", lights_count);
+#endif
+
     _lights.push_back(p);
     lights_count = _lights.size();
 }

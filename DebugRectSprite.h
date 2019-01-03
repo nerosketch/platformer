@@ -22,6 +22,7 @@ class DebugRectSprite : public ColorRectSprite
 private:
     INHERITED(ColorRectSprite);
 public:
+    DebugRectSprite();
     DebugRectSprite(const uint, const Vector2 size);
     DebugRectSprite(const DebugRectSprite&);
     virtual ~DebugRectSprite();

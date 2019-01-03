@@ -32,11 +32,16 @@ _layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
     _init_mat(im);
 }
 
+
 void TiledSprite::_init_mat(Image& im)
 {
+    const float layer_height = _layer.options.height * _tile_size.y;
+    const float& stage_height = getStage()->getHeight();
+    setScale(stage_height / layer_height);
+
     nt = IVideoDriver::instance->createTexture();
     nt->init(im.lock());
-    nt->setClamp2Edge(true);
+    nt->setClamp2Edge(false);
     nt->setLinearFilter(false);
 
     _mat = new STDMaterial;
@@ -46,14 +51,11 @@ void TiledSprite::_init_mat(Image& im)
 
 
 TiledSprite::TiledSprite(const TiledSprite& orig)
-{
-}
+{}
 
 
 TiledSprite::~TiledSprite()
-{
-}
-
+{}
 
 
 void TiledSprite::_build_vert(vertexPCT2* p_verts, const Vector2& pos, const Point& res_coords)
@@ -67,6 +69,8 @@ void TiledSprite::_build_vert(vertexPCT2* p_verts, const Vector2& pos, const Poi
     const float u = (_tile_size.x / _sprite_size.x) * res_coords.x;
     const float v = (_tile_size.y / _sprite_size.y) * res_coords.y;
 
+    const Vector2& scale = getScale();
+
     vertexPCT2 *vt = &p_verts[0];
     vt->x = pos.x;
     vt->y = pos.y;
@@ -77,14 +81,14 @@ void TiledSprite::_build_vert(vertexPCT2* p_verts, const Vector2& pos, const Poi
 
     vt = &p_verts[1];
     vt->x = pos.x;
-    vt->y = pos.y + _tile_size.y;
+    vt->y = pos.y + _tile_size.y * scale.y;
     vt->u = u;
     vt->v = v + dv;
     vt->z = 0.f;
     vt->color = color;
 
     vt = &p_verts[2];
-    vt->x = pos.x + _tile_size.y;
+    vt->x = pos.x + _tile_size.x * scale.x;
     vt->y = pos.y;
     vt->u = u + du;
     vt->v = v;
@@ -92,8 +96,8 @@ void TiledSprite::_build_vert(vertexPCT2* p_verts, const Vector2& pos, const Poi
     vt->color = color;
 
     vt = &p_verts[3];
-    vt->x = pos.x + _tile_size.y;
-    vt->y = pos.y + _tile_size.y;
+    vt->x = pos.x + _tile_size.x * scale.x;
+    vt->y = pos.y + _tile_size.y * scale.y;
     vt->u = u + du;
     vt->v = v + dv;
     vt->z = 0.f;
@@ -117,6 +121,7 @@ void TiledSprite::doRender(const RenderState& rs)
 
     const Vector2& stage_size = getStage()->getSize();
     const Vector2 sprite_position = getAbsolutePosition();
+    const Vector2& scale = getScale();
 
     const uint start_col = sprite_position.y / _tile_size.y;
     const uint end_col = (sprite_position.y + stage_size.y) / _tile_size.y;
@@ -139,7 +144,7 @@ void TiledSprite::doRender(const RenderState& rs)
                 continue;
             }
 
-            pos.x = row * _tile_size.x;
+            pos.x = row * _tile_size.x * scale.x;
 
             const uint block_id = _layer.int_data[block_index_counter++];
 
@@ -155,7 +160,7 @@ void TiledSprite::doRender(const RenderState& rs)
 
         }
 
-        pos.y = col * _tile_size.y;
+        pos.y = col * _tile_size.y * scale.y;
     }
 }
 
