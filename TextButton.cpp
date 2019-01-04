@@ -12,12 +12,12 @@
 TextButton::TextButton() :
 _text(new TextField)
 {
-    ResFont *font = res::resources.getResFont("chat_noir");
+    ResFont *font = res::resources.getResFont("VT323-Regular");
 
     _text->setFont(font);
     _text->setFontSize(8);
     _text->setAnchor(0.5f, 0.5f);
-    _text->setPosition(4.f, 0.f);
+    _text->setPosition(8.f, 0.8f);
     _text->setColor(Color::Black);
 
     addChild(_text);

@@ -16,5 +16,5 @@
     </atlas>
 
     <set path="res/fonts"/>
-    <ftfont file="chat_noir.ttf"/>
+    <ftfont file="VT323-Regular.ttf"/>
 </resources>

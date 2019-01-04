@@ -17,7 +17,7 @@ TextPanel::TextPanel(const string text)
     setGuides(TILE_WIDTH, TILE_WIDTH, TILE_HEIGHT, TILE_HEIGHT);
 
     text_field = new TextField;
-    text_field->setFont(res::resources.getResFont("chat_noir"));
+    text_field->setFont(res::resources.getResFont("VT323-Regular"));
     //text_field->setAlign(TextStyle::VerticalAlign::VALIGN_BASELINE, TextStyle::HorizontalAlign::HALIGN_LEFT);
     text_field->setColor(Color(Color::Thistle));
     text_field->setFontSize(14);

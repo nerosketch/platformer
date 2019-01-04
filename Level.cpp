@@ -224,7 +224,7 @@ void LevelInteractiveUnit::on_collide(DynamicUnit* p_du)
 
     if(!_is_text_panel_exist)
     {
-        spTextPanel tex(new TextPanel("Пример текста..."));
+        spTextPanel tex(new TextPanel("Test text..."));
         tex->setPosition(26.f, -16.f);
         tex->setTimeToLive(3000);
         tex->setOnDieEvent(CLOSURE(this, &LevelInteractiveUnit::free_text_panel));
