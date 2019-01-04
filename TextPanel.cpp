@@ -25,7 +25,8 @@ TextPanel::TextPanel(const string text)
     addChild(text_field);
 
     // Ok button
-    ok_btn = new Btn("close_button");
+    ok_btn = new Button();
+    ok_btn->setResAnim(res::resources.getResAnim("close_button"));
     ok_btn->setPosition(50.f, 20.f);
     ok_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &TextPanel::_kill_me));
     addChild(ok_btn);

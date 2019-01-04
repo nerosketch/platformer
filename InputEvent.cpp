@@ -47,11 +47,25 @@ InputEventContainer::InputEventContainer()
     ox::core::getDispatcher()->addEventListener(ox::core::EVENT_SYSTEM, _onEvent);
 
 #ifdef DBG
-    logs::messageln("InputEventContainer::InputEventContainer");
+    logs::messageln("InputEventContainer:: ()");
 #endif
 }
-InputEventContainer::InputEventContainer(const InputEventContainer&){}
-InputEventContainer::~InputEventContainer(){}
+
+
+InputEventContainer::InputEventContainer(const InputEventContainer&)
+{
+#ifdef DBG
+    logs::messageln("InputEventContainer:: Copy");
+#endif
+}
+
+
+InputEventContainer::~InputEventContainer()
+{
+#ifdef DBG
+    logs::messageln("InputEventContainer:: ~");
+#endif
+}
 
 
 
@@ -220,7 +234,7 @@ void InputEventContainer::push_key_down(const SDL_KeyboardEvent& ev, const SDL_S
 InputEvent::InputEvent()
 {
 #ifdef DBG
-    logs::messageln("InputEvent::InputEvent");
+    logs::messageln("InputEvent:: ()");
 #endif
 
     static InputEventContainer inp_cont;

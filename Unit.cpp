@@ -14,6 +14,10 @@ _tile_size(tile_size), _speed(0.1f), _jump_speed(0.4f),
 _tension(0.05f), _gravity(0.0005f),
 dx(0.f), dy(0.f), on_ground(false)
 {
+#ifdef DBG
+    logs::messageln("DynamicUnit:: ()");
+#endif
+
     setPosition(pos);
     setTileSize(tile_size);
 }
@@ -21,11 +25,19 @@ dx(0.f), dy(0.f), on_ground(false)
 
 DynamicUnit::DynamicUnit(const DynamicUnit& o):
 DynamicUnit(o.getPosition(), o.getTileSize())
-{}
+{
+#ifdef DBG
+    logs::messageln("DynamicUnit:: Copy");
+#endif
+}
 
 
 DynamicUnit::~DynamicUnit()
-{}
+{
+#ifdef DBG
+    logs::messageln("DynamicUnit:: ~");
+#endif
+}
 
 
 void DynamicUnit::Attack()

@@ -16,7 +16,12 @@
 Player::Player(const Vector2 &pos, const Vector2& tile_size):
 DynamicUnit(pos, tile_size)
 {
-    setResAnim(res::resources.getResAnim("character"));
+#ifdef DBG
+    logs::messageln("Player::Player");
+#endif
+
+    p_res_anim = res::resources.getResAnim("character");
+    setResAnim(p_res_anim);
 
     Idle();
 

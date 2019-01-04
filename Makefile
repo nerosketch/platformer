@@ -17,7 +17,7 @@ LDFLAGS=-Llib/oxygine-framework/libs \
 EXECUTABLE=platphormer
 
 SOURCES=TiledSprite.cpp \
-	Btn.cpp \
+	TextButton.cpp \
 	DebugRectSprite.cpp \
 	Game.cpp \
 	GameStage.cpp \

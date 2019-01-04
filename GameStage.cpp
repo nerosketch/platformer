@@ -12,14 +12,14 @@ GameStage::GameStage():
 is_zombie(false)
 {
 #ifdef DBG
-    logs::messageln("GameStage::GameStage");
+    logs::messageln("GameStage:: ()");
 #endif
 }
 
 GameStage::GameStage(const GameStage& orig)
 {
 #ifdef DBG
-    logs::messageln("GameStage::GameStage Copy");
+    logs::messageln("GameStage:: Copy");
 #endif
 }
 

@@ -56,11 +56,6 @@ GameError Game::init()
     //spGamer gamer = new Gamer;
     //p_stage->addChild(gamer);
 
-    /*spBtn btn = new Btn();
-    btn->setPosition(512.0f, 64.0f);
-    //and add it to Stage as child
-    p_stage->addChild(btn);*/
-
     stage_manager = StageManager::getInstance();
     GameError err = stage_manager->init();
     if(err != 0)

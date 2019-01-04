@@ -11,7 +11,6 @@
 #include <string>
 #include <oxygine-framework.h>
 #include "base.h"
-#include "Btn.h"
 
 
 using namespace std;
@@ -42,7 +41,7 @@ public:
     void setTimeToLive(const uint ttl = 1000);
     void setOnDieEvent(const EventCallback&);
 
-    spBtn ok_btn;
+    spButton ok_btn;
 };
 
 #endif /* BASEINTERFACE_H */

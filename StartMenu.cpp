@@ -7,7 +7,7 @@
 
 #include "flags.h"
 #include "base.h"
-#include "Btn.h"
+#include "TextButton.h"
 #include "Level.h"
 #include "resources.h"
 #include "StartMenu.h"
@@ -33,9 +33,13 @@ StartMenu::StartMenu()
     // звук навигации
     EventCallback ncb = CLOSURE(this, &StartMenu::on_mouse_over);
 
+    const ResAnim *p_res_btn = res::resources.getResAnim("button");
+    
     // делаем кнопку start
-    spBtn start_btn = new Btn("start_button");
+    spTextButton start_btn = new TextButton("Start");
     start_btn->setAnchor(0.5f, 0.5f);
+    start_btn->setScale(3.f);
+    start_btn->setResAnim(p_res_btn);
     start_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_start_click));
     start_btn->addEventListener(TouchEvent::OVER, ncb);
     Vector2 pos(455.5f, 128.f);
@@ -43,8 +47,10 @@ StartMenu::StartMenu()
     addChild(start_btn);
 
     // делаем кнопку exit
-    spBtn exit_btn = new Btn("exit_button");
+    spTextButton exit_btn = new TextButton("Exit");
     exit_btn->setAnchor(0.5f, 0.5f);
+    exit_btn->setScale(3.f);
+    exit_btn->setResAnim(p_res_btn);
     exit_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_exit_click));
     exit_btn->addEventListener(TouchEvent::OVER, ncb);
     pos.y += 54;

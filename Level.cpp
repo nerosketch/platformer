@@ -97,6 +97,10 @@ void Level::_load_terrain(const vector<LAYER>& lays, Image& im, const list<RectF
 
 GameError Level::load_stage(const string fname)
 {
+#ifdef DBG
+    logs::messageln("Level::load_stage");
+#endif
+
     ObjectLoader ol;
     ol.open(fname);
 
