@@ -25,10 +25,8 @@ StartMenu::StartMenu()
     const ResAnim *p_res_anim = res::resources.getResAnim("background");
     setResAnim(p_res_anim);
 
-    const Vector2& im_size = p_res_anim->getSize();
-    const Vector2& stage_size = getStage()->getSize();
-    const Vector2 scale = CALC_SCALE(stage_size, im_size);
-    setScale(scale);
+    //logs::messageln("scale %f", )
+    setScale(getStage()->getHeight() / p_res_anim->getHeight());
 
     // звук навигации
     EventCallback ncb = CLOSURE(this, &StartMenu::on_mouse_over);

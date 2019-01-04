@@ -16,9 +16,8 @@
 Level::Level()
 {
     // Set scale
-    const Vector2& stage_size = getStage()->getScaledSize();
-    const Vector2 initial_scale = CALC_SCALE(stage_size, Vector2(INITIAL_STAGE_WIDTH, INITIAL_STAGE_HEIGHT));
-    setScale(initial_scale);
+    const float stage_height = getStage()->getScaledHeight();
+    setScale(stage_height / INITIAL_STAGE_HEIGHT);
 
 #ifdef DBG
     logs::messageln("Level::Level");
