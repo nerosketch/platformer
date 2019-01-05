@@ -17,6 +17,7 @@
 #include "GameStage.h"
 #include "Unit.h"
 #include "TextPanel.h"
+#include "Light.h"
 
 
 using namespace std;
@@ -53,6 +54,8 @@ private:
 
     LevelInteractiveUnit liu;
     InteractiveUnit empty_iu;
+
+    spLightMaterial _light_material;
 
     void _load_terrain(const vector<LAYER>&, Image&, const list<RectF>&);
 

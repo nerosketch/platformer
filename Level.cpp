@@ -13,7 +13,7 @@
 #include "Level.h"
 
 
-Level::Level()
+Level::Level() : _light_material(new LightMaterial)
 {
     // Set scale
     const float stage_height = getStage()->getScaledHeight();
@@ -59,7 +59,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, Image& im, const list<RectF
         uint block_index_counter = 0;
 
         spTiledSprite terr_el(new TiledSprite(lay, im));
-        applyShader(terr_el.get());
+        _light_material->applyMateralTo(terr_el.get());
         addChild(terr_el);
 
         for(uint col=0; col<lay.options.height; col++)
@@ -117,14 +117,14 @@ GameError Level::load_stage(const string fname)
 
     // Загрузим пейзаж
     landscape = new TiledSprite(ol.landscape, src);
-    applyShader(landscape.get());
+    _light_material->applyMateralTo(landscape.get());
     addChild(landscape);
 
     // Загрузим фон
     for(LAYER &lay : ol.backgrounds)
     {
         spTiledSprite background = new TiledSprite(lay, src);
-        applyShader(background.get());
+        _light_material->applyMateralTo(background.get());
         addChild(background);
     }
 
@@ -148,12 +148,11 @@ GameError Level::load_stage(const string fname)
         block->addTween(Sprite::TweenAnim(getResAnim()), RANDOM_RANGE(400, 500), -1);
 
         // Добавим источник света к факелу
-        applyShader(block.get());
-        LightPoint lp(pos);
-        lp.set_light_color(light_color);
-        lp.set_intense(2.f);
-        lp.set_radius(40.f);
-        addLight(lp);
+        auto lp = new LightPoint(pos);
+        lp->setIntense(2.f);
+        lp->setLightColor(light_color);
+        lp->setRadius(50.f);
+        lp->attachTo(block);
 
         addChild(block);
     }
@@ -187,7 +186,6 @@ void Level::doUpdate(const UpdateState& us)
     landscape->setX(
         (getX() / 4.f)
     );
-    Light::doUpdate(us);
 }
 
 
@@ -218,10 +216,6 @@ LevelInteractiveUnit::~LevelInteractiveUnit()
 
 void LevelInteractiveUnit::on_collide(DynamicUnit* p_du)
 {
-    // pixograd.ttf
-    // npNbet. R npowy npoWehur 3a to 4to Aabho he nNwy.\n"
-    //                  "HaAerC6 ha to 4to choba nozy4ntcr oBWatjcr...
-
     if(!_is_text_panel_exist)
     {
         spTextPanel tex(new TextPanel("Test text..."));
