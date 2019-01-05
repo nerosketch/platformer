@@ -159,7 +159,7 @@ GameError Level::load_stage(const string fname)
 
     // Загрузим игрока
     pos.y = 160.f;
-    pos.x = 80.f;
+    pos.x = 30.f;
     player = new Player(pos, ol.tile_size);
     player->SetMapInteraction(map_interaction);
     addChild(player);

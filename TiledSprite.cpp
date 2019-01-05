@@ -35,9 +35,9 @@ _layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
 
 void TiledSprite::_init_mat(Image& im)
 {
-    const float layer_height = _layer.options.height * _tile_size.y;
+    /*const float layer_height = _layer.options.height * _tile_size.y;
     const float& stage_height = getStage()->getHeight();
-    setScale(stage_height / layer_height);
+    setScale(stage_height / layer_height);*/
 
     nt = IVideoDriver::instance->createTexture();
     nt->init(im.lock());
@@ -127,7 +127,7 @@ void TiledSprite::doRender(const RenderState& rs)
     const uint end_col = (sprite_position.y + stage_size.y) / _tile_size.y;
     const uint start_row = sprite_position.x / _tile_size.x;
     const uint end_row = (sprite_position.x + stage_size.x) / _tile_size.x;
-
+    
     for(uint col=0; col<_layer.options.height; col++)
     {
         if(col < start_col || col > end_col)
@@ -135,6 +135,8 @@ void TiledSprite::doRender(const RenderState& rs)
             block_index_counter += _layer.options.width;
             continue;
         }
+
+        pos.y = col * _tile_size.y * scale.y;
 
         for(uint row=0; row<_layer.options.width; row++)
         {
@@ -159,8 +161,6 @@ void TiledSprite::doRender(const RenderState& rs)
             }
 
         }
-
-        pos.y = col * _tile_size.y * scale.y;
     }
 }
 

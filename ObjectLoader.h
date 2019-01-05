@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 #include <sys/types.h>
-#include "oxygine-framework.h"
-#include "ox/json.hpp"
+#include <oxygine-framework.h>
+#include <ox/json.hpp>
 #include "base.h"
 #include "TiledSprite.h"
 
