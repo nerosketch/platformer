@@ -117,7 +117,7 @@ GameError Level::load_stage(const string fname)
 
     // Загрузим пейзаж
     landscape = new TiledSprite(ol.landscape, src);
-    _light_material->applyMateralTo(landscape.get());
+    //_light_material->applyMateralTo(landscape.get());
     addChild(landscape);
 
     // Загрузим фон
