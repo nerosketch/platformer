@@ -22,7 +22,8 @@ public:
         ox::file::read("lighting.glsl", data);
 
         init(STDRenderer::uberShaderBody, data.getString().c_str());
-        
+
+        _ambient_intense = 0.5f;
     }
     //InitInConstructorUberShaderProgram(const InitInConstructorUberShaderProgram&);
     virtual ~InitInConstructorUberShaderProgram()
@@ -31,14 +32,18 @@ public:
         logs::messageln("InitInConstructorUberShaderProgram ~");
 #endif
     }
+
+    char _addr_buf[ADDR_BUF_LEN];
+    static std::list<LightPoint*> _light_points;
+    static uint _lights_count;
+    float _ambient_intense;
 };
 
+uint InitInConstructorUberShaderProgram::_lights_count = 0;
+std::list<LightPoint*> InitInConstructorUberShaderProgram::_light_points;
 
 
 // #################### LightMaterial Start #####################
-
-uint LightMaterial::_lights_count = 0;
-std::list<LightPoint*> LightMaterial::_light_points;
 
 
 void LightMaterial::init()
@@ -46,8 +51,6 @@ void LightMaterial::init()
 #ifdef DBG
     logs::messageln("LightMaterial::init()");
 #endif
-
-    _ambient_intense = 0.5f;
 
     static InitInConstructorUberShaderProgram _shader;
     _uberShader = &_shader;
@@ -92,11 +95,13 @@ void LightMaterial::xapply()
 {
     STDMaterial::xapply();
 
-    IVideoDriver::instance->setUniformInt("lights_count", _lights_count);
-    IVideoDriver::instance->setUniform("ambient_intense", _ambient_intense);
+    InitInConstructorUberShaderProgram *p_uber_shader = static_cast<InitInConstructorUberShaderProgram*>(_uberShader);
+
+    IVideoDriver::instance->setUniformInt("lights_count", p_uber_shader->_lights_count);
+    IVideoDriver::instance->setUniform("ambient_intense", p_uber_shader->_ambient_intense);
 
     uint n = 0;
-    for(const LightPoint *l : LightMaterial::_light_points)
+    for(const LightPoint *l : InitInConstructorUberShaderProgram::_light_points)
     {
         if(n > 15)
             break;
@@ -105,18 +110,18 @@ void LightMaterial::xapply()
 //        const Vector2& p = l->getPosition();
 //        logs::messageln("TmpPos x=%f, y=%f", p.x, p.y);
 //#endif
-        
-        snprintf(_addr_buf, ADDR_BUF_LEN, "lights[%d].light_pos", n);
-        IVideoDriver::instance->setUniform(_addr_buf, l->getPosition());
 
-        snprintf(_addr_buf, ADDR_BUF_LEN, "lights[%d].light_color", n);
-        IVideoDriver::instance->setUniform(_addr_buf, l->getLightColor());
+        snprintf(p_uber_shader->_addr_buf, ADDR_BUF_LEN, "lights[%d].light_pos", n);
+        IVideoDriver::instance->setUniform(p_uber_shader->_addr_buf, l->getPosition());
 
-        snprintf(_addr_buf, ADDR_BUF_LEN, "lights[%d].radius", n);
-        IVideoDriver::instance->setUniform(_addr_buf, l->getRadius());
+        snprintf(p_uber_shader->_addr_buf, ADDR_BUF_LEN, "lights[%d].light_color", n);
+        IVideoDriver::instance->setUniform(p_uber_shader->_addr_buf, l->getLightColor());
 
-        snprintf(_addr_buf, ADDR_BUF_LEN, "lights[%d].intense", n);
-        IVideoDriver::instance->setUniform(_addr_buf, l->getIntense());
+        snprintf(p_uber_shader->_addr_buf, ADDR_BUF_LEN, "lights[%d].radius", n);
+        IVideoDriver::instance->setUniform(p_uber_shader->_addr_buf, l->getRadius());
+
+        snprintf(p_uber_shader->_addr_buf, ADDR_BUF_LEN, "lights[%d].intense", n);
+        IVideoDriver::instance->setUniform(p_uber_shader->_addr_buf, l->getIntense());
 
         n++;
     }
@@ -125,15 +130,29 @@ void LightMaterial::xapply()
 
 void LightMaterial::_addLightPoint(LightPoint *p_light_point)
 {
-    _light_points.push_back(p_light_point);
-    _lights_count = _light_points.size();
+    InitInConstructorUberShaderProgram::_light_points.push_back(p_light_point);
+    InitInConstructorUberShaderProgram::_lights_count = InitInConstructorUberShaderProgram::_light_points.size();
 }
 
 
 void LightMaterial::_delLightPoint(LightPoint *p_light_point)
 {
-    _light_points.remove(p_light_point);
-    _lights_count = _light_points.size();
+    InitInConstructorUberShaderProgram::_light_points.remove(p_light_point);
+    InitInConstructorUberShaderProgram::_lights_count = InitInConstructorUberShaderProgram::_light_points.size();
+}
+
+
+void LightMaterial::setAmbientIntense(const float ai)
+{
+    InitInConstructorUberShaderProgram *p_uber_shader = static_cast<InitInConstructorUberShaderProgram*>(_uberShader);
+    p_uber_shader->_ambient_intense = ai;
+}
+
+
+float LightMaterial::getAmbientIntense() const
+{
+    const InitInConstructorUberShaderProgram *p_uber_shader = static_cast<const InitInConstructorUberShaderProgram*>(_uberShader);
+    return p_uber_shader->_ambient_intense;
 }
 
 

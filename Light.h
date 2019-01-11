@@ -78,12 +78,6 @@ class LightMaterial : public STDMaterial
 {
 private:
     friend class LightPoint;
-
-    char _addr_buf[ADDR_BUF_LEN];
-    static std::list<LightPoint*> _light_points;
-    static uint _lights_count;
-    float _ambient_intense;
-
     static void _addLightPoint(LightPoint*);
     static void _delLightPoint(LightPoint*);
 
@@ -100,15 +94,9 @@ public:
 
     void xapply() override;
 
-    inline void setAmbientIntense(const float ai)
-    {
-        _ambient_intense = ai;
-    }
+    void setAmbientIntense(const float ai);
 
-    inline float getAmbientIntense() const
-    {
-        return _ambient_intense;
-    }
+    float getAmbientIntense() const;
 };
 
 

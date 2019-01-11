@@ -77,7 +77,6 @@ void DynamicUnit::doUpdate(const UpdateState& us)
     setX(getX() + dx * us.dt);
     updateCollideX();
 
-    // 0.0005f это ускорение
     if(!on_ground)
         dy = dy + _gravity * us.dt;
 
