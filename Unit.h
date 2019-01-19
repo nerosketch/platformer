@@ -26,13 +26,16 @@ public:
     InteractiveUnit(const InteractiveUnit&){};
     virtual ~InteractiveUnit(){};
 
-    virtual void on_collide(DynamicUnit*){};
+    virtual void on_collideX(DynamicUnit*, const uint w);
+    virtual void on_collideY(DynamicUnit*, const uint h);
 };
 
 
 class DynamicUnit : public Sprite, public InputEvent
 {
 private:
+    friend class InteractiveUnit;
+
     Vector2 _tile_size;             // Размер одного блока карты
     float _speed;                   // Скорость равномерного передвижения
     float _jump_speed;              // Ускорение для прыжка
@@ -47,7 +50,9 @@ private:
     void updateCollideY();
 
 protected:
+    // ускорение
     float dx, dy;
+    // флаг, находимся-ли на земле
     bool on_ground;
 
     // упал в конец(низ) карты

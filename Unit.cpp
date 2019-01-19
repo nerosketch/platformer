@@ -9,6 +9,43 @@
 #include "Unit.h"
 
 
+void InteractiveUnit::on_collideX(DynamicUnit *p_dunit, const uint w)
+{
+    const Vector2 &sz = p_dunit->getSize();
+
+    if(p_dunit->dx > 0)
+    {
+        p_dunit->setX(w * p_dunit->_tile_size.x - sz.x);
+        p_dunit->dx = -p_dunit->_tension;
+    }
+    else if(p_dunit->dx < 0)
+    {
+        p_dunit->setX(w * p_dunit->_tile_size.x + p_dunit->_tile_size.x);
+        p_dunit->dx = p_dunit->_tension;
+    }
+}
+
+
+void InteractiveUnit::on_collideY(DynamicUnit *p_dunit, const uint h)
+{
+    const Vector2 &sz = p_dunit->getSize();
+
+    if(p_dunit->dy > 0)
+    {
+        p_dunit->setY(h * p_dunit->_tile_size.y - sz.y);
+        p_dunit->dy = p_dunit->dx = 0.f;
+        p_dunit->on_ground = true;
+    }
+    else if(p_dunit->dy < 0)
+    {
+        p_dunit->setY(h * p_dunit->_tile_size.y + p_dunit->_tile_size.y);
+        p_dunit->dy = 0.f;
+    }
+}
+
+
+
+
 DynamicUnit::DynamicUnit(const Vector2& pos, const Vector2& tile_size):
 _tile_size(tile_size), _speed(0.1f), _jump_speed(0.4f),
 _tension(0.05f), _gravity(0.0005f),
@@ -108,20 +145,10 @@ void DynamicUnit::updateCollideX()
         for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
             InteractiveUnit *p_unit = _map_interaction[h][w];
+
             if(p_unit != nullptr)
             {
-                if(dx > 0)
-                {
-                    setX(w * _tile_size.x - sz.x);
-                    dx = -_tension;
-                    p_unit->on_collide(this);
-                }
-                else if(dx < 0)
-                {
-                    setX(w * _tile_size.x + _tile_size.x);
-                    dx = _tension;
-                    p_unit->on_collide(this);
-                }
+                p_unit->on_collideX(this, w);
             }
         }
 }
@@ -140,19 +167,7 @@ void DynamicUnit::updateCollideY()
             InteractiveUnit *p_unit = _map_interaction[h][w];
             if(p_unit != nullptr)
             {
-                if(dy > 0)
-                {
-                    setY(h * _tile_size.y - sz.y);
-                    dy = dx = 0.f;
-                    on_ground = true;
-                    p_unit->on_collide(this);
-                }
-                else if(dy < 0)
-                {
-                    setY(h * _tile_size.y + _tile_size.y);
-                    dy = 0.f;
-                    p_unit->on_collide(this);
-                }
+                p_unit->on_collideY(this, h);
             }
         }
 }

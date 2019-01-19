@@ -144,8 +144,7 @@ GameError Level::load_stage(const string fname)
         spSprite block = new Sprite;
         //block->setSize(TILE_WIDTH, TILE_HEIGHT);
         block->setPosition(pos);
-        block->setResAnim(torch_res_anim);
-        block->addTween(Sprite::TweenAnim(getResAnim()), RANDOM_RANGE(400, 500), -1);
+        block->addTween(Sprite::TweenAnim(torch_res_anim), RANDOM_RANGE(400, 500), -1);
 
         // Добавим источник света к факелу
         auto lp = new LightPoint(pos);
@@ -214,8 +213,10 @@ LevelInteractiveUnit::LevelInteractiveUnit(const LevelInteractiveUnit&)
 LevelInteractiveUnit::~LevelInteractiveUnit()
 {}
 
-void LevelInteractiveUnit::on_collide(DynamicUnit* p_du)
+void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, const uint w)
 {
+    InteractiveUnit::on_collideX( p_du, w);
+
     if(!_is_text_panel_exist)
     {
         spTextPanel tex(new TextPanel("Test text..."));

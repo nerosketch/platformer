@@ -38,7 +38,7 @@ public:
     LevelInteractiveUnit(const LevelInteractiveUnit&);
     virtual ~LevelInteractiveUnit();
 
-    virtual void on_collide(DynamicUnit*) override;
+    virtual void on_collideX(DynamicUnit*, const uint) override;
     void kill_me(Event *);
 };
 
