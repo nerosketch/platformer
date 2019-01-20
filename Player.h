@@ -13,6 +13,7 @@
 #include "SoundManager.h"
 #endif
 #include "Unit.h"
+#include "TiledLevel.h"
 
 
 using namespace oxygine;
@@ -29,7 +30,7 @@ private:
     void _on_tween_done(Event*);
 
 public:
-    Player(const Vector2 &pos, const Vector2& tile_size);
+    Player(const Vector2 &pos, ITiledLevel*);
     Player(const Player&);
     virtual ~Player();
 

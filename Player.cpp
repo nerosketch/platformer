@@ -13,8 +13,8 @@
 
 
 
-Player::Player(const Vector2 &pos, const Vector2& tile_size):
-DynamicUnit(pos, tile_size)
+Player::Player(const Vector2 &pos, ITiledLevel *p_level_ptr):
+DynamicUnit(pos, p_level_ptr)
 {
 #ifdef DBG
     logs::messageln("Player::Player");
@@ -38,7 +38,7 @@ DynamicUnit(pos, tile_size)
 
 
 Player::Player(const Player& o):
-Player(o.getPosition(), o.getTileSize())
+Player(o.getPosition(), o.p_tiled_level)
 {}
 
 

@@ -15,10 +15,6 @@
 
 Level::Level() : _light_material(new LightMaterial)
 {
-    // Set scale
-    const float stage_height = getStage()->getScaledHeight();
-    setScale(stage_height / INITIAL_STAGE_HEIGHT);
-
 #ifdef DBG
     logs::messageln("Level::Level");
 #endif
@@ -37,10 +33,18 @@ Level::~Level()
 }
 
 
+void Level::init()
+{
+    // Set scale
+    const float stage_height = getStage()->getScaledHeight();
+    setScale(stage_height / INITIAL_STAGE_HEIGHT);
+}
+
+
 /*
 * Загружаем статичные блоки, с ними можно взаимодействовать
 */
-void Level::_load_terrain(const vector<LAYER>& lays, Image& im, const list<RectF>& objects)
+void Level::_load_terrain(const LAYERS& lays, Image& im, const list<RectF>& objects)
 {
     if(lays.size() < 1)
     {
@@ -52,6 +56,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, Image& im, const list<RectF
     RectF rect(0.f, 0.f, TILE_WIDTH, TILE_HEIGHT);
 
     // карта взаимодействий
+    UnitMap& map_interaction = DynamicUnit::getMapInteraction();
     map_interaction.resize(layer_height);
 
     for(const LAYER& lay : lays)
@@ -94,7 +99,7 @@ void Level::_load_terrain(const vector<LAYER>& lays, Image& im, const list<RectF
 }
 
 
-GameError Level::load_stage(const string fname)
+GameError Level::load_stage(const string& fname)
 {
 #ifdef DBG
     logs::messageln("Level::load_stage");
@@ -159,8 +164,12 @@ GameError Level::load_stage(const string fname)
     // Загрузим игрока
     pos.y = 160.f;
     pos.x = 30.f;
-    player = new Player(pos, ol.tile_size);
-    player->SetMapInteraction(map_interaction);
+    player = new Player(pos, this);
+    const UnitMap& map_interaction = DynamicUnit::getMapInteraction();
+    setMapSize(PointU(
+        map_interaction[0].size(),
+        map_interaction.size()
+    ));
     addChild(player);
 
     return GameError();
@@ -213,9 +222,9 @@ LevelInteractiveUnit::LevelInteractiveUnit(const LevelInteractiveUnit&)
 LevelInteractiveUnit::~LevelInteractiveUnit()
 {}
 
-void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, const uint w)
+void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, ITiledLevel *ptl, const uint w)
 {
-    InteractiveUnit::on_collideX( p_du, w);
+    InteractiveUnit::on_collideX(p_du, ptl, w);
 
     if(!_is_text_panel_exist)
     {

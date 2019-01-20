@@ -21,6 +21,9 @@ using namespace oxygine;
 using namespace Json;
 
 
+typedef vector<LAYER> LAYERS;
+
+
 class ObjectLoader : public Base {
 private:
     void _load_objects(const Value&);
@@ -30,8 +33,8 @@ public:
     ObjectLoader(const ObjectLoader& orig);
     virtual ~ObjectLoader();
 
-    vector<LAYER> backgrounds;
-    vector<LAYER> terrains;
+    LAYERS backgrounds;
+    LAYERS terrains;
     LAYER landscape;
     vector<spTILESET> tilesets;
     list<RectF> objects;

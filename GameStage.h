@@ -12,12 +12,7 @@
 
 
 #include "flags.h"
-#include "Player.h"
 #include "base.h"
-
-#ifdef DEBUG_DRAW_ENABLE
-#include "base/Box2DDebugDraw.h"
-#endif
 
 
 using namespace oxygine;

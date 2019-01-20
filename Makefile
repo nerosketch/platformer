@@ -33,6 +33,7 @@ SOURCES=TiledSprite.cpp \
 	TextPanel.cpp \
 	Unit.cpp \
 	Light.cpp \
+	TiledLevel.cpp \
 	main.cpp
 
 DEPS := $(COBJS:.o=.d)

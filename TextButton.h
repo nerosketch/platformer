@@ -25,11 +25,11 @@ private:
 
 public:
     TextButton();
-    TextButton(const string);
+    TextButton(const string&);
     TextButton(const TextButton& orig);
     virtual ~TextButton();
 
-    void setText(const string);
+    void setText(const string&);
 };
 
 #endif /* TEXTBUTTON_H */

@@ -80,6 +80,7 @@ StartMenu::~StartMenu()
 GameError StartMenu::make_next_level()
 {
     spLevel _next_level = new Level;
+    _next_level->init();
     next_level = _next_level;
     GameError err = _next_level->load_stage("res/map.json");
     if(err != 0)

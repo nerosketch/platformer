@@ -11,7 +11,6 @@
 #include <string>
 #include <oxygine-framework.h>
 #include "flags.h"
-#include "Unit.h"
 
 
 using namespace std;
