@@ -31,10 +31,6 @@ GameStage::~GameStage()
 }
 
 
-void GameStage::Pause()
-{
-}
-
 void GameStage::Exit()
 {
     is_zombie = true;

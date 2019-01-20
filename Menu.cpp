@@ -7,11 +7,16 @@
 
 #include "Menu.h"
 
-Menu::Menu() {
+
+Menu::Menu() : background_image(new Sprite)
+{
+    addChild(background_image);
 }
 
-Menu::Menu(const Menu& orig) {
-}
+
+Menu::Menu(const Menu& o) : background_image(o.background_image)
+{}
+
 
 Menu::~Menu() {
 }

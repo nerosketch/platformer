@@ -23,7 +23,7 @@ using namespace std;
 StartMenu::StartMenu()
 {
     const ResAnim *p_res_anim = res::resources.getResAnim("background");
-    setResAnim(p_res_anim);
+    background_image->setResAnim(p_res_anim);
 
     //logs::messageln("scale %f", )
     setScale(getStage()->getHeight() / p_res_anim->getHeight());

@@ -21,10 +21,10 @@ using namespace oxygine;
 DECLARE_SMART(GameStage, spGameStage);
 
 
-class GameStage : public Base, public Sprite
+class GameStage : public Base, public Stage
 {
 private:
-    INHERITED(Sprite);
+    INHERITED(Stage);
 
 public:
     GameStage();
@@ -32,8 +32,6 @@ public:
     virtual ~GameStage();
 
     bool is_zombie;
-
-    void Pause();
 
     void Exit();
 
