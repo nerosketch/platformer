@@ -24,7 +24,7 @@ _text(new TextField)
 }
 
 
-TextButton::TextButton(const string str) : TextButton()
+TextButton::TextButton(const string& str) : TextButton()
 {
     setText(str);
 }
@@ -39,7 +39,7 @@ TextButton::~TextButton()
 {}
 
 
-void TextButton::setText(const string str)
+void TextButton::setText(const string& str)
 {
     _text->setText(str);
 }

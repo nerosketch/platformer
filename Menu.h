@@ -8,10 +8,17 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include <oxygine-framework.h>
 #include "GameStage.h"
+
+using namespace oxygine;
+
 
 class Menu : public GameStage
 {
+protected:
+    spSprite background_image;
+
 public:
     Menu();
     Menu(const Menu& orig);

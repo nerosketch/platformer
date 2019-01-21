@@ -12,12 +12,7 @@
 
 
 #include "flags.h"
-#include "Player.h"
 #include "base.h"
-
-#ifdef DEBUG_DRAW_ENABLE
-#include "base/Box2DDebugDraw.h"
-#endif
 
 
 using namespace oxygine;
@@ -26,10 +21,10 @@ using namespace oxygine;
 DECLARE_SMART(GameStage, spGameStage);
 
 
-class GameStage : public Base, public Sprite
+class GameStage : public Base, public Stage
 {
 private:
-    INHERITED(Sprite);
+    INHERITED(Stage);
 
 public:
     GameStage();
@@ -37,8 +32,6 @@ public:
     virtual ~GameStage();
 
     bool is_zombie;
-
-    void Pause();
 
     void Exit();
 

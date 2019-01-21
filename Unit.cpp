@@ -9,9 +9,49 @@
 #include "Unit.h"
 
 
-DynamicUnit::DynamicUnit(const Vector2& pos, const Vector2& tile_size):
-_tile_size(tile_size), _speed(0.1f), _jump_speed(0.4f),
-_tension(0.05f), _gravity(0.0005f),
+void InteractiveUnit::on_collideX(DynamicUnit *p_dunit, ITiledLevel *p_tl, const uint w)
+{
+    const Vector2 &sz = p_dunit->getSize();
+    const float tile_size_x = p_tl->getTileSize().x;
+
+    if(p_dunit->dx > 0)
+    {
+        p_dunit->setX(w * tile_size_x - sz.x);
+        p_dunit->dx = -p_dunit->_tension;
+    }
+    else if(p_dunit->dx < 0)
+    {
+        p_dunit->setX(w * tile_size_x + tile_size_x);
+        p_dunit->dx = p_dunit->_tension;
+    }
+}
+
+
+void InteractiveUnit::on_collideY(DynamicUnit *p_dunit, ITiledLevel *p_tl, const uint h)
+{
+    const Vector2 &sz = p_dunit->getSize();
+    const float tile_size_y = p_tl->getTileSize().y;
+
+    if(p_dunit->dy > 0)
+    {
+        p_dunit->setY(h * tile_size_y - sz.y);
+        p_dunit->dy = p_dunit->dx = 0.f;
+        p_dunit->on_ground = true;
+    }
+    else if(p_dunit->dy < 0)
+    {
+        p_dunit->setY(h * tile_size_y + tile_size_y);
+        p_dunit->dy = 0.f;
+    }
+}
+
+
+
+UnitMap DynamicUnit::_map_interaction;
+
+
+DynamicUnit::DynamicUnit(const Vector2& pos, ITiledLevel *level_ptr):
+_speed(0.1f), _jump_speed(0.4f), _tension(0.05f), p_tiled_level(level_ptr),
 dx(0.f), dy(0.f), on_ground(false)
 {
 #ifdef DBG
@@ -19,12 +59,11 @@ dx(0.f), dy(0.f), on_ground(false)
 #endif
 
     setPosition(pos);
-    setTileSize(tile_size);
 }
 
 
 DynamicUnit::DynamicUnit(const DynamicUnit& o):
-DynamicUnit(o.getPosition(), o.getTileSize())
+DynamicUnit(o.getPosition(), o.p_tiled_level)
 {
 #ifdef DBG
     logs::messageln("DynamicUnit:: Copy");
@@ -78,7 +117,7 @@ void DynamicUnit::doUpdate(const UpdateState& us)
     updateCollideX();
 
     if(!on_ground)
-        dy = dy + _gravity * us.dt;
+        dy = dy + p_tiled_level->getGravity() * us.dt;
 
     setY(getY() + dy * us.dt);
 
@@ -108,20 +147,10 @@ void DynamicUnit::updateCollideX()
         for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
             InteractiveUnit *p_unit = _map_interaction[h][w];
+
             if(p_unit != nullptr)
             {
-                if(dx > 0)
-                {
-                    setX(w * _tile_size.x - sz.x);
-                    dx = -_tension;
-                    p_unit->on_collide(this);
-                }
-                else if(dx < 0)
-                {
-                    setX(w * _tile_size.x + _tile_size.x);
-                    dx = _tension;
-                    p_unit->on_collide(this);
-                }
+                p_unit->on_collideX(this, p_tiled_level, w);
             }
         }
 }
@@ -140,29 +169,9 @@ void DynamicUnit::updateCollideY()
             InteractiveUnit *p_unit = _map_interaction[h][w];
             if(p_unit != nullptr)
             {
-                if(dy > 0)
-                {
-                    setY(h * _tile_size.y - sz.y);
-                    dy = dx = 0.f;
-                    on_ground = true;
-                    p_unit->on_collide(this);
-                }
-                else if(dy < 0)
-                {
-                    setY(h * _tile_size.y + _tile_size.y);
-                    dy = 0.f;
-                    p_unit->on_collide(this);
-                }
+                p_unit->on_collideY(this, p_tiled_level, h);
             }
         }
-}
-
-
-void DynamicUnit::SetMapInteraction(const vector<vector<InteractiveUnit*>> &map)
-{
-    _map_interaction = map;
-    map_height = map.size();
-    map_width = map[0].size();
 }
 
 

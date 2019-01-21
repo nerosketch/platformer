@@ -4,7 +4,7 @@
  * 
  * Created on January 5, 2019, 6:17 PM
  */
-
+#include <list>
 #include "flags.h"
 #include "Light.h"
 

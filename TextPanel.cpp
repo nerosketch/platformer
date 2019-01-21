@@ -10,7 +10,7 @@
 #include "TextPanel.h"
 
 
-TextPanel::TextPanel(const string text)
+TextPanel::TextPanel(const string& text)
 {
     const ResAnim *p_res_panel = res::resources.getResAnim("panel");
     setResAnim(p_res_panel);

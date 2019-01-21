@@ -30,7 +30,7 @@ private:
     EventCallback _die_event;
 
 public:
-    TextPanel(const string text);
+    TextPanel(const string& text);
     TextPanel(const TextPanel& orig);
     virtual ~TextPanel();
 

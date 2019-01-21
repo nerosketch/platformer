@@ -23,7 +23,7 @@ using namespace std;
 StartMenu::StartMenu()
 {
     const ResAnim *p_res_anim = res::resources.getResAnim("background");
-    setResAnim(p_res_anim);
+    background_image->setResAnim(p_res_anim);
 
     //logs::messageln("scale %f", )
     setScale(getStage()->getHeight() / p_res_anim->getHeight());
@@ -80,6 +80,7 @@ StartMenu::~StartMenu()
 GameError StartMenu::make_next_level()
 {
     spLevel _next_level = new Level;
+    _next_level->init();
     next_level = _next_level;
     GameError err = _next_level->load_stage("res/map.json");
     if(err != 0)

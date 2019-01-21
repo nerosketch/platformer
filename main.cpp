@@ -43,7 +43,9 @@ bool mainloop(Game& gstage)
 // Application entry point
 void run()
 {
+#ifdef DBG
     ObjectBase::__startTracingLeaks();
+#endif
 
     // Initialize Oxygine's internal stuff
     core::init_desc desc;
@@ -66,8 +68,10 @@ void run()
     Point size = core::getDisplaySize();
     getStage()->setSize(size);
 
+#ifdef DBG
     // DebugActor is a helper actor node. It shows FPS, memory usage and other useful stuff
     DebugActor::show();
+#endif
 
     GameError err = stage.init();
     if(err != 0)
@@ -105,11 +109,14 @@ void run()
         if (done)
             break;
     }
+
+#ifdef DBG
     /*
      If we get here, the user has requested the Application to terminate.
      We dump and log all our created objects that have not been freed yet
     */
     ObjectBase::dumpCreatedObjects();
+#endif
 
     /*
     Let's clean up everything right now and call ObjectBase::dumpObjects() again.
@@ -126,12 +133,14 @@ void run()
     // Releases all internal components and the stage
     core::release();
 
+#ifdef DBG
     // The dump list should be empty by now,
     // we want to make sure that there aren't any memory leaks, so we call it again.
     ObjectBase::dumpCreatedObjects();
 
     ObjectBase::__stopTracingLeaks();
     //end
+#endif
 }
 
 #ifdef OXYGINE_SDL

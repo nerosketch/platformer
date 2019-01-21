@@ -12,10 +12,9 @@
 #include <string>
 #include <oxygine-framework.h>
 #include "ObjectLoader.h"
-#include "InputEvent.h"
 #include "TiledSprite.h"
-#include "GameStage.h"
-#include "Unit.h"
+#include "TiledLevel.h"
+#include "Player.h"
 #include "TextPanel.h"
 #include "Light.h"
 
@@ -38,16 +37,14 @@ public:
     LevelInteractiveUnit(const LevelInteractiveUnit&);
     virtual ~LevelInteractiveUnit();
 
-    virtual void on_collide(DynamicUnit*) override;
+    virtual void on_collideX(DynamicUnit*, ITiledLevel*, const uint) override;
     void kill_me(Event *);
 };
 
 
-class Level : public GameStage, public InputEvent
+class Level : public ITiledLevel
 {
 private:
-    INHERITED(GameStage);
-
     spTiledSprite landscape;
 
     spPlayer player;
@@ -57,17 +54,16 @@ private:
 
     spLightMaterial _light_material;
 
-    void _load_terrain(const vector<LAYER>&, Image&, const list<RectF>&);
+    void _load_terrain(const LAYERS&, Image&, const list<RectF>&);
 
 public:
     Level();
     Level(const Level& orig);
     virtual ~Level();
 
-    GameError load_stage(const string fname);
+    void init() override;
 
-    // карта для взаимодействий
-    vector<vector<InteractiveUnit*>> map_interaction;
+    GameError load_stage(const string& fname);
 
     void doUpdate(const UpdateState& us) override;
 
