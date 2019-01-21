@@ -37,7 +37,7 @@ bool mainloop(Game& gstage)
         core::swapDisplayBuffers();
     }
 
-    return done ? true : false;
+    return done;
 }
 
 // Application entry point
