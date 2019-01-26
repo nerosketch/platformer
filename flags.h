@@ -12,6 +12,9 @@
 // Включаем звук
 //#define SOUND_ENABLE
 
+#ifdef _WIN32
+#define uint unsigned int
+#endif
 
 #ifdef DBG
 // Включаем debug отрисовку Box2D

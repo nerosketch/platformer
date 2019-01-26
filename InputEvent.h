@@ -9,6 +9,7 @@
 #define INPUTEVENT_H
 
 #include <oxygine-framework.h>
+#include "flags.h"
 #include "base.h"
 
 

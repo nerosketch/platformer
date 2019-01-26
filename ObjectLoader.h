@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <oxygine-framework.h>
 #include <ox/json.hpp>
+#include "flags.h"
 #include "base.h"
 #include "TiledSprite.h"
 
