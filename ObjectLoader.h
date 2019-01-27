@@ -24,8 +24,24 @@ using namespace Json;
 
 typedef vector<LAYER> LAYERS;
 
+class GameObject : public RectF
+{
+public:
+    GameObject() : text("Забыли текст"){}
+    GameObject(const Vector2& pos, const Vector2& size):
+        RectF(pos, size){}
+    GameObject(float x, float y, float w, float h):
+        RectF(x, y, w, h){}
+    GameObject(const GameObject& o):
+        RectF(o.pos, o.size){text = o.text;}
+    virtual ~GameObject(){}
 
-class ObjectLoader : public Base {
+    string text;
+};
+
+
+class ObjectLoader : public Base
+{
 private:
     void _load_objects(const Value&);
 
@@ -38,7 +54,7 @@ public:
     LAYERS terrains;
     LAYER landscape;
     vector<spTILESET> tilesets;
-    list<RectF> objects;
+    list<GameObject> objects;
     Vector2 tile_size;
 
     spTILESET get_tileset_by_name(string name);

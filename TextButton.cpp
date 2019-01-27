@@ -12,7 +12,7 @@
 TextButton::TextButton() :
 _text(new TextField)
 {
-    ResFont *font = res::resources.getResFont("VT323-Regular");
+    ResFont *font = res::resources.getResFont("SanasoftHermes");
 
     _text->setFont(font);
     _text->setFontSize(8);

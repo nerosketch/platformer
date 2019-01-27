@@ -32,12 +32,15 @@ private:
     bool _is_text_panel_exist;
 
 public:
-    LevelInteractiveUnit() : _is_text_panel_exist(false){}
-    LevelInteractiveUnit(const LevelInteractiveUnit&){}
+    LevelInteractiveUnit() : _is_text_panel_exist(false), text("Забыли текст"){}
+    LevelInteractiveUnit(const LevelInteractiveUnit& o):text(o.text){}
     virtual ~LevelInteractiveUnit(){}
 
     virtual void on_collideX(DynamicUnit*, ITiledLevel*, const uint) override;
+    virtual void on_collideY(DynamicUnit*, ITiledLevel*, const uint) override;
     void kill_me(Event *);
+
+    string text;
 };
 
 
@@ -60,13 +63,13 @@ private:
 
     spPlayer player;
 
-    LevelInteractiveUnit liu;
+    vector<LevelInteractiveUnit> lius;
     InteractiveUnit empty_iu;
     StairsInteractiveUnit stairs;
 
     spLightMaterial _light_material;
 
-    void _load_terrain(const LAYERS&, Image&, const list<RectF>&);
+    void _load_terrain(const LAYERS&, Image&, const list<GameObject>&);
 
 public:
     Level();

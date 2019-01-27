@@ -44,7 +44,7 @@ void Level::init()
 /*
 * Загружаем статичные блоки, с ними можно взаимодействовать
 */
-void Level::_load_terrain(const LAYERS& lays, Image& im, const list<RectF>& objects)
+void Level::_load_terrain(const LAYERS& lays, Image& im, const list<GameObject>& objects)
 {
     if(lays.size() < 1)
     {
@@ -83,10 +83,24 @@ void Level::_load_terrain(const LAYERS& lays, Image& im, const list<RectF>& obje
                     rect.pos.y = col * TILE_WIDTH;
                     rect.pos.x = row * TILE_HEIGHT;
 
-                    for(const RectF& r : objects)
+                    for(const GameObject& go : objects)
                     {
-                        if(r.isIntersecting(rect))
-                            line[row] = &liu;
+                        if(go.isIntersecting(rect))
+                        {
+                            for(LevelInteractiveUnit& liu : lius)
+                            {
+                                #ifdef DBG
+                                        logs::messageln("liu text: %s", liu.text.c_str());
+                                        logs::messageln("go text: %s", go.text.c_str());
+                                #endif
+                                if(go.text == liu.text)
+                                {
+                                    line[row] = &liu;
+                                    break;
+                                }
+                            }
+                            break;
+                        }
                         else
                         {
                             if(lay.layer_type == LayerType::BTERRAIN)
@@ -138,6 +152,14 @@ GameError Level::load_stage(const string& fname)
         spTiledSprite background = new TiledSprite(lay, src);
         _light_material->applyMateralTo(background.get());
         addChild(background);
+    }
+
+    // загрузим объкты
+    for(const GameObject& go : ol.objects)
+    {
+        LevelInteractiveUnit liu;
+        liu.text = go.text;
+        lius.push_back(liu);
     }
 
     // Загрузим землю
@@ -225,7 +247,10 @@ void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, ITiledLevel *ptl, cons
 
     if(!_is_text_panel_exist)
     {
-        spTextPanel tex(new TextPanel("Test text..."));
+#ifdef DBG
+        logs::messageln("Text x: %s", text.c_str());
+#endif
+        spTextPanel tex(new TextPanel(text));
         tex->setPosition(26.f, -16.f);
         tex->setTimeToLive(3000);
         tex->setOnDieEvent(CLOSURE(this, &LevelInteractiveUnit::free_text_panel));
@@ -234,6 +259,26 @@ void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, ITiledLevel *ptl, cons
         p_du->addChild(tex);
     }
 }
+
+void LevelInteractiveUnit::on_collideY(DynamicUnit* p_du, ITiledLevel *ptl, const uint h)
+{
+    InteractiveUnit::on_collideY(p_du, ptl, h);
+
+    if(!_is_text_panel_exist)
+    {
+#ifdef DBG
+        logs::messageln("Text y: %s", text.c_str());
+#endif
+        spTextPanel tex(new TextPanel(text));
+        tex->setPosition(26.f, -16.f);
+        tex->setTimeToLive(3000);
+        tex->setOnDieEvent(CLOSURE(this, &LevelInteractiveUnit::free_text_panel));
+        _is_text_panel_exist = true;
+
+        p_du->addChild(tex);
+    }
+}
+
 
 void LevelInteractiveUnit::free_text_panel(Event*)
 {

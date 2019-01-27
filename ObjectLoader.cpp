@@ -177,12 +177,27 @@ void ObjectLoader::_load_objects(const Value& v)
         else
         {
             // Прямоугольник
-            RectF r(
+            GameObject r(
                 obj["x"].asFloat(),
                 obj["y"].asFloat(),
                 obj["width"].asFloat(),
                 obj["height"].asFloat()
             );
+
+            // Проходим по кастомным свойствам
+            if(obj.isMember("properties"))
+            {
+                for(const Value& prop : obj["properties"])
+                {
+                    // Если есть свойство text
+                    if(prop["type"].asString() == "string" && prop["name"].asString() == "text" && prop.isMember("value"))
+                    {
+                        // сохраним его в объект для взаимодействий на уровне
+                        r.text = prop["value"].asString();
+                        break;
+                    }
+                }
+            }
 
             objects.push_back(r);
         }
