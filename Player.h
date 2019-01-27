@@ -46,7 +46,9 @@ public:
     void Run();
     void Jump() final override;
     void Idle();
+
+    // Вызывается когда заканчивается прыжок
+    virtual void OnDismount() override;
 };
 
 #endif /* PLAYER_H */
-

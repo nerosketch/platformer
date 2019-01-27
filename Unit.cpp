@@ -98,6 +98,7 @@ void DynamicUnit::_jump()
     {
         dy = -_jump_speed;
         on_ground = false;
+        _dismount_flag = false;
     }
 }
 
@@ -195,7 +196,13 @@ void DynamicUnit::updateCollideY()
             InteractiveUnit *p_unit = _map_interaction[h][w];
             if(p_unit != nullptr)
             {
+                const bool is_dismount = dy > 0;
                 p_unit->on_collideY(this, p_tiled_level, h);
+                if(is_dismount && !_dismount_flag)
+                {
+                    OnDismount();
+                    _dismount_flag = true;
+                }
                 return;
             }
         }

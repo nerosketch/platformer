@@ -69,7 +69,6 @@ void Player::on_fall_down()
 }
 
 
-
 void Player::Attack()
 {
     auto ta = Sprite::TweenAnim(p_res_anim, 3);
@@ -132,4 +131,17 @@ void Player::Idle()
 void Player::_on_tween_done(Event*)
 {
     Idle();
+}
+
+
+// Вызывается когда заканчивается прыжок
+void Player::OnDismount()
+{
+    // Если кнопка бега всё ещё нажата то надо включить анимацию бега
+    const Uint8 *p_date = SDL_GetKeyboardState(NULL);
+
+    if((p_date[SDL_GetScancodeFromKey(SDLK_d)] || p_date[SDL_GetScancodeFromKey(SDLK_a)]) && on_ground)
+        Run();
+    else
+        Idle();
 }

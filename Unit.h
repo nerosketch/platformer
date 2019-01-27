@@ -53,6 +53,8 @@ private:
     void _walkForward();
     void _walkBack();
 
+    bool _dismount_flag;
+
 protected:
     ITiledLevel *p_tiled_level;
 
@@ -83,6 +85,9 @@ public:
 
     virtual void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
     virtual void OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
+
+    // Вызывается когда заканчивается прыжок
+    virtual void OnDismount() = 0;
 };
 
 
