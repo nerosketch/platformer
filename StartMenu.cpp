@@ -24,6 +24,7 @@ StartMenu::StartMenu()
 {
     const ResAnim *p_res_anim = res::resources.getResAnim("background");
     background_image->setResAnim(p_res_anim);
+    background_image->setManageResAnim(true);
 
     //logs::messageln("scale %f", )
     setScale(getStage()->getHeight() / p_res_anim->getHeight());
@@ -35,6 +36,7 @@ StartMenu::StartMenu()
     
     // делаем кнопку start
     spTextButton start_btn = new TextButton("Start");
+    start_btn->setManageResAnim(true);
     start_btn->setAnchor(0.5f, 0.5f);
     start_btn->setScale(3.f);
     start_btn->setResAnim(p_res_btn);
@@ -46,6 +48,7 @@ StartMenu::StartMenu()
 
     // делаем кнопку exit
     spTextButton exit_btn = new TextButton("Exit");
+    exit_btn->setManageResAnim(true);
     exit_btn->setAnchor(0.5f, 0.5f);
     exit_btn->setScale(3.f);
     exit_btn->setResAnim(p_res_btn);

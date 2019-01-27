@@ -30,10 +30,10 @@ DynamicUnit(pos, p_level_ptr)
     //const Vector2 initial_scale = CALC_SCALE(stage_size, Vector2(INITIAL_STAGE_WIDTH, INITIAL_STAGE_HEIGHT));
     //setScale(initial_scale);
 
-#ifdef DBG
+/*#ifdef DBG
     spDebugRectSprite ds(new DebugRectSprite(Color::Blue, getSize()));
     addChild(ds);
-#endif
+#endif*/
 }
 
 

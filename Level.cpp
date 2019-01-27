@@ -143,7 +143,7 @@ GameError Level::load_stage(const string& fname)
 
     // Загрузим пейзаж
     landscape = new TiledSprite(ol.landscape, src);
-    //_light_material->applyMateralTo(landscape.get());
+    _light_material->applyMateralTo(landscape.get());
     addChild(landscape);
 
     // Загрузим фон
@@ -167,27 +167,29 @@ GameError Level::load_stage(const string& fname)
 
     // установим факелы
     ResAnim *torch_res_anim = res::resources.getResAnim("torch_anim");
-    Vector2 pos(0.f, 317.f);
-    Vector4 light_color(1.f, 1.f, 1.f, 1.f);
+    Vector2 pos(0.f, 367.f);
+    Vector4 light_color(0.5f, 0.5f, 0.5f, 1.f);
 
-    for(uint n=0; n < 7; n++)
+    for(uint n=0; n < 4; n++)
     {
-        pos.x = 350 + (112.f * n);
+        pos.x = 360 + (224.f * n);
 
         // Загрузим анимированный факел
-        spSprite block = new Sprite;
+        spSprite torch = new Sprite;
         //block->setSize(TILE_WIDTH, TILE_HEIGHT);
-        block->setPosition(pos);
-        block->addTween(Sprite::TweenAnim(torch_res_anim), RANDOM_RANGE(400, 500), -1);
+        torch->setAnchor(0.5f, 0.5f);
+        torch->setPosition(pos);
+        torch->addTween(Sprite::TweenAnim(torch_res_anim), RANDOM_RANGE(400, 500), -1);
 
         // Добавим источник света к факелу
-        auto lp = new LightPoint(pos);
-        lp->setIntense(2.f);
+        //spLightPoint lp = new LightPoint(pos.x, 540.f - pos.y);
+        spLightPoint lp = new LightPoint(pos);
+        lp->setIntense(10.f);
         lp->setLightColor(light_color);
-        lp->setRadius(50.f);
-        lp->attachTo(block);
+        lp->setRadius(80.f);
+        torch->addChild(lp);
 
-        addChild(block);
+        addChild(torch);
     }
 
     // Загрузим игрока

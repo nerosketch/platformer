@@ -10,9 +10,11 @@
 
 #include <stdlib.h>
 #include <string>
+#include <oxygine-framework.h>
 
 
 using namespace std;
+using namespace oxygine;
 
 
 class Base
@@ -28,6 +30,9 @@ class Base
 
 
 #define CALC_SCALE(size1, size2) (size1.div(size2))
+
+
+Vector2 getAbsolutePosition(const Actor *p_actor);
 
 
 class GameError

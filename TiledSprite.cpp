@@ -4,7 +4,7 @@
  * 
  * Created on December 10, 2018, 12:01 AM
  */
-
+#include "base.h"
 #include "TiledSprite.h"
 
 
@@ -120,7 +120,7 @@ void TiledSprite::doRender(const RenderState& rs)
     const size_t vert_size = sizeof(vert);
 
     const Vector2& stage_size = getStage()->getSize();
-    const Vector2 sprite_position = getAbsolutePosition();
+    const Vector2 sprite_position = getAbsolutePosition(this);
     const Vector2& scale = getScale();
 
     const uint start_col = sprite_position.y / _tile_size.y;
@@ -163,26 +163,6 @@ void TiledSprite::doRender(const RenderState& rs)
         }
     }
 }
-
-Vector2 _get_absolute_pos(const Actor *p_actor, float x, float y)
-{
-    const Actor *p_parent_actor = p_actor->getParent();
-
-    if(p_parent_actor == nullptr)
-        return Vector2(x, y);
-
-    x -= p_parent_actor->getX();
-    y -= p_parent_actor->getY();
-    return _get_absolute_pos(p_parent_actor, x, y);
-
-}
-
-Vector2 TiledSprite::getAbsolutePosition()
-{
-    return _get_absolute_pos(this, getX(), getY());
-}
-
-
 
 
 

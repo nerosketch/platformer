@@ -6,6 +6,7 @@
  */
 #include <list>
 #include "flags.h"
+#include "base.h"
 #include "Light.h"
 
 
@@ -23,7 +24,7 @@ public:
 
         init(STDRenderer::uberShaderBody, data.getString().c_str());
 
-        _ambient_intense = 0.5f;
+        _ambient_intense = 0.1f;
     }
     //InitInConstructorUberShaderProgram(const InitInConstructorUberShaderProgram&);
     virtual ~InitInConstructorUberShaderProgram()
@@ -112,7 +113,15 @@ void LightMaterial::xapply()
 //#endif
 
         snprintf(p_uber_shader->_addr_buf, ADDR_BUF_LEN, "lights[%d].light_pos", n);
-        IVideoDriver::instance->setUniform(p_uber_shader->_addr_buf, l->getPosition());
+
+        // FIXME: система координат в шейдере отличается от глобальной которая в oxygine
+        Vector2 lpos = l->getPosition() - getAbsolutePosition(l);
+        lpos.y = getStage()->getHeight() - lpos.y;
+
+        //const Vector2 lpos = getStage()->getSize() - l->getPosition();
+        //logs::messageln("Pos n=%d: x=%f, y=%f", n, l->getX(), l->getY());
+        //logs::messageln("LPos n=%d: x=%f, y=%f", n, lpos.x, lpos.y);
+        IVideoDriver::instance->setUniform(p_uber_shader->_addr_buf, lpos);
 
         snprintf(p_uber_shader->_addr_buf, ADDR_BUF_LEN, "lights[%d].light_color", n);
         IVideoDriver::instance->setUniform(p_uber_shader->_addr_buf, l->getLightColor());
