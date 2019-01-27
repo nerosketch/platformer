@@ -14,7 +14,7 @@ DebugRectSprite::DebugRectSprite() : DebugRectSprite(Color::Blue, Vector2(TILE_W
 {}
 
 
-DebugRectSprite::DebugRectSprite(const uint color, const Vector2 size)
+DebugRectSprite::DebugRectSprite(const uint color, const Vector2& size)
 {
     setSize(size);
     setColor(Color(color));
@@ -22,7 +22,7 @@ DebugRectSprite::DebugRectSprite(const uint color, const Vector2 size)
 }
 
 
-DebugRectSprite::DebugRectSprite(const DebugRectSprite& orig)
+DebugRectSprite::DebugRectSprite(const DebugRectSprite&)
 {
 }
 

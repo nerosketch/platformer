@@ -21,7 +21,7 @@ using namespace oxygine;
 DECLARE_SMART(GameStage, spGameStage);
 
 
-class GameStage : public Base, public Stage
+class GameStage : public Base, public Actor
 {
 private:
     INHERITED(Stage);

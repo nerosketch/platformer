@@ -36,20 +36,16 @@ public:
 
     //GameError init() override;
 
-    void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
-
     void OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
-
-    void doUpdate(const UpdateState& us) override;
 
     void on_fall_down() override;
 
-    virtual void Attack() override;
-    virtual void WalkForward() override;
-    virtual void WalkBack() override;
-    virtual void Run() override;
-    virtual void Jump() override;
-    virtual void Idle();
+    void Attack() final override;
+    void WalkForward() final override;
+    void WalkBack() final override;
+    void Run();
+    void Jump() final override;
+    void Idle();
 };
 
 #endif /* PLAYER_H */

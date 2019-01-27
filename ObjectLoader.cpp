@@ -11,6 +11,7 @@
 
 ObjectLoader::ObjectLoader()
 {
+    landscape.layer_type = LayerType::LANDSCAPE;
 }
 
 ObjectLoader::ObjectLoader(const ObjectLoader& orig)
@@ -92,12 +93,27 @@ void ObjectLoader::open(const string fname)
             if(layer_name.find("background") != string::npos)
             {
                 LAYER l;
+                l.layer_type = LayerType::BACKGROUND;
                 backgrounds.push_back(l);
                 p_layer = &backgrounds.back();
+            }
+
+            // Начинается с...
+            else if(layer_name.find("bterrain") == 0)
+            {
+                #ifdef DBG
+                    logs::messageln("Bterrain loaded");
+                #endif
+
+                LAYER l;
+                l.layer_type = LayerType::BTERRAIN;
+                terrains.push_back(l);
+                p_layer = &terrains.back();
             }
             else if(layer_name.find("terrain") != string::npos)
             {
                 LAYER l;
+                l.layer_type = LayerType::TERRAIN;
                 terrains.push_back(l);
                 p_layer = &terrains.back();
             }else if(layer_name == "landscape")

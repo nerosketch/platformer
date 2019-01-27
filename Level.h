@@ -8,7 +8,6 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include <vector>
 #include <string>
 #include <oxygine-framework.h>
 #include "ObjectLoader.h"
@@ -33,12 +32,24 @@ private:
     bool _is_text_panel_exist;
 
 public:
-    LevelInteractiveUnit();
-    LevelInteractiveUnit(const LevelInteractiveUnit&);
-    virtual ~LevelInteractiveUnit();
+    LevelInteractiveUnit() : _is_text_panel_exist(false){}
+    LevelInteractiveUnit(const LevelInteractiveUnit&){}
+    virtual ~LevelInteractiveUnit(){}
 
     virtual void on_collideX(DynamicUnit*, ITiledLevel*, const uint) override;
     void kill_me(Event *);
+};
+
+
+class StairsInteractiveUnit : public InteractiveUnit
+{
+public:
+    StairsInteractiveUnit(){}
+    StairsInteractiveUnit(const StairsInteractiveUnit&){}
+    virtual ~StairsInteractiveUnit(){}
+
+    virtual void on_collideY(DynamicUnit*, ITiledLevel*, const uint) override;
+    virtual void on_collideX(DynamicUnit*, ITiledLevel*, const uint) override;
 };
 
 
@@ -51,6 +62,7 @@ private:
 
     LevelInteractiveUnit liu;
     InteractiveUnit empty_iu;
+    StairsInteractiveUnit stairs;
 
     spLightMaterial _light_material;
 

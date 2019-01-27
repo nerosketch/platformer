@@ -46,31 +46,6 @@ Player::~Player()
 {}
 
 
-void Player::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
-{
-    switch(key_scancode)
-    {
-        case SDL_SCANCODE_D:
-            WalkForward();
-            break;
-        case SDL_SCANCODE_A:
-            WalkBack();
-            break;
-        case SDL_SCANCODE_W:
-        case SDL_SCANCODE_SPACE:
-            Jump();
-            break;
-        case SDL_SCANCODE_F:
-            Attack();
-            break;
-        default:
-            break;
-    }
-
-    //DynamicUnit::OnKeyDown(ev, key_scancode);
-}
-
-
 void Player::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
     if((
@@ -82,37 +57,6 @@ void Player::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scanco
     }
 
     DynamicUnit::OnKeyUp(ev, key_scancode);
-}
-
-
-void Player::doUpdate(const UpdateState& us)
-{
-    const Uint8 *p_date = SDL_GetKeyboardState(NULL);
-
-    // ходим вправо
-    if(p_date[SDL_GetScancodeFromKey(SDLK_d)])
-    {
-        if(isFlippedX())
-            setFlippedX(false);
-
-        DynamicUnit::WalkForward();
-    }else
-    // ходим влево
-    if(p_date[SDL_GetScancodeFromKey(SDLK_a)])
-    {
-        if(!isFlippedX())
-            setFlippedX(true);
-
-        DynamicUnit::WalkBack();
-    }
-
-    // прыгаем
-    if(p_date[SDL_GetScancodeFromKey(SDLK_w)])
-    {
-        DynamicUnit::Jump();
-    }
-
-    DynamicUnit::doUpdate(us);
 }
 
 
@@ -166,6 +110,10 @@ void Player::Run()
 
 void Player::Jump()
 {
+#ifdef DBG
+    logs::messageln("Player::Jump");
+#endif
+
     auto ta = Sprite::TweenAnim(p_res_anim, 2);
     ta.setInterval(0, 3);
     removeTween(current_tween);

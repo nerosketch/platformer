@@ -49,13 +49,12 @@ private:
     void updateCollideX();
     void updateCollideY();
 
+    void _jump();
+    void _walkForward();
+    void _walkBack();
+
 protected:
     ITiledLevel *p_tiled_level;
-
-    // ускорение
-    float dx, dy;
-    // флаг, находимся-ли на земле
-    bool on_ground;
 
     // упал в конец(низ) карты
     virtual void on_fall_down() = 0;
@@ -65,21 +64,24 @@ public:
     DynamicUnit(const DynamicUnit&);
     virtual ~DynamicUnit();
 
-    virtual void Attack();
-    virtual void WalkForward();
-    virtual void WalkBack();
-    virtual void Run();
-    virtual void Jump();
+    // ускорение
+    float dx, dy;
+    // флаг, находимся-ли на земле
+    bool on_ground;
+
+    virtual void Attack() = 0;
+    virtual void WalkForward() = 0;
+    virtual void WalkBack() = 0;
+    virtual void Jump() = 0;
 
     virtual void doUpdate(const UpdateState& us) override;
-
-    //void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
 
     // static const UnitMap& getMapInteraction() const {return _map_interaction; }
     static UnitMap& getMapInteraction() {return _map_interaction; }
 
     inline ITiledLevel* getTiledLevel(){ return p_tiled_level; }
 
+    virtual void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
     virtual void OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) override;
 };
 

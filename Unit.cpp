@@ -11,12 +11,12 @@
 
 void InteractiveUnit::on_collideX(DynamicUnit *p_dunit, ITiledLevel *p_tl, const uint w)
 {
-    const Vector2 &sz = p_dunit->getSize();
+    const float player_width = p_dunit->getWidth();
     const float tile_size_x = p_tl->getTileSize().x;
 
     if(p_dunit->dx > 0)
     {
-        p_dunit->setX(w * tile_size_x - sz.x);
+        p_dunit->setX(w * tile_size_x - player_width);
         p_dunit->dx = -p_dunit->_tension;
     }
     else if(p_dunit->dx < 0)
@@ -29,12 +29,12 @@ void InteractiveUnit::on_collideX(DynamicUnit *p_dunit, ITiledLevel *p_tl, const
 
 void InteractiveUnit::on_collideY(DynamicUnit *p_dunit, ITiledLevel *p_tl, const uint h)
 {
-    const Vector2 &sz = p_dunit->getSize();
+    const float player_height = p_dunit->getHeight();
     const float tile_size_y = p_tl->getTileSize().y;
 
     if(p_dunit->dy > 0)
     {
-        p_dunit->setY(h * tile_size_y - sz.y);
+        p_dunit->setY(h * tile_size_y - player_height);
         p_dunit->dy = p_dunit->dx = 0.f;
         p_dunit->on_ground = true;
     }
@@ -51,7 +51,7 @@ UnitMap DynamicUnit::_map_interaction;
 
 
 DynamicUnit::DynamicUnit(const Vector2& pos, ITiledLevel *level_ptr):
-_speed(0.1f), _jump_speed(0.4f), _tension(0.05f), p_tiled_level(level_ptr),
+_speed(0.1f), _jump_speed(0.32f), _tension(0.05f), p_tiled_level(level_ptr),
 dx(0.f), dy(0.f), on_ground(false)
 {
 #ifdef DBG
@@ -79,29 +79,20 @@ DynamicUnit::~DynamicUnit()
 }
 
 
-void DynamicUnit::Attack()
-{
-}
 
-
-void DynamicUnit::WalkForward()
+void DynamicUnit::_walkForward()
 {
     dx = _speed;
 }
 
 
-void DynamicUnit::WalkBack()
+void DynamicUnit::_walkBack()
 {
     dx = -_speed;
 }
 
 
-void DynamicUnit::Run()
-{
-}
-
-
-void DynamicUnit::Jump()
+void DynamicUnit::_jump()
 {
     if(on_ground)
     {
@@ -113,7 +104,37 @@ void DynamicUnit::Jump()
 
 void DynamicUnit::doUpdate(const UpdateState& us)
 {
+    const Uint8 *p_date = SDL_GetKeyboardState(NULL);
+
+    // ходим вправо
+    if(p_date[SDL_GetScancodeFromKey(SDLK_d)])
+    {
+        if(isFlippedX())
+            setFlippedX(false);
+
+        _walkForward();
+    }else
+    // ходим влево
+    if(p_date[SDL_GetScancodeFromKey(SDLK_a)])
+    {
+        if(!isFlippedX())
+            setFlippedX(true);
+
+        _walkBack();
+    }
+
+    if(p_date[SDL_GetScancodeFromKey(SDLK_w)] || p_date[SDL_GetScancodeFromKey(SDLK_SPACE)])
+    {
+        _jump();
+    }
+
+    /*
+     * Применяем движение по ускорению dx dy,
+     * и находим столкновения.
+     */
     setX(getX() + dx * us.dt);
+
+    // Обработка столкновений по x
     updateCollideX();
 
     if(!on_ground)
@@ -125,13 +146,14 @@ void DynamicUnit::doUpdate(const UpdateState& us)
 
     const float stage_height = getStage()->getHeight();
 
+    // если упал вниз за пределы карты
     if(getY() >= stage_height)
     {
         setY(stage_height / 2.f);
         on_fall_down();
     }
 
-    // Обработка столкновений
+    // Обработка столкновений по y
     updateCollideY();
 }
 
@@ -144,6 +166,7 @@ void DynamicUnit::updateCollideX()
     const Vector2 &sz = getSize();
     const Vector2 &_pos = getPosition();
     for(uint h = _pos.y / TILE_HEIGHT; h < (_pos.y + sz.y) / TILE_HEIGHT; h++)
+    {
         for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
             InteractiveUnit *p_unit = _map_interaction[h][w];
@@ -151,8 +174,10 @@ void DynamicUnit::updateCollideX()
             if(p_unit != nullptr)
             {
                 p_unit->on_collideX(this, p_tiled_level, w);
+                return;
             }
         }
+    }
 }
 
 
@@ -164,24 +189,42 @@ void DynamicUnit::updateCollideY()
     const Vector2 &sz = getSize();
     const Vector2 &_pos = getPosition();
     for(uint h = _pos.y / TILE_HEIGHT; h < (_pos.y + sz.y) / TILE_HEIGHT; h++)
+    {
         for(uint w = _pos.x / TILE_WIDTH; w < (_pos.x + sz.x) / TILE_WIDTH; w++)
         {
             InteractiveUnit *p_unit = _map_interaction[h][w];
             if(p_unit != nullptr)
             {
                 p_unit->on_collideY(this, p_tiled_level, h);
+                return;
             }
         }
+    }
 }
 
 
-/*void DynamicUnit::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
+void DynamicUnit::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
-    
-}*/
+    switch(key_scancode)
+    {
+        case SDL_SCANCODE_D:
+            WalkForward();
+            break;
+        case SDL_SCANCODE_A:
+            WalkBack();
+            break;
+        case SDL_SCANCODE_W:
+        case SDL_SCANCODE_SPACE:
+            Jump();
+            break;
+        default:
+            Attack();
+            break;
+    }
+}
 
 
-void DynamicUnit::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
+void DynamicUnit::OnKeyUp(const SDL_KeyboardEvent&, const SDL_Scancode& key_scancode)
 {
     if((key_scancode == SDL_Scancode::SDL_SCANCODE_D || key_scancode == SDL_Scancode::SDL_SCANCODE_A) && on_ground)
         dx = 0.f;

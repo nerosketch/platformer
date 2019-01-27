@@ -190,11 +190,13 @@ Vector2 TiledSprite::getAbsolutePosition()
 LAYER::LAYER()
 {}
 
+
 LAYER::LAYER(const LAYER& o) : options(o.options),
         int_data(o.int_data), tileheight(o.tileheight),
-        p_tileset(o.p_tileset)
+        layer_type(o.layer_type), p_tileset(o.p_tileset)
 {
 }
+
 
 LAYER::~LAYER(){}
 

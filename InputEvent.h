@@ -10,19 +10,25 @@
 
 #include <oxygine-framework.h>
 #include "flags.h"
-#include "base.h"
 
 
 using namespace oxygine;
 
 
-class InputEvent : public Base
+class InputEvent
 {
+private:
+    void _onSysEvent(Event* event);
+    int _onSDLEvent(SDL_Event* event);
+    bool _pressed_keys[SDL_Scancode::SDL_NUM_SCANCODES];
+
+    void startListenEvents();
+    void stopListenEvents();
+
 public:
     InputEvent();
-    InputEvent(const InputEvent& orig);
+    InputEvent(const InputEvent&);
     virtual ~InputEvent();
-
 
     virtual void OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode) = 0;
 

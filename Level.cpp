@@ -4,7 +4,7 @@
  * 
  * Created on October 21, 2018, 9:43 AM
  */
-
+#include <vector>
 #include "resources.h"
 #include "flags.h"
 #ifdef DBG
@@ -88,14 +88,21 @@ void Level::_load_terrain(const LAYERS& lays, Image& im, const list<RectF>& obje
                         if(r.isIntersecting(rect))
                             line[row] = &liu;
                         else
-                            line[row] = &empty_iu;
-
+                        {
+                            if(lay.layer_type == LayerType::BTERRAIN)
+                            {
+                                line[row] = &stairs;
+                            }
+                            else
+                            {
+                                line[row] = &empty_iu;
+                            }
+                        }
                     }
                 }
             }
         }
     }
-
 }
 
 
@@ -212,16 +219,6 @@ void Level::OnKeyUp(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancod
 
 
 
-LevelInteractiveUnit::LevelInteractiveUnit() :
-_is_text_panel_exist(false)
-{}
-
-LevelInteractiveUnit::LevelInteractiveUnit(const LevelInteractiveUnit&)
-{}
-
-LevelInteractiveUnit::~LevelInteractiveUnit()
-{}
-
 void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, ITiledLevel *ptl, const uint w)
 {
     InteractiveUnit::on_collideX(p_du, ptl, w);
@@ -241,4 +238,37 @@ void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, ITiledLevel *ptl, cons
 void LevelInteractiveUnit::free_text_panel(Event*)
 {
     _is_text_panel_exist = false;
+}
+
+
+
+
+void StairsInteractiveUnit::on_collideY(DynamicUnit *p_du, ITiledLevel *p_tl, const uint h)
+{
+    //InteractiveUnit::on_collideY(p_du, p_tl, h);
+
+#ifdef DBG
+    logs::messageln("StairsInteractiveUnit::on_collideY dy=%.2f", p_du->dy);
+#endif
+
+    const float player_height = p_du->getHeight();
+    const float tile_size_y = p_tl->getTileSize().y;
+
+    if(p_du->dy > 0)
+    {
+        p_du->setY(h * tile_size_y - player_height);
+        p_du->dy = p_du->dx = 0.f;
+        p_du->on_ground = true;
+    }
+    /*else if(p_du->dy < 0)
+    {
+        p_du->setY(h * tile_size_y + tile_size_y);
+        p_du->dy = 0.f;
+    }*/
+}
+
+
+void StairsInteractiveUnit::on_collideX(DynamicUnit*, ITiledLevel*, const uint)
+{
+    
 }

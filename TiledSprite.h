@@ -54,6 +54,15 @@ public:
 };
 
 
+enum LayerType
+{
+    BACKGROUND,
+    TERRAIN,
+    LANDSCAPE,
+    BTERRAIN
+};
+
+
 class LAYER
 {
 public:
@@ -64,6 +73,7 @@ public:
     struct LAYER_OPTIONS options;
     vector<uint> int_data;
     uint tileheight;
+    LayerType layer_type;
 
     Point get_coords_point(const uint block_index) const;
     Vector2 get_coords(const uint block_index) const;
