@@ -8,14 +8,18 @@
 #ifndef RESOURCES_H
 #define RESOURCES_H
 
+#include <string>
 #include <oxygine-framework.h>
 
+
+using namespace std;
 using namespace oxygine;
+
 
 namespace res
 {
     extern Resources resources;
-    void load();
+    void load(const string&);
     void free();
 }
 

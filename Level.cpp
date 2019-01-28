@@ -89,10 +89,6 @@ void Level::_load_terrain(const LAYERS& lays, Image& im, const list<GameObject>&
                         {
                             for(LevelInteractiveUnit& liu : lius)
                             {
-                                #ifdef DBG
-                                        logs::messageln("liu text: %s", liu.text.c_str());
-                                        logs::messageln("go text: %s", go.text.c_str());
-                                #endif
                                 if(go.text == liu.text)
                                 {
                                     line[row] = &liu;
@@ -133,7 +129,7 @@ GameError Level::load_stage(const string& fname)
     Image src;
     file::buffer fb;
 
-    string tileset_fname("res/img/pixeland.png");
+    string tileset_fname("res/img/tileset.png");
     file::read(tileset_fname, fb);
     if(!src.init(fb, true))
     {
@@ -143,7 +139,7 @@ GameError Level::load_stage(const string& fname)
 
     // Загрузим пейзаж
     landscape = new TiledSprite(ol.landscape, src);
-    _light_material->applyMateralTo(landscape.get());
+    //_light_material->applyMateralTo(landscape.get());
     addChild(landscape);
 
     // Загрузим фон
@@ -168,7 +164,8 @@ GameError Level::load_stage(const string& fname)
     // установим факелы
     ResAnim *torch_res_anim = res::resources.getResAnim("torch_anim");
     Vector2 pos(0.f, 367.f);
-    Vector4 light_color(0.5f, 0.5f, 0.5f, 1.f);
+    Vector4 light_color(0.5f, 0.5f, 0.4f, 1.f);
+    _light_material->setAmbientIntense(0.2f);
 
     for(uint n=0; n < 4; n++)
     {
@@ -184,7 +181,7 @@ GameError Level::load_stage(const string& fname)
         // Добавим источник света к факелу
         //spLightPoint lp = new LightPoint(pos.x, 540.f - pos.y);
         spLightPoint lp = new LightPoint(pos);
-        lp->setIntense(10.f);
+        lp->setIntense(5.f);
         lp->setLightColor(light_color);
         lp->setRadius(80.f);
         torch->addChild(lp);
@@ -201,6 +198,7 @@ GameError Level::load_stage(const string& fname)
         map_interaction[0].size(),
         map_interaction.size()
     ));
+    _light_material->applyMateralTo(player.get());
     addChild(player);
 
     return GameError();
@@ -222,9 +220,8 @@ void Level::doUpdate(const UpdateState& us)
     }
 
     // Прокручиваем задний фон по медленнее
-    landscape->setX(
-        (getX() / 4.f)
-    );
+    const float setx = floor(getX() / 4);
+    landscape->setX(setx);
 }
 
 
@@ -249,9 +246,6 @@ void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, ITiledLevel *ptl, cons
 
     if(!_is_text_panel_exist)
     {
-#ifdef DBG
-        logs::messageln("Text x: %s", text.c_str());
-#endif
         spTextPanel tex(new TextPanel(text));
         tex->setPosition(26.f, -16.f);
         tex->setTimeToLive(3000);
@@ -268,9 +262,6 @@ void LevelInteractiveUnit::on_collideY(DynamicUnit* p_du, ITiledLevel *ptl, cons
 
     if(!_is_text_panel_exist)
     {
-#ifdef DBG
-        logs::messageln("Text y: %s", text.c_str());
-#endif
         spTextPanel tex(new TextPanel(text));
         tex->setPosition(26.f, -16.f);
         tex->setTimeToLive(3000);
@@ -293,10 +284,6 @@ void LevelInteractiveUnit::free_text_panel(Event*)
 void StairsInteractiveUnit::on_collideY(DynamicUnit *p_du, ITiledLevel *p_tl, const uint h)
 {
     //InteractiveUnit::on_collideY(p_du, p_tl, h);
-
-#ifdef DBG
-    logs::messageln("StairsInteractiveUnit::on_collideY dy=%.2f", p_du->dy);
-#endif
 
     const float player_height = p_du->getHeight();
     const float tile_size_y = p_tl->getTileSize().y;

@@ -22,12 +22,13 @@ using namespace std;
 
 StartMenu::StartMenu()
 {
-    const ResAnim *p_res_anim = res::resources.getResAnim("background");
+    const ResAnim *p_res_anim = res::resources.getResAnim("background_an2");
     background_image->setResAnim(p_res_anim);
-    background_image->setManageResAnim(true);
+    background_image->addTween(Sprite::TweenAnim(p_res_anim), 1500, -1);
+    background_image->setScale(3.f);
 
     //logs::messageln("scale %f", )
-    setScale(getStage()->getHeight() / p_res_anim->getHeight());
+    //setScale(getStage()->getHeight() / p_res_anim->getHeight());
 
     // звук навигации
     EventCallback ncb = CLOSURE(this, &StartMenu::on_mouse_over);
@@ -36,19 +37,17 @@ StartMenu::StartMenu()
     
     // делаем кнопку start
     spTextButton start_btn = new TextButton("Start");
-    start_btn->setManageResAnim(true);
     start_btn->setAnchor(0.5f, 0.5f);
     start_btn->setScale(3.f);
     start_btn->setResAnim(p_res_btn);
     start_btn->addEventListener(TouchEvent::CLICK, CLOSURE(this, &StartMenu::on_start_click));
     start_btn->addEventListener(TouchEvent::OVER, ncb);
-    Vector2 pos(455.5f, 128.f);
+    Vector2 pos(555.5f, 128.f);
     start_btn->setPosition(pos);
     addChild(start_btn);
 
     // делаем кнопку exit
     spTextButton exit_btn = new TextButton("Exit");
-    exit_btn->setManageResAnim(true);
     exit_btn->setAnchor(0.5f, 0.5f);
     exit_btn->setScale(3.f);
     exit_btn->setResAnim(p_res_btn);
@@ -82,10 +81,12 @@ StartMenu::~StartMenu()
  */
 GameError StartMenu::make_next_level()
 {
+    res::free();
+    res::load("res/res.xml");
     spLevel _next_level = new Level;
     _next_level->init();
     next_level = _next_level;
-    GameError err = _next_level->load_stage("res/map.json");
+    GameError err = _next_level->load_stage("res/nmap.json");
     if(err != 0)
     {
         return err;

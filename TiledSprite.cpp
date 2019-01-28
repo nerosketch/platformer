@@ -9,7 +9,7 @@
 
 
 TiledSprite::TiledSprite(const LAYER& lay, const string& texture_fname) :
-_layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
+_layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(432.f, 400.f)
 {
     Image src;
     file::buffer fb;
@@ -27,7 +27,7 @@ _layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
 
 
 TiledSprite::TiledSprite(const LAYER& lay, Image& im) :
-_layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(640.f, 1456.f)
+_layer(lay), _tile_size(TILE_WIDTH, TILE_HEIGHT), _sprite_size(432.f, 400.f)
 {
     _init_mat(im);
 }

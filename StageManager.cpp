@@ -5,7 +5,7 @@
  * Created on October 21, 2018, 9:45 AM
  */
 
-//#include <algorithm>
+#include "resources.h"
 #include "StartMenu.h"
 #include "StageManager.h"
 
@@ -56,6 +56,7 @@ GameError StageManager::init()
     }
     append_stage(p_gstage);*/
 
+    res::load("res/menu.xml");
 
     spStartMenu stage_menu = new StartMenu;
     current_stage = stage_menu;

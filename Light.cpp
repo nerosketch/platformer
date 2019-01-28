@@ -24,7 +24,7 @@ public:
 
         init(STDRenderer::uberShaderBody, data.getString().c_str());
 
-        _ambient_intense = 0.1f;
+        _ambient_intense = 1.f;
     }
     //InitInConstructorUberShaderProgram(const InitInConstructorUberShaderProgram&);
     virtual ~InitInConstructorUberShaderProgram()

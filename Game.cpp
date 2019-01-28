@@ -49,8 +49,6 @@ GameError Game::init()
 
     ResFontFT::initLibrary();
 
-    res::load();
-
     auto p_stage = getStage();
 
     //spGamer gamer = new Gamer;
