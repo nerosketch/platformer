@@ -38,7 +38,7 @@ void InputEvent::_onSysEvent(Event* event)
 }
 
 
-int InputEvent::_onSDLEvent(SDL_Event* event)
+void InputEvent::_onSDLEvent(SDL_Event* event)
 {
     switch (event->type)
     {

@@ -19,7 +19,7 @@ class InputEvent
 {
 private:
     void _onSysEvent(Event* event);
-    int _onSDLEvent(SDL_Event* event);
+    void _onSDLEvent(SDL_Event* event);
     bool _pressed_keys[SDL_Scancode::SDL_NUM_SCANCODES];
 
     void startListenEvents();
