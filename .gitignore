@@ -1,7 +1,7 @@
 .dep.inc
 build/
 dist/
-nbproject/
+#nbproject/
 
 # Prerequisites
 *.d
