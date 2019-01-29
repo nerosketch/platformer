@@ -52,9 +52,10 @@ void run()
     desc.title = "Yumi gift";
 
     // The initial window size can be set up here on SDL builds, ignored on Mobile devices
-    desc.w = 960;
-    desc.h = 540;
-    //desc.fullscreen = true;
+    //desc.w = 960;
+    //desc.h = 540;
+    desc.w = 1440;
+    desc.h = 810;
 
     Game stage;
 

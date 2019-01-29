@@ -2,6 +2,7 @@
 <resources>
     <set path="res/sounds"/>
     <sound file="8bit_universe.ogg" streaming="true"/>
-    <sound file="hit.wav"/>
+    <sound file="door-hit.ogg"/>
+    <sound file="8-bit-jump.ogg"/>
     <sound file="menu-navigate.wav"/>
 </resources>

@@ -105,6 +105,8 @@ public:
     TiledSprite(const TiledSprite& orig);
     virtual ~TiledSprite();
 
+    const LAYER& getLayer() const { return _layer; }
+
     void doRender(const RenderState&) override;
 };
 

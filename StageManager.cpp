@@ -56,8 +56,6 @@ GameError StageManager::init()
     }
     append_stage(p_gstage);*/
 
-    res::load("res/menu.xml");
-
     spStartMenu stage_menu = new StartMenu;
     current_stage = stage_menu;
     addChild(stage_menu);

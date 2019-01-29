@@ -48,6 +48,7 @@ GameError Game::init()
 #endif
 
     ResFontFT::initLibrary();
+    res::load("res/res.xml");
 
     auto p_stage = getStage();
 

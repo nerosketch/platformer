@@ -1,3 +1,4 @@
+
 /* 
  * File:   SoundManager.h
  * Author: ns
@@ -43,10 +44,6 @@ public:
     inline void startBackground()
     {
         play_from_name("8bit_universe");
-    }
-    inline void hit()
-    {
-        play_from_name("hit");
     }
     inline void menu_nav()
     {

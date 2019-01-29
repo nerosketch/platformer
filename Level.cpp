@@ -167,6 +167,7 @@ GameError Level::load_stage(const string& fname)
     Vector4 light_color(0.5f, 0.5f, 0.4f, 1.f);
     _light_material->setAmbientIntense(0.2f);
 
+    //const float lights_pos_x[] = {540.f, 876.f, 1212.f, 1548.f};
     for(uint n=0; n < 4; n++)
     {
         pos.x = 360 + (224.f * n);
@@ -198,7 +199,7 @@ GameError Level::load_stage(const string& fname)
         map_interaction[0].size(),
         map_interaction.size()
     ));
-    _light_material->applyMateralTo(player.get());
+    //_light_material->applyMateralTo(player.get());
     addChild(player);
 
     return GameError();
@@ -211,12 +212,13 @@ GameError Level::load_stage(const string& fname)
 void Level::doUpdate(const UpdateState& us)
 {
     const float player_pos_x = player->getX();
-    const spStage &stage = getStage();
-    const float stage_half_width = stage->getWidth() / 2.f;
+    const float screen_width = getStage()->getWidth();
+    const float stage_half_width = screen_width / 3.f;
+    const uint level_len = landscape->getLayer().options.width * landscape->getLayer().p_tileset->tilewidth;
 
-    if(player_pos_x > stage_half_width)
+    if(player_pos_x > stage_half_width && player_pos_x < level_len - screen_width / 3.f)
     {
-        setX(stage_half_width - player_pos_x);
+        setX((stage_half_width - player_pos_x) * 1.5f);
     }
 
     // Прокручиваем задний фон по медленнее
@@ -247,7 +249,7 @@ void LevelInteractiveUnit::on_collideX(DynamicUnit* p_du, ITiledLevel *ptl, cons
     if(!_is_text_panel_exist)
     {
         spTextPanel tex(new TextPanel(text));
-        tex->setPosition(26.f, -16.f);
+        tex->setPosition(30.f, -46.f);
         tex->setTimeToLive(3000);
         tex->setOnDieEvent(CLOSURE(this, &LevelInteractiveUnit::free_text_panel));
         _is_text_panel_exist = true;
@@ -263,7 +265,7 @@ void LevelInteractiveUnit::on_collideY(DynamicUnit* p_du, ITiledLevel *ptl, cons
     if(!_is_text_panel_exist)
     {
         spTextPanel tex(new TextPanel(text));
-        tex->setPosition(26.f, -16.f);
+        tex->setPosition(30.f, -46.f);
         tex->setTimeToLive(3000);
         tex->setOnDieEvent(CLOSURE(this, &LevelInteractiveUnit::free_text_panel));
         _is_text_panel_exist = true;

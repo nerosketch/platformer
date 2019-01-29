@@ -11,4 +11,13 @@
 
     <set path="res/fonts"/>
     <ftfont file="SanasoftHermes.ttf"/>
+
+    <set path="res/img/menu"/>
+    <atlas linearFilter="false" clamp2edge="false">
+        <image file="button.png" cols="2"/>
+        <image file="background_an2.png" cols="12"/>
+    </atlas>
+
+    <set path="res/fonts"/>
+    <ftfont file="SanasoftHermes.ttf"/>
 </resources>

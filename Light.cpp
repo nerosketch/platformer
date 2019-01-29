@@ -115,7 +115,7 @@ void LightMaterial::xapply()
         snprintf(p_uber_shader->_addr_buf, ADDR_BUF_LEN, "lights[%d].light_pos", n);
 
         // FIXME: система координат в шейдере отличается от глобальной которая в oxygine
-        Vector2 lpos = l->getPosition() - getAbsolutePosition(l);
+        Vector2 lpos = l->getPosition()* 1.5f - getAbsolutePosition(l);
         lpos.y = getStage()->getHeight() - lpos.y;
 
         //const Vector2 lpos = getStage()->getSize() - l->getPosition();

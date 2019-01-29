@@ -38,6 +38,7 @@ void TiledSprite::_init_mat(Image& im)
     /*const float layer_height = _layer.options.height * _tile_size.y;
     const float& stage_height = getStage()->getHeight();
     setScale(stage_height / layer_height);*/
+    setScale(1.5f);
 
     nt = IVideoDriver::instance->createTexture();
     nt->init(im.lock());
@@ -123,9 +124,9 @@ void TiledSprite::doRender(const RenderState& rs)
     const Vector2 sprite_position = getAbsolutePosition(this);
     const Vector2& scale = getScale();
 
-    const uint start_col = sprite_position.y / _tile_size.y;
+    const uint start_col = (sprite_position.y / _tile_size.y) / 1.5f;
     const uint end_col = (sprite_position.y + stage_size.y) / _tile_size.y;
-    const uint start_row = sprite_position.x / _tile_size.x;
+    const uint start_row = (sprite_position.x / _tile_size.x) / 1.5f;
     const uint end_row = (sprite_position.x + stage_size.x) / _tile_size.x;
     
     for(uint col=0; col<_layer.options.height; col++)

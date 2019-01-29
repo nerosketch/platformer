@@ -132,8 +132,8 @@ void ObjectLoader::open(const string fname)
             lay_opts.width = v["width"].asUInt();
             lay_opts.opacity = v["opacity"].asFloat();
             lay_opts.visible = v["visible"].asBool();
-            lay_opts.x = v["x"].asInt();
-            lay_opts.y = v["y"].asInt();
+            lay_opts.x = v["x"].asFloat();
+            lay_opts.y = v["y"].asFloat();
             lay_opts.z_order = z_index++;
             p_layer->p_tileset = p_last_tileset;
             //lay_opts.name = v["name"].asString();

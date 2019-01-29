@@ -9,6 +9,9 @@
 #ifdef DBG
 #include "DebugRectSprite.h"
 #endif
+#ifdef SOUND_ENABLE
+#include "SoundManager.h"
+#endif
 #include "Player.h"
 
 
@@ -22,8 +25,6 @@ DynamicUnit(pos, p_level_ptr)
 
     p_res_anim = res::resources.getResAnim("character");
     setResAnim(p_res_anim);
-
-    Idle();
 
     // Set scale
     //const Vector2& stage_size = getStage()->getScaledSize();
@@ -73,10 +74,15 @@ void Player::Attack()
 {
     auto ta = Sprite::TweenAnim(p_res_anim, 3);
     ta.setInterval(0, 4);
-    removeTween(current_tween);
+    if(current_tween)
+        removeTween(current_tween);
     current_tween = addTween(ta, 500, 1);
 
     current_tween->setDoneCallback(CLOSURE(this, &Player::_on_tween_done));
+
+#ifdef SOUND_ENABLE
+    SoundManager::get_instance().play_from_name("door-hit");
+#endif
 }
 
 
@@ -100,7 +106,8 @@ void Player::WalkBack()
 
 void Player::Run()
 {
-    removeTween(current_tween);
+    if(current_tween)
+        removeTween(current_tween);
     current_tween = addTween(Sprite::TweenAnim(p_res_anim, 1), 500, -1);
 
     current_tween->setDoneCallback(CLOSURE(this, &Player::_on_tween_done));
@@ -115,10 +122,15 @@ void Player::Jump()
 
     auto ta = Sprite::TweenAnim(p_res_anim, 2);
     ta.setInterval(0, 3);
-    removeTween(current_tween);
+    if(current_tween)
+        removeTween(current_tween);
     current_tween = addTween(ta, 500, 1);
 
     current_tween->setDoneCallback(CLOSURE(this, &Player::_on_tween_done));
+    
+#ifdef SOUND_ENABLE
+    SoundManager::get_instance().play_from_name("8-bit-jump");
+#endif
 }
 
 

@@ -29,6 +29,7 @@ StartMenu::StartMenu()
 
     //logs::messageln("scale %f", )
     //setScale(getStage()->getHeight() / p_res_anim->getHeight());
+    setScale(1.5f);
 
     // звук навигации
     EventCallback ncb = CLOSURE(this, &StartMenu::on_mouse_over);
@@ -81,8 +82,6 @@ StartMenu::~StartMenu()
  */
 GameError StartMenu::make_next_level()
 {
-    res::free();
-    res::load("res/res.xml");
     spLevel _next_level = new Level;
     _next_level->init();
     next_level = _next_level;
