@@ -56,6 +56,7 @@ private:
     bool _dismount_flag;
 
 protected:
+    bool _is_ignore_input;
     ITiledLevel *p_tiled_level;
 
     // упал в конец(низ) карты
@@ -88,6 +89,9 @@ public:
 
     // Вызывается когда заканчивается прыжок
     virtual void OnDismount() = 0;
+
+    // Игнорируем ввод
+    inline void setIgnore(const bool ignore){ _is_ignore_input = ignore; }
 };
 
 

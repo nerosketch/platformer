@@ -23,8 +23,7 @@ DynamicUnit(pos, p_level_ptr)
     logs::messageln("Player::Player");
 #endif
 
-    p_res_anim = res::resources.getResAnim("character");
-    setResAnim(p_res_anim);
+    setResAnim(res::resources.getResAnim("character"));
 
     // Set scale
     //const Vector2& stage_size = getStage()->getScaledSize();
@@ -72,7 +71,10 @@ void Player::on_fall_down()
 
 void Player::Attack()
 {
-    auto ta = Sprite::TweenAnim(p_res_anim, 3);
+    if(_is_ignore_input)
+        return;
+
+    auto ta = Sprite::TweenAnim(getResAnim(), 3);
     ta.setInterval(0, 4);
     if(current_tween)
         removeTween(current_tween);
@@ -88,6 +90,9 @@ void Player::Attack()
 
 void Player::WalkForward()
 {
+    if(_is_ignore_input)
+        return;
+
     if(isFlippedX())
         setFlippedX(false);
 
@@ -97,6 +102,9 @@ void Player::WalkForward()
 
 void Player::WalkBack()
 {
+    if(_is_ignore_input)
+        return;
+
     if(!isFlippedX())
         setFlippedX(true);
 
@@ -106,9 +114,12 @@ void Player::WalkBack()
 
 void Player::Run()
 {
+    if(_is_ignore_input)
+        return;
+
     if(current_tween)
         removeTween(current_tween);
-    current_tween = addTween(Sprite::TweenAnim(p_res_anim, 1), 500, -1);
+    current_tween = addTween(Sprite::TweenAnim(getResAnim(), 1), 500, -1);
 
     current_tween->setDoneCallback(CLOSURE(this, &Player::_on_tween_done));
 }
@@ -120,7 +131,10 @@ void Player::Jump()
     logs::messageln("Player::Jump");
 #endif
 
-    auto ta = Sprite::TweenAnim(p_res_anim, 2);
+    if(_is_ignore_input)
+        return;
+
+    auto ta = Sprite::TweenAnim(getResAnim(), 2);
     ta.setInterval(0, 3);
     if(current_tween)
         removeTween(current_tween);
@@ -136,7 +150,10 @@ void Player::Jump()
 
 void Player::Idle()
 {
-    current_tween = addTween(Sprite::TweenAnim(p_res_anim, 0, 3), 500, -1);
+    if(_is_ignore_input)
+        return;
+
+    current_tween = addTween(Sprite::TweenAnim(getResAnim(), 0, 3), 500, -1);
 }
 
 

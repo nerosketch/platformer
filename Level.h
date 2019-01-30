@@ -56,6 +56,18 @@ public:
 };
 
 
+class LevelFinishUnit : public LevelInteractiveUnit
+{
+public:
+    LevelFinishUnit(){}
+    LevelFinishUnit(const LevelFinishUnit& o):LevelInteractiveUnit(o){}
+    virtual ~LevelFinishUnit(){}
+
+    virtual void on_collideX(DynamicUnit*, ITiledLevel*, const uint) override;
+    virtual void on_collideY(DynamicUnit*, ITiledLevel*, const uint) override;
+};
+
+
 class Level : public ITiledLevel
 {
 private:
@@ -64,6 +76,7 @@ private:
     spPlayer player;
 
     vector<LevelInteractiveUnit> lius;
+    LevelFinishUnit lfu;
     InteractiveUnit empty_iu;
     StairsInteractiveUnit stairs;
 

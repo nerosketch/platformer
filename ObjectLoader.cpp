@@ -184,6 +184,9 @@ void ObjectLoader::_load_objects(const Value& v)
                 obj["height"].asFloat()
             );
 
+            if(obj.isMember("type"))
+                r.type = obj["type"].asString();
+
             // Проходим по кастомным свойствам
             if(obj.isMember("properties"))
             {

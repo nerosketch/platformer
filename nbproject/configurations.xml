@@ -28,7 +28,6 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>res/menu.xml</itemPath>
       <itemPath>res/nmap.json</itemPath>
       <itemPath>res/nmap_tileset.json</itemPath>
       <itemPath>res/res.xml</itemPath>
@@ -195,8 +194,6 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="res/menu.xml" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="res/nmap.json" ex="false" tool="3" flavor2="0">
       </item>
       <item path="res/nmap_tileset.json" ex="false" tool="3" flavor2="0">
@@ -337,8 +334,6 @@
       <item path="lighting.glsl" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="res/menu.xml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="res/nmap.json" ex="false" tool="3" flavor2="0">
       </item>

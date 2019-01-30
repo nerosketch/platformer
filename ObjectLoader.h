@@ -33,10 +33,11 @@ public:
     GameObject(float x, float y, float w, float h):
         RectF(x, y, w, h){}
     GameObject(const GameObject& o):
-        RectF(o.pos, o.size){text = o.text;}
+        RectF(o.pos, o.size){text = o.text; type = o.type;}
     virtual ~GameObject(){}
 
     string text;
+    string type;
 };
 
 

@@ -7,6 +7,7 @@
         <image file="panel.png"/>
         <image file="close_button.png" cols="2"/>
         <image file="character.png" cols="6" rows="5"/>
+        <image file="batman.png"/>
     </atlas>
 
     <set path="res/fonts"/>

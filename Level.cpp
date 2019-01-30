@@ -91,7 +91,13 @@ void Level::_load_terrain(const LAYERS& lays, Image& im, const list<GameObject>&
                             {
                                 if(go.text == liu.text)
                                 {
-                                    line[row] = &liu;
+                                    if(go.type == "tf")
+                                    {
+                                        lfu.text = liu.text;
+                                        line[row] = &lfu;
+                                    }
+                                    else
+                                        line[row] = &liu;
                                     break;
                                 }
                             }
@@ -307,4 +313,46 @@ void StairsInteractiveUnit::on_collideY(DynamicUnit *p_du, ITiledLevel *p_tl, co
 void StairsInteractiveUnit::on_collideX(DynamicUnit*, ITiledLevel*, const uint)
 {
     
+}
+
+
+
+void finish_level(DynamicUnit *p_du, ITiledLevel *p_tl, const string& text)
+{
+    // Показываем большую надпись с поздравлениями
+    spTextPanel tex(new TextPanel(text));
+    tex->setPosition(30.f, -46.f);
+    tex->setAnchor(0.5f, 0.5f);
+    tex->setScale(2.f);
+    tex->setPosition(getStage()->getSize() / 2);
+
+    tex->attachTo(getStage());
+
+    p_du->setIgnore(true);
+
+    // Задаём персонажу скин бетмена
+    p_du->removeAllEventListeners();
+    p_du->removeTweens();
+    p_du->setPosition(265.f, 44.f);
+    p_du->setResAnim(res::resources.getResAnim("batman"));
+    
+#ifdef DBG
+    logs::messageln("Player Pos x=%f, x=%f", p_du->getX(), p_du->getY());
+#endif
+}
+
+
+void LevelFinishUnit::on_collideX(DynamicUnit *p_du, ITiledLevel *p_tl, const uint)
+{
+    //LevelInteractiveUnit::on_collideX(p_du, p_tl, w);
+
+    finish_level(p_du, p_tl, text);
+}
+
+
+void LevelFinishUnit::on_collideY(DynamicUnit *p_du, ITiledLevel *p_tl, const uint)
+{
+    //LevelInteractiveUnit::on_collideY(p_du, p_tl, h);
+
+    finish_level(p_du, p_tl, text);
 }

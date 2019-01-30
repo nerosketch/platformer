@@ -25,7 +25,6 @@ class Player : public DynamicUnit
 {
 private:
     spTween current_tween;
-    ResAnim *p_res_anim;
 
     void _on_tween_done(Event*);
 

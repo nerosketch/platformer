@@ -51,7 +51,8 @@ UnitMap DynamicUnit::_map_interaction;
 
 
 DynamicUnit::DynamicUnit(const Vector2& pos, ITiledLevel *level_ptr):
-_speed(0.1f), _jump_speed(0.32f), _tension(0.05f), p_tiled_level(level_ptr),
+_speed(0.1f), _jump_speed(0.32f), _tension(0.05f), _is_ignore_input(false),
+p_tiled_level(level_ptr),
 dx(0.f), dy(0.f), on_ground(false)
 {
 #ifdef DBG
@@ -105,6 +106,9 @@ void DynamicUnit::_jump()
 
 void DynamicUnit::doUpdate(const UpdateState& us)
 {
+    if(_is_ignore_input)
+        return;
+
     const Uint8 *p_date = SDL_GetKeyboardState(NULL);
 
     // ходим вправо
@@ -212,6 +216,9 @@ void DynamicUnit::updateCollideY()
 
 void DynamicUnit::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key_scancode)
 {
+    if(_is_ignore_input)
+        return;
+
     switch(key_scancode)
     {
         case SDL_SCANCODE_D:
@@ -233,6 +240,9 @@ void DynamicUnit::OnKeyDown(const SDL_KeyboardEvent& ev, const SDL_Scancode& key
 
 void DynamicUnit::OnKeyUp(const SDL_KeyboardEvent&, const SDL_Scancode& key_scancode)
 {
+    if(_is_ignore_input)
+        return;
+
     if((key_scancode == SDL_Scancode::SDL_SCANCODE_D || key_scancode == SDL_Scancode::SDL_SCANCODE_A) && on_ground)
         dx = 0.f;
 }
