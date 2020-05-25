@@ -1,7 +1,11 @@
 .dep.inc
+Makefile
 build/
 dist/
-#nbproject/
+nbproject/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
 
 # Prerequisites
 *.d
@@ -35,4 +39,4 @@ dist/
 *.exe
 *.out
 *.app
-platphormer
+platformer

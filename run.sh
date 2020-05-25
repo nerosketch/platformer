@@ -1,13 +1,9 @@
+#!/bin/bash -
+
+PATH=/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+
 git submodule init
 git submodule update
-mkdir -p lib
-cd lib/oxygine-framework/
 cmake .
 make -j3
-cd ../oxygine-sound/
-git apply ../../sound_CMakeLists.txt.patch
-cmake .
-make -j3
-cd ../../
-make -j3
-./platphormer
+./platformer
